@@ -8,7 +8,7 @@ Add this project as a depency in your mix.exs
 
 ```
 defp deps do
-	[{ :riak, github: "drewkerrigan/riak-elixir-client" }]
+	[{ :'riak-elixir-client', github: "drewkerrigan/riak-elixir-client" }]
 end
 ```
 
@@ -28,36 +28,28 @@ mix
 
 ```
 defmodule Db do
-	use Riak.Database, host: '127.0.0.1', port: 8087
+  use Riak.Client, host: '127.0.0.1', port: 8087
 end
 ```
 
 ###Save a value
 
 ```
-bucket = "my_bucket"
-key = "my_key" # can be nil
-data = "drew kerrigan"
-
-Db.put {bucket, key, data}
+u = RObj.create(bucket: "user", key: "my_key", data: "Drew Kerrigan")
+  |> Db.put
 ```
 
 ###Find an object
 
 ```
-case Db.find("my_bucket", "my_key") do
-  {:ok, {data, key, metadata, vclock}} -> handle_value(data)
-  {:siblings, sibling_list} -> handle_siblings(sibling_list)
-  nil -> handle_no_results()
-end
+u = Db.find "user", "my_key"
 ```
 
 ###Update an object
 
 ```
-case Db.update {"my_bucket", "my_key", "new data", metadata, vclock} do
-  {:ok, {data, key, metadata, vclock}} -> handle_value(data)
-  nil
+u = u.data("Something Else")
+  |> Db.put
 ```
 
 ###Delete an object
@@ -65,8 +57,16 @@ case Db.update {"my_bucket", "my_key", "new data", metadata, vclock} do
 Using key
 
 ```
-Db.delete "my_bucket", "my_key"
+Db.delete "user", key
 ```
+
+Using object
+
+```
+Db.delete u
+```
+
+For a more in functionality, check `test/riak_test.exs`
 
 ###Run tests
 

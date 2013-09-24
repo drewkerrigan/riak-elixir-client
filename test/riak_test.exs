@@ -1,9 +1,28 @@
+defmodule Riak.Supervisor do
+	use Supervisor.Behaviour
+
+	def start_link() do
+		:supervisor.start_link(__MODULE__, nil)
+	end
+
+	def init(_) do
+		children = [ worker(Riak.Client, []) ]
+		supervise children, strategy: :one_for_one
+	end
+end
+
 defmodule Db do
-	use Riak.Client, host: '127.0.0.1', port: 8087
+	use Riak.Client
 end
 
 defmodule RiakTest do
 	use ExUnit.Case
+
+	setup do
+		Riak.Supervisor.start_link
+		Db.configure(host: '127.0.0.1', port: 8087)
+		:ok
+	end
 
 	test "list bucket" do
 		{:ok, buckets} = Db.Bucket.list
@@ -179,7 +198,7 @@ defmodule RiakTest do
 
 		assert(is_list(u))
 
-		[h|t] = u
+		[h|_t] = u
 
 		assert(:ok == Db.resolve("user", key, 2))
 		

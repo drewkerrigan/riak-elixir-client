@@ -10,8 +10,7 @@ defmodule Elixiak.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    [ registered: [:riak],
-    mod: { Riak, [] }]
+    []
   end
 
   defp deps do

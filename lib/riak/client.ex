@@ -9,14 +9,11 @@ defmodule Riak.Client do
 		{ :ok, nil }
 	end
 
-	defmacro __using__(opts) do
-		host = Keyword.fetch!(opts, :host)
-		port = Keyword.fetch!(opts, :port)
-
-		:gen_server.call(:riak, {:configure, host, port})
-
+	defmacro __using__(_opts) do
+	
 		quote do
 			# Client level functions
+			def configure(opts) do :gen_server.call(:riak, {:configure, Keyword.fetch!(opts, :host), Keyword.fetch!(opts, :port)}) end
 			def ping() do :gen_server.call(:riak, {:ping}) end
 			def put(obj) do :gen_server.call(:riak, {:store, obj}) end
 			def find(bucket, key) do :gen_server.call(:riak, {:fetch, bucket, key}) end

@@ -66,7 +66,7 @@ Using object
 Db.delete u
 ```
 
-For a more in functionality, check `test/riak_test.exs`
+####For a more functionality, check `test/riak_test.exs`
 
 ###Run tests
 

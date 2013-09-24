@@ -6,7 +6,7 @@ defmodule Riak.Supervisor do
 	end
 
 	def init(_) do
-		children = [ worker(Riak.Database, []) ]
+		children = [ worker(Riak.Client, []) ]
 		supervise children, strategy: :one_for_one
 	end
 end

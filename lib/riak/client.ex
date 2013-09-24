@@ -1,4 +1,4 @@
-defmodule Riak.Database do
+defmodule Riak.Client do
 	use GenServer.Behaviour
 
 	def start_link() do
@@ -16,42 +16,13 @@ defmodule Riak.Database do
 		:gen_server.call(:riak, {:configure, host, port})
 
 		quote do
-
-			# Database level functions
+			# Client level functions
 			def ping() do :gen_server.call(:riak, {:ping}) end
-			def put(data) do :gen_server.call(:riak, {:store, data}) end
-			def update(data) do :gen_server.call(:riak, {:update, data}) end
+			def put(obj) do :gen_server.call(:riak, {:store, obj}) end
 			def find(bucket, key) do :gen_server.call(:riak, {:fetch, bucket, key}) end
 			def resolve(bucket, key, index) do :gen_server.call(:riak, {:resolve, bucket, key, index}) end
 			def delete(bucket, key) do :gen_server.call(:riak, {:delete, bucket, key}) end
-
-			# Object Data Manipulation modules and functions
-			defmodule Metadata do
-				def get(metadata, key) do :riakc_obj.get_user_metadata_entry(metadata, key) end
-				def get_all(metadata) do :riakc_obj.get_user_metadata_entries(metadata) end
-				def delete_all(metadata) do :riakc_obj.clear_user_metadata_entries(metadata) end
-				def delete(metadata, key) do :riakc_obj.delete_user_metadata_entry(metadata, key) end
-				def put(metadata, {key, value}) do :riakc_obj.set_user_metadata_entry(metadata, {key, value}) end
-			end
-			
-			defmodule Index do
-				def index_id({:binary_index, name}) do "#{name}_bin" end
-				def index_id({:integer_index, name}) do "#{name}_int" end
-				def get(metadata, {type, name}) do :riakc_obj.get_secondary_index(metadata, {type, name}) end
-				def get_all(metadata) do :riakc_obj.get_secondary_indexes(metadata) end
-				def delete_all(metadata) do :riakc_obj.clear_secondary_indexes(metadata) end
-				def delete(metadata, {type, name}) do :riakc_obj.delete_secondary_index(metadata, index_id({type, name})) end
-				def delete(metadata, id) do :riakc_obj.delete_secondary_index(metadata, id) end
-				def put(metadata, {type, name}, values) do :riakc_obj.set_secondary_index(metadata, [{{type, name}, values}]) end
-			end
-
-			defmodule Link do
-				def get(metadata, tag) do :riakc_obj.get_links(metadata, tag) end
-				def get_all(metadata) do :riakc_obj.get_all_links(metadata) end
-				def delete_all(metadata) do :riakc_obj.clear_links(metadata) end
-				def delete(metadata, tag) do :riakc_obj.delete_links(metadata, tag) end
-				def put(metadata, bucket, key) do :riakc_obj.set_link(metadata, [{bucket, key}]) end
-			end
+			def delete(obj) do :gen_server.call(:riak, {:delete, obj.bucket, obj.key}) end
 
 			# Riak modules and functions
 			defmodule Bucket do
@@ -60,6 +31,7 @@ defmodule Riak.Database do
 				def keys(bucket) do :gen_server.call(:riak, {:list_keys, bucket}) end
 				def keys(bucket, timeout) do :gen_server.call(:riak, {:list_keys, bucket, timeout}) end
 				def get(bucket) do :gen_server.call(:riak, {:props, bucket}) end
+				#Possible Props: [n_val: 3, allow_mult: false, last_write_wins: false, basic_quorum: false, notfound_ok: true, precommit: [], postcommit: [], pr: 0, r: :quorum, w: :quorum, pw: 0, dw: :quorum, rw: :quorum]}
 				def put(bucket, props) do :gen_server.call(:riak, {:set_props, bucket, props}) end
 				def put(bucket, type, props) do :gen_server.call(:riak, {:set_props, bucket, type, props}) end
 				def reset(bucket) do :gen_server.call(:riak, {:reset, bucket}) end
@@ -71,6 +43,21 @@ defmodule Riak.Database do
 				end
 			end
 
+			defmodule Index do
+				def query(bucket, {type, name}, key, opts) do 
+					case :gen_server.call(:riak, {:index_eq_query, bucket, {type, name}, key, opts}) do
+						{:ok, {:index_results_v1, keys, terms, continuation}} -> {keys, terms, continuation}
+						res -> res
+					end
+				end
+				def query(bucket, {type, name}, startkey, endkey, opts) do
+					case :gen_server.call(:riak, {:index_range_query, bucket, {type, name}, startkey, endkey, opts}) do
+						{:ok, {:index_results_v1, keys, terms, continuation}} -> {keys, terms, continuation}
+						res -> res
+					end
+				end
+			end
+
 			defmodule Mapred do
 				def query(inputs, query) do :gen_server.call(:riak, {:mapred_query, inputs, query}) end
 				def query(inputs, query, timeout) do :gen_server.call(:riak, {:mapred_query, inputs, query, timeout}) end
@@ -79,11 +66,6 @@ defmodule Riak.Database do
 					def query(bucket, query) do :gen_server.call(:riak, {:mapred_query_bucket, bucket, query}) end
 					def query(bucket, query, timeout) do :gen_server.call(:riak, {:mapred_query_bucket, bucket, query, timeout}) end
 				end
-			end
-
-			defmodule Index do
-				def query(bucket, {type, name}, key, opts) do :gen_server.call(:riak, {:index_eq_query, bucket, {type, name}, key, opts}) end
-				def query(bucket, {type, name}, startkey, endkey, opts) do :gen_server.call(:riak, {:index_range_query, bucket, {type, name}, startkey, endkey, opts}) end
 			end
 
 			defmodule Search do
@@ -104,11 +86,23 @@ defmodule Riak.Database do
 			end
 
 			defmodule Counter do
+				def enable(bucket) do Bucket.put "#{bucket}-counter", [{:allow_mult, true}] end
 				def increment(bucket, name, amount) do :gen_server.call(:riak, {:counter_incr, "#{bucket}-counter", name, amount}) end
-				def value(bucket, name) do :gen_server.call(:riak, {:counter_val, "#{bucket}-counter", name}) end
+				def value(bucket, name) do 
+					case :gen_server.call(:riak, {:counter_val, "#{bucket}-counter", name}) do
+						{:ok, val} -> val
+						val -> val
+					end
+				end
 			end
 		end
 	end
+
+	def build_sibling_list([{_md, val}|t], final_list) do
+		build_sibling_list(t,[val|final_list])
+	end
+	def build_sibling_list([], final_list) do final_list end
+	
 
 	# Start Link to Riak
 	def handle_call({ :configure, host, port }, _from, _state) do
@@ -123,42 +117,14 @@ defmodule Riak.Database do
 	end
 
 	# Store a Riak Object
-	# TODO, need to use the metadata to store 2i stuff, need to rethink this a bit because an object is needed earlier than thought
-	def handle_call({:store, {bucket, key, data} }, _from, state) do
-		:gen_server.call(:riak, {:store, {bucket, key, data, nil, nil}}) end
-	end
-	def handle_call({:store, {bucket, key, data, _metadata, _vclock} }, _from, state) do
-		object = :riakc_obj.new(bucket, key, data, "application/json")
-		IO.inspect :riakc_obj.get_content_type(object)
-		IO.inspect :riakc_obj.get_update_content_type(object)
-
-		case :riakc_pb_socket.put(state.socket_pid, object) do
+	def handle_call({:store, obj }, _from, state) do
+		case :riakc_pb_socket.put(state.socket_pid, obj.to_robj()) do
 			{:ok, new_object} ->
-				res = {:ok, {:riakc_obj.get_value(new_object), :riakc_obj.key(new_object), :riakc_obj.get_metadata(new_object), :riakc_obj.vclock(new_object)}}
-				{ :reply, res, state }
+				{ :reply, obj.key(:riakc_obj.key(new_object)), state }
+			:ok -> 
+				{ :reply, obj, state }
 			_ ->
-				res = {:ok, {data, key, :riakc_obj.get_metadata(object), nil}}
-				{ :reply, res, state }
-		end
-	end
-
-	# Update a Riak Object
-	def handle_call({:update, {bucket, key, data, metadata, vclock} }, _from, state) do
-		case :riakc_pb_socket.get(state.socket_pid, bucket, key) do
-			{:ok, object} ->
-				if vclock do object = :riakc_obj.set_vclock(object, vclock) end
-				if metadata do object = :riakc_obj.update_metadata(object, metadata) end
-				object = :riakc_obj.update_value(object, data)
-				
-				case :riakc_pb_socket.put(state.socket_pid, object) do
-					{:ok, new_object} ->
-						res = {:ok, {:riakc_obj.get_value(new_object), :riakc_obj.key(new_object), :riakc_obj.get_metadata(new_object), :riakc_obj.vclock(new_object)}}
-						{ :reply, res, state }
-					_ ->
-						res = {:ok, {:riakc_obj.get_value(object), :riakc_obj.key(object), :riakc_obj.get_metadata(object), :riakc_obj.vclock(object)}}
-						{ :reply, res, state }
-				end
-			_ -> { :reply, nil, state }
+				{ :reply, nil, state }
 		end
 	end
 
@@ -167,9 +133,9 @@ defmodule Riak.Database do
 		case :riakc_pb_socket.get(state.socket_pid, bucket, key) do
 			{:ok, object} ->
 				if :riakc_obj.value_count(object) > 1 do
-					{ :reply, {:siblings, :riakc_obj.get_contents(object)}, state }
+					{ :reply, build_sibling_list(:riakc_obj.get_contents(object),[]), state }
 				else
-					{ :reply, {:ok, {:riakc_obj.get_value(object), key, :riakc_obj.get_metadata(object), :riakc_obj.vclock(object)}}, state }
+					{ :reply, RObj.from_robj(object), state }
 				end
 			_ -> { :reply, nil, state }
 		end
@@ -247,9 +213,11 @@ defmodule Riak.Database do
 	end
 
 	def handle_call({:index_eq_query, bucket, {type, name}, key, opts}, _from, state) do
+		{:ok, name} = String.to_char_list(name)
 		{ :reply, :riakc_pb_socket.get_index_eq(state.socket_pid, bucket, {type, name}, key, opts), state}
 	end
 	def handle_call({:index_range_query, bucket, {type, name}, startkey, endkey, opts}, _from, state) do
+		{:ok, name} = String.to_char_list(name)
 		{ :reply, :riakc_pb_socket.get_index_range(state.socket_pid, bucket, {type, name}, startkey, endkey, opts), state}
 	end
 	

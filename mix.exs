@@ -1,4 +1,4 @@
-defmodule Elixiak.Mixfile do
+defmodule Riak.Mixfile do
   use Mix.Project
 
   def project do

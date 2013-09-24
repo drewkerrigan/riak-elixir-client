@@ -15,6 +15,6 @@ defmodule Riak.Mixfile do
   end
 
   defp deps do
-    [{ :riakc, github: "basho/riak-erlang-client" }]
+    [{ :riakc, github: "basho/riak-erlang-client", tag: "1.4.1" }]
   end
 end

@@ -2,7 +2,7 @@ defmodule Riak.Object do
 	defmacro __using__(_opts) do
 		quote do
 			# User Metadata
-			def get_metadata(obj, key) do 
+			def get_metadata(obj, key) do
 				case :riakc_obj.get_user_metadata_entry(obj.metadata, key) do
 					:notfound -> nil
 					val -> val

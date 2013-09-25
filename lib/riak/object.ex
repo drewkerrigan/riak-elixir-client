@@ -1,39 +1,6 @@
 defmodule Riak.Object do
 	defmacro __using__(_opts) do
 		quote do
-			def from_robj(robj) do
-				RObj.new(
-					bucket: :riakc_obj.bucket(robj),
-					key: :riakc_obj.key(robj),
-					data: :riakc_obj.get_update_value(robj),
-					metadata: :riakc_obj.get_update_metadata(robj),
-					vclock: :riakc_obj.vclock(robj),
-					content_type: :riakc_obj.get_update_content_type(robj))
-			end
-
-			def to_robj(obj) do
-				unless obj.key do obj = obj.key(:undefined) end
-
-				robj = :riakc_obj.new(
-					obj.bucket, 
-					obj.key, 
-					obj.data,
-					obj.content_type)
-
-				if obj.vclock do robj = :riakc_obj.set_vclock(robj, obj.vclock) end
-				if obj.metadata do robj = :riakc_obj.update_metadata(robj, obj.metadata) end
-
-				robj
-			end
-			
-			def create() do
-				RObj.new()
-			end
-			def create(args) do
-				obj = RObj.new(args)
-				from_robj(to_robj(obj))
-			end
-
 			# User Metadata
 			def get_metadata(obj, key) do 
 				case :riakc_obj.get_user_metadata_entry(obj.metadata, key) do
@@ -77,4 +44,37 @@ end
 
 defrecord RObj, [bucket: nil, key: nil, data: nil, metadata: nil, vclock: nil, content_type: "application/json"] do
 	use Riak.Object
+
+	def from_robj(robj) do
+		RObj.new(
+			bucket: :riakc_obj.bucket(robj),
+			key: :riakc_obj.key(robj),
+			data: :riakc_obj.get_update_value(robj),
+			metadata: :riakc_obj.get_update_metadata(robj),
+			vclock: :riakc_obj.vclock(robj),
+			content_type: :riakc_obj.get_update_content_type(robj))
+	end
+
+	def to_robj(obj) do
+		unless obj.key do obj = obj.key(:undefined) end
+
+		robj = :riakc_obj.new(
+			obj.bucket, 
+			obj.key, 
+			obj.data,
+			obj.content_type)
+
+		if obj.vclock do robj = :riakc_obj.set_vclock(robj, obj.vclock) end
+		if obj.metadata do robj = :riakc_obj.update_metadata(robj, obj.metadata) end
+
+		robj
+	end
+	
+	def create() do
+		RObj.new()
+	end
+	def create(args) do
+		obj = RObj.new(args)
+		from_robj(to_robj(obj))
+	end
 end

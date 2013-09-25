@@ -24,32 +24,31 @@ Compile
 mix
 ```
 
-###Create a reference to your Riak instance
+###Configure Riak
 
 ```
-defmodule Db do
-  use Riak.Client, host: '127.0.0.1', port: 8087
-end
+Riak.start
+Riak.configure(host: '127.0.0.1', port: 10017)
 ```
 
 ###Save a value
 
 ```
 u = RObj.create(bucket: "user", key: "my_key", data: "Drew Kerrigan")
-  |> Db.put
+  |> Riak.put
 ```
 
 ###Find an object
 
 ```
-u = Db.find "user", "my_key"
+u = Riak.find "user", "my_key"
 ```
 
 ###Update an object
 
 ```
 u = u.data("Something Else")
-  |> Db.put
+  |> Riak.put
 ```
 
 ###Delete an object
@@ -57,13 +56,13 @@ u = u.data("Something Else")
 Using key
 
 ```
-Db.delete "user", key
+Riak.delete "user", key
 ```
 
 Using object
 
 ```
-Db.delete u
+Riak.delete u
 ```
 
 ####For a more functionality, check `test/riak_test.exs`

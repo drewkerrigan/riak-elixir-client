@@ -1,7 +1,3 @@
-defmodule Db do
-	use Riak.Client
-end
-
 defmodule RiakTest do
 	use ExUnit.Case
 

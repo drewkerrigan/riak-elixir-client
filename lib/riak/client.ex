@@ -1,4 +1,7 @@
 defmodule Riak.Client do
+  @moduledoc """
+  Riak Client
+  """
   use GenServer.Behaviour
 
   def start_link() do
@@ -12,30 +15,45 @@ defmodule Riak.Client do
   defmacro __using__(_opts) do
     quote do
       # Client level functions
-      def configure(opts) do :gen_server.call(:riak, {:configure, Keyword.fetch!(opts, :host), Keyword.fetch!(opts, :port)}) end
-      def ping() do :gen_server.call(:riak, {:ping}) end
-      def put(obj) do :gen_server.call(:riak, {:store, obj}) end
-      def find(bucket, key) do :gen_server.call(:riak, {:fetch, bucket, key}) end
-      def resolve(bucket, key, index) do :gen_server.call(:riak, {:resolve, bucket, key, index}) end
-      def delete(bucket, key) do :gen_server.call(:riak, {:delete, bucket, key}) end
-      def delete(obj) do :gen_server.call(:riak, {:delete, obj.bucket, obj.key}) end
+      def configure(opts) do
+        :gen_server.call(:riak, {:configure, Keyword.fetch!(opts, :host), Keyword.fetch!(opts, :port)})
+      end
+
+      @doc "Ping a Riak instance"
+      def ping(), do: :gen_server.call(:riak, {:ping})
+
+      def put(obj), do: :gen_server.call(:riak, {:store, obj})
+
+      def find(bucket, key), do: :gen_server.call(:riak, {:fetch, bucket, key})
+
+      def resolve(bucket, key, index) do
+        :gen_server.call(:riak, {:resolve, bucket, key, index})
+      end
+
+      @doc "Delete an object from a bucket"
+      def delete(bucket, key), do: :gen_server.call(:riak, {:delete, bucket, key})
+      def delete(obj), do: :gen_server.call(:riak, {:delete, obj.bucket, obj.key})
 
       # Riak modules and functions
       defmodule Bucket do
-        def list() do :gen_server.call(:riak, {:list_buckets}) end
-        def list(timeout) do :gen_server.call(:riak, {:list_buckets, timeout}) end
-        def keys(bucket) do :gen_server.call(:riak, {:list_keys, bucket}) end
-        def keys(bucket, timeout) do :gen_server.call(:riak, {:list_keys, bucket, timeout}) end
-        def get(bucket) do :gen_server.call(:riak, {:props, bucket}) end
+        def list(), do: :gen_server.call(:riak, {:list_buckets})
+        def list(timeout), do: :gen_server.call(:riak, {:list_buckets, timeout})
+
+        def keys(bucket), do: :gen_server.call(:riak, {:list_keys, bucket})
+        def keys(bucket, timeout), do: :gen_server.call(:riak, {:list_keys, bucket, timeout})
+
+        def get(bucket), do: :gen_server.call(:riak, {:props, bucket})
         #Possible Props: [n_val: 3, allow_mult: false, last_write_wins: false, basic_quorum: false, notfound_ok: true, precommit: [], postcommit: [], pr: 0, r: :quorum, w: :quorum, pw: 0, dw: :quorum, rw: :quorum]}
-        def put(bucket, props) do :gen_server.call(:riak, {:set_props, bucket, props}) end
-        def put(bucket, type, props) do :gen_server.call(:riak, {:set_props, bucket, type, props}) end
-        def reset(bucket) do :gen_server.call(:riak, {:reset, bucket}) end
+
+        def put(bucket, props), do: :gen_server.call(:riak, {:set_props, bucket, props})
+        def put(bucket, type, props), do: :gen_server.call(:riak, {:set_props, bucket, type, props})
+
+        def reset(bucket), do: :gen_server.call(:riak, {:reset, bucket})
 
         defmodule Type do
-          def get(type) do :gen_server.call(:riak, {:get_type, type}) end
-          def put(type, props) do :gen_server.call(:riak, {:set_type, type, props}) end
-          def reset(type) do :gen_server.call(:riak, {:reset_type, type}) end
+          def get(type), do: :gen_server.call(:riak, {:get_type, type})
+          def put(type, props), do: :gen_server.call(:riak, {:set_type, type, props})
+          def reset(type), do: :gen_server.call(:riak, {:reset_type, type})
         end
       end
 
@@ -55,35 +73,50 @@ defmodule Riak.Client do
       end
 
       defmodule Mapred do
-        def query(inputs, query) do :gen_server.call(:riak, {:mapred_query, inputs, query}) end
-        def query(inputs, query, timeout) do :gen_server.call(:riak, {:mapred_query, inputs, query, timeout}) end
+        def query(inputs, query), do: :gen_server.call(:riak, {:mapred_query, inputs, query})
+        def query(inputs, query, timeout) do
+          :gen_server.call(:riak, {:mapred_query, inputs, query, timeout})
+        end
         
         defmodule Bucket do
-          def query(bucket, query) do :gen_server.call(:riak, {:mapred_query_bucket, bucket, query}) end
-          def query(bucket, query, timeout) do :gen_server.call(:riak, {:mapred_query_bucket, bucket, query, timeout}) end
+          def query(bucket, query), do: :gen_server.call(:riak, {:mapred_query_bucket, bucket, query})
+          def query(bucket, query, timeout) do
+            :gen_server.call(:riak, {:mapred_query_bucket, bucket, query, timeout})
+          end
         end
       end
 
       defmodule Search do
-        def query(bucket, query, options) do :gen_server.call(:riak, {:search_query, bucket, query, options}) end
-        def query(bucket, query, options, timeout) do :gen_server.call(:riak, {:search_query, bucket, query, options, timeout}) end
+        def query(bucket, query, options) do
+          :gen_server.call(:riak, {:search_query, bucket, query, options})
+        end
+        def query(bucket, query, options, timeout) do
+          :gen_server.call(:riak, {:search_query, bucket, query, options, timeout})
+        end
         
         defmodule Index do
-          def list() do :gen_server.call(:riak, {:search_list_indexes}) end
-          def put(bucket) do :gen_server.call(:riak, {:search_create_index, bucket}) end
-          def get(bucket) do :gen_server.call(:riak, {:search_get_index, bucket}) end
-          def delete(bucket) do :gen_server.call(:riak, {:search_delete_index, bucket}) end
+          def list(), do: :gen_server.call(:riak, {:search_list_indexes})
+          def put(bucket), do: :gen_server.call(:riak, {:search_create_index, bucket})
+          def get(bucket), do: :gen_server.call(:riak, {:search_get_index, bucket})
+          def delete(bucket), do: :gen_server.call(:riak, {:search_delete_index, bucket})
         end
 
         defmodule Schema do
-          def get(bucket) do :gen_server.call(:riak, {:search_get_schema, bucket}) end
-          def create(bucket, content) do :gen_server.call(:riak, {:search_create_schema, bucket, content}) end
+          def get(bucket), do: :gen_server.call(:riak, {:search_get_schema, bucket})
+
+          def create(bucket, content) do
+            :gen_server.call(:riak, {:search_create_schema, bucket, content})
+          end
         end
       end
 
       defmodule Counter do
-        def enable(bucket) do Bucket.put "#{bucket}-counter", [{:allow_mult, true}] end
-        def increment(bucket, name, amount) do :gen_server.call(:riak, {:counter_incr, "#{bucket}-counter", name, amount}) end
+        def enable(bucket), do: Bucket.put("#{bucket}-counter", [{:allow_mult, true}])
+
+        def increment(bucket, name, amount) do
+          :gen_server.call(:riak, {:counter_incr, "#{bucket}-counter", name, amount})
+        end
+
         def value(bucket, name) do 
           case :gen_server.call(:riak, {:counter_val, "#{bucket}-counter", name}) do
             {:ok, val} -> val
@@ -94,18 +127,16 @@ defmodule Riak.Client do
     end
   end
 
-  def build_sibling_list([{_md, val}|t], final_list) do
-    build_sibling_list(t,[val|final_list])
-  end
-  def build_sibling_list([], final_list) do final_list end
+  def build_sibling_list([{_md, val}|t], final_list), do: build_sibling_list(t,[val|final_list])
+  def build_sibling_list([], final_list), do: final_list
   
 
   # Start Link to Riak
   def handle_call({ :configure, host, port }, _from, _state) do
-      {:ok, pid} = :riakc_pb_socket.start_link(host, port)
+    {:ok, pid} = :riakc_pb_socket.start_link(host, port)
     new_state = Riak.State.new(socket_pid: pid)
     { :reply, {:ok, pid}, new_state }
-    end
+  end
 
   # Ping Riak
   def handle_call({ :ping }, _from, state) do
@@ -155,6 +186,7 @@ defmodule Riak.Client do
   def handle_call({:list_buckets, timeout}, _from, state) do
     { :reply, :riakc_pb_socket.list_buckets(state.socket_pid, timeout), state}
   end
+
   def handle_call({:list_buckets}, _from, state) do
     { :reply, :riakc_pb_socket.list_buckets(state.socket_pid), state}
   end
@@ -162,6 +194,7 @@ defmodule Riak.Client do
   def handle_call({:list_keys, bucket, timeout}, _from, state) do
     { :reply, :riakc_pb_socket.list_keys(state.socket_pid, bucket, timeout), state}
   end
+
   def handle_call({:list_keys, bucket}, _from, state) do
     { :reply, :riakc_pb_socket.list_keys(state.socket_pid, bucket), state}
   end
@@ -197,6 +230,7 @@ defmodule Riak.Client do
   def handle_call({:mapred_query, inputs, query}, _from, state) do
     { :reply, :riakc_pb_socket.mapred(state.socket_pid, inputs, query), state}
   end
+
   def handle_call({:mapred_query, inputs, query, timeout}, _from, state) do
     { :reply, :riakc_pb_socket.mapred(state.socket_pid, inputs, query, timeout), state}
   end
@@ -204,6 +238,7 @@ defmodule Riak.Client do
   def handle_call({:mapred_query_bucket, bucket, query}, _from, state) do
     { :reply, :riakc_pb_socket.mapred_bucket(state.socket_pid, bucket, query), state}
   end
+
   def handle_call({:mapred_query_bucket, bucket, query, timeout}, _from, state) do
     { :reply, :riakc_pb_socket.mapred_bucket(state.socket_pid, bucket, query, timeout), state}
   end
@@ -212,6 +247,7 @@ defmodule Riak.Client do
     {:ok, name} = String.to_char_list(name)
     { :reply, :riakc_pb_socket.get_index_eq(state.socket_pid, bucket, {type, name}, key, opts), state}
   end
+
   def handle_call({:index_range_query, bucket, {type, name}, startkey, endkey, opts}, _from, state) do
     {:ok, name} = String.to_char_list(name)
     { :reply, :riakc_pb_socket.get_index_range(state.socket_pid, bucket, {type, name}, startkey, endkey, opts), state}
@@ -244,6 +280,7 @@ defmodule Riak.Client do
   def handle_call({:search_query, index, query, options}, _from, state) do
     { :reply, :riakc_pb_socket.search(state.socket_pid, index, query, options), state}
   end
+
   def handle_call({:search_query, index, query, options, timeout}, _from, state) do
     { :reply, :riakc_pb_socket.search(state.socket_pid, index, query, options, timeout), state}
   end

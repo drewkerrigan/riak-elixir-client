@@ -4,6 +4,33 @@ Elixir wrapper for riak-erlang-client
 
 ###Setup
 
+#### Prerequisites
+
+You should have at least one Riak node running. If you plan to use secondary indexes, you'll need to have the leveldb backend enabled:
+
+`app.config` in version 1.4.x-
+
+```
+[
+    ...
+    {riak_kv, [
+        {storage_backend, riak_kv_eleveldb_backend},
+        ...
+            ]},
+    ...
+].
+```
+
+or `riak.conf` in version 2.x.x+
+
+```
+...
+storage_backend = leveldb
+...
+```
+
+#### In your Elixir application
+
 Add this project as a depency in your mix.exs
 
 ```

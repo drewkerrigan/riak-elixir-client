@@ -3,15 +3,14 @@ defmodule Riak.Mixfile do
 
   def project do
     [ app: :'riak-elixir-client',
-      version: "0.0.1",
-      elixir: "~> 0.11",
+      version: "0.0.2",
+      elixir: "~> 1.0.0",
       deps: deps ]
   end
 
   # Configuration for the OTP application
   def application do
-    [ registered: [:riak],
-      mod: { Riak, [] }]
+    [applications: [:riak]]
   end
 
   defp deps do

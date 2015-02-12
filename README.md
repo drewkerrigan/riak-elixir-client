@@ -26,10 +26,13 @@ def application do
 end
 ...
 defp deps do
-  [ {:riak, "~> 1.0"} ]
+  # [ {:riak, "~> 1.0"} ] Hex package will be released soon
+  [ {:riak, github: "drewkerrigan/riak-elixir-client"} ]
 end
 ...
 ```
+
+
 
 ## Usage
 

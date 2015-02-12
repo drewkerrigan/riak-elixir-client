@@ -30,7 +30,7 @@ def application do
 end
 ```
 
-# Usage
+## Usage
 
 One can pass the pid of the established connection or just use the pool (provided by pooler). You just need to define your pools using the group "riak. For example having this on your `config/config.exs`:
 
@@ -66,33 +66,33 @@ Riex.delete("user", key)
 
 The first call will use the pid you started using `Riex.Connection` and the second call will get a connection from the pool of connections provided by pooler.
 
-##Establishing a Riex connection
+###Establishing a Riex connection
 
 ```elixir
 {:ok, pid} = Riex.Connection.start_link('127.0.0.1', 8087) # Default values
 ```
 
-##Save a value
+###Save a value
 
 ```elixir
 o = Riex.Object.create(bucket: "user", key: "my_key", data: "Drew Kerrigan")
 Riex.put(pid, o)
 ```
 
-##Find an object
+###Find an object
 
 ```elixir
 o = Riex.find(pid, "user", "my_key")
 ```
 
-##Update an object
+###Update an object
 
 ```elixir
 o = %{o | data: "Something Else"}
 Riex.put(pid, o)
 ```
 
-##Delete an object
+###Delete an object
 
 Using key
 
@@ -106,11 +106,11 @@ Using object
 Riex.delete(pid, o)
 ```
 
-## CRDTs
+### CRDTs
 
 Riak Datatypes are avaiable since [Riak 2.0](http://basho.com/introducing-riak-2-0/). The types included are: maps, sets, counters, registers and flags.
 
-### Counters
+#### Counters
 
 Considering that you created the "counter_bucket" bucket type using something like:
 
@@ -137,7 +137,7 @@ counter = Riex.find("counter_bucket", "bucketcounter", my_key)
 
 `counter` will be 3.
 
-### Sets
+#### Sets
 
 Considering that you created the "set_bucket" bucket type using something like:
 
@@ -164,7 +164,7 @@ set = Riex.find("set_bucket", "bucketset", "my_key")
 
 Where `set` is an orddict.
 
-### Maps
+#### Maps
 
 Maps handle binary keys with any other datatype (map, set, flag, register and counter).
 
@@ -194,7 +194,7 @@ map = Riex.find("map_bucket", "bucketmap", key) |> Map.value
 
 Where map is an `orddict`.
 
-# Examples
+## Examples
 
 Check the `examples/` directory for a few example elixir applications using the riak client. 
 

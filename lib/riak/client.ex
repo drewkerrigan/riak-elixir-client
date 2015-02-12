@@ -1,8 +1,11 @@
 defmodule Riak.Client do
+  require Record
+  Record.defrecord :state, State, [socket_pid: nil]
+
   @moduledoc """
   Riak Client
   """
-  use GenServer.Behaviour
+  use GenServer
 
   def start_link() do
     :gen_server.start_link({ :local, :riak }, __MODULE__, nil, [])
@@ -134,162 +137,162 @@ defmodule Riak.Client do
   # Start Link to Riak
   def handle_call({ :configure, host, port }, _from, _state) do
     {:ok, pid} = :riakc_pb_socket.start_link(host, port)
-    new_state = Riak.State.new(socket_pid: pid)
+    new_state = state(socket_pid: pid)
     { :reply, {:ok, pid}, new_state }
   end
 
   # Ping Riak
-  def handle_call({ :ping }, _from, state) do
-      { :reply, :riakc_pb_socket.ping(state.socket_pid), state }
+  def handle_call({ :ping }, _from, mystate) do
+      { :reply, :riakc_pb_socket.ping(state(mystate, :socket_pid)), mystate }
   end
 
   # Store a Riak Object
-  def handle_call({:store, obj }, _from, state) do
-    case :riakc_pb_socket.put(state.socket_pid, obj.to_robj()) do
+  def handle_call({:store, obj }, _from, mystate) do
+    case :riakc_pb_socket.put(state(mystate, :socket_pid), obj.to_robj()) do
       {:ok, new_object} ->
-        { :reply, obj.key(:riakc_obj.key(new_object)), state }
+        { :reply, obj.key(:riakc_obj.key(new_object)), mystate }
       :ok -> 
-        { :reply, obj, state }
+        { :reply, obj, mystate }
       _ ->
-        { :reply, nil, state }
+        { :reply, nil, mystate }
     end
   end
 
   # Fetch a Riak Object
-  def handle_call({:fetch, bucket, key }, _from, state) do
-    case :riakc_pb_socket.get(state.socket_pid, bucket, key) do
+  def handle_call({:fetch, bucket, key }, _from, mystate) do
+    case :riakc_pb_socket.get(state(mystate, :socket_pid), bucket, key) do
       {:ok, object} ->
         if :riakc_obj.value_count(object) > 1 do
-          { :reply, build_sibling_list(:riakc_obj.get_contents(object),[]), state }
+          { :reply, build_sibling_list(:riakc_obj.get_contents(object),[]), mystate }
         else
-          { :reply, RObj.from_robj(object), state }
+          { :reply, RObj.from_robj(object), mystate }
         end
-      _ -> { :reply, nil, state }
+      _ -> { :reply, nil, mystate }
     end
   end
 
   # Resolve a Riak Object
-  def handle_call({:resolve, bucket, key, index }, _from, state) do
-    case :riakc_pb_socket.get(state.socket_pid, bucket, key) do
+  def handle_call({:resolve, bucket, key, index }, _from, mystate) do
+    case :riakc_pb_socket.get(state(mystate, :socket_pid), bucket, key) do
       {:ok, object} ->
         new_object = :riakc_obj.select_sibling(index, object)
-        { :reply, :riakc_pb_socket.put(state.socket_pid, new_object), state }
-      _ -> { :reply, nil, state }
+        { :reply, :riakc_pb_socket.put(state(mystate, :socket_pid), new_object), mystate }
+      _ -> { :reply, nil, mystate }
     end
   end
 
   # Delete a Riak Object
-  def handle_call({:delete, bucket, key }, _from, state) do
-    { :reply, :riakc_pb_socket.delete(state.socket_pid, bucket, key), state }
+  def handle_call({:delete, bucket, key }, _from, mystate) do
+    { :reply, :riakc_pb_socket.delete(state(mystate, :socket_pid), bucket, key), mystate }
   end
 
-  def handle_call({:list_buckets, timeout}, _from, state) do
-    { :reply, :riakc_pb_socket.list_buckets(state.socket_pid, timeout), state}
+  def handle_call({:list_buckets, timeout}, _from, mystate) do
+    { :reply, :riakc_pb_socket.list_buckets(state(mystate, :socket_pid), timeout), mystate}
   end
 
-  def handle_call({:list_buckets}, _from, state) do
-    { :reply, :riakc_pb_socket.list_buckets(state.socket_pid), state}
+  def handle_call({:list_buckets}, _from, mystate) do
+    { :reply, :riakc_pb_socket.list_buckets(state(mystate, :socket_pid)), mystate}
   end
 
-  def handle_call({:list_keys, bucket, timeout}, _from, state) do
-    { :reply, :riakc_pb_socket.list_keys(state.socket_pid, bucket, timeout), state}
+  def handle_call({:list_keys, bucket, timeout}, _from, mystate) do
+    { :reply, :riakc_pb_socket.list_keys(state(mystate, :socket_pid), bucket, timeout), mystate}
   end
 
-  def handle_call({:list_keys, bucket}, _from, state) do
-    { :reply, :riakc_pb_socket.list_keys(state.socket_pid, bucket), state}
+  def handle_call({:list_keys, bucket}, _from, mystate) do
+    { :reply, :riakc_pb_socket.list_keys(state(mystate, :socket_pid), bucket), mystate}
   end
 
-  def handle_call({:props, bucket}, _from, state) do
-    { :reply, :riakc_pb_socket.get_bucket(state.socket_pid, bucket), state}
+  def handle_call({:props, bucket}, _from, mystate) do
+    { :reply, :riakc_pb_socket.get_bucket(state(mystate, :socket_pid), bucket), mystate}
   end
 
-  def handle_call({:set_props, bucket, props}, _from, state) do
-    { :reply, :riakc_pb_socket.set_bucket(state.socket_pid, bucket, props), state}
+  def handle_call({:set_props, bucket, props}, _from, mystate) do
+    { :reply, :riakc_pb_socket.set_bucket(state(mystate, :socket_pid), bucket, props), mystate}
   end
 
-  def handle_call({:set_props, bucket, type, props}, _from, state) do
-    { :reply, :riakc_pb_socket.set_bucket(state.socket_pid, {type, bucket}, props), state}
+  def handle_call({:set_props, bucket, type, props}, _from, mystate) do
+    { :reply, :riakc_pb_socket.set_bucket(state(mystate, :socket_pid), {type, bucket}, props), mystate}
   end
 
-  def handle_call({:reset, bucket}, _from, state) do
-    { :reply, :riakc_pb_socket.reset_bucket(state.socket_pid, bucket), state}
+  def handle_call({:reset, bucket}, _from, mystate) do
+    { :reply, :riakc_pb_socket.reset_bucket(state(mystate, :socket_pid), bucket), mystate}
   end
 
-  def handle_call({:get_type, type}, _from, state) do
-    { :reply, :riakc_pb_socket.get_bucket_type(state.socket_pid, type), state}
+  def handle_call({:get_type, type}, _from, mystate) do
+    { :reply, :riakc_pb_socket.get_bucket_type(state(mystate, :socket_pid), type), mystate}
   end
 
-  def handle_call({:set_type, type, props}, _from, state) do
-    { :reply, :riakc_pb_socket.set_bucket_type(state.socket_pid, type, props), state}
+  def handle_call({:set_type, type, props}, _from, mystate) do
+    { :reply, :riakc_pb_socket.set_bucket_type(state(mystate, :socket_pid), type, props), mystate}
   end
     
-  def handle_call({:reset_type, type}, _from, state) do
-    { :reply, :riakc_pb_socket.reset_bucket_type(state.socket_pid, type), state}
+  def handle_call({:reset_type, type}, _from, mystate) do
+    { :reply, :riakc_pb_socket.reset_bucket_type(state(mystate, :socket_pid), type), mystate}
   end
 
-  def handle_call({:mapred_query, inputs, query}, _from, state) do
-    { :reply, :riakc_pb_socket.mapred(state.socket_pid, inputs, query), state}
+  def handle_call({:mapred_query, inputs, query}, _from, mystate) do
+    { :reply, :riakc_pb_socket.mapred(state(mystate, :socket_pid), inputs, query), mystate}
   end
 
-  def handle_call({:mapred_query, inputs, query, timeout}, _from, state) do
-    { :reply, :riakc_pb_socket.mapred(state.socket_pid, inputs, query, timeout), state}
+  def handle_call({:mapred_query, inputs, query, timeout}, _from, mystate) do
+    { :reply, :riakc_pb_socket.mapred(state(mystate, :socket_pid), inputs, query, timeout), mystate}
   end
 
-  def handle_call({:mapred_query_bucket, bucket, query}, _from, state) do
-    { :reply, :riakc_pb_socket.mapred_bucket(state.socket_pid, bucket, query), state}
+  def handle_call({:mapred_query_bucket, bucket, query}, _from, mystate) do
+    { :reply, :riakc_pb_socket.mapred_bucket(state(mystate, :socket_pid), bucket, query), mystate}
   end
 
-  def handle_call({:mapred_query_bucket, bucket, query, timeout}, _from, state) do
-    { :reply, :riakc_pb_socket.mapred_bucket(state.socket_pid, bucket, query, timeout), state}
+  def handle_call({:mapred_query_bucket, bucket, query, timeout}, _from, mystate) do
+    { :reply, :riakc_pb_socket.mapred_bucket(state(mystate, :socket_pid), bucket, query, timeout), mystate}
   end
 
-  def handle_call({:index_eq_query, bucket, {type, name}, key, opts}, _from, state) do
+  def handle_call({:index_eq_query, bucket, {type, name}, key, opts}, _from, mystate) do
     {:ok, name} = String.to_char_list(name)
-    { :reply, :riakc_pb_socket.get_index_eq(state.socket_pid, bucket, {type, name}, key, opts), state}
+    { :reply, :riakc_pb_socket.get_index_eq(state(mystate, :socket_pid), bucket, {type, name}, key, opts), mystate}
   end
 
-  def handle_call({:index_range_query, bucket, {type, name}, startkey, endkey, opts}, _from, state) do
+  def handle_call({:index_range_query, bucket, {type, name}, startkey, endkey, opts}, _from, mystate) do
     {:ok, name} = String.to_char_list(name)
-    { :reply, :riakc_pb_socket.get_index_range(state.socket_pid, bucket, {type, name}, startkey, endkey, opts), state}
+    { :reply, :riakc_pb_socket.get_index_range(state(mystate, :socket_pid), bucket, {type, name}, startkey, endkey, opts), mystate}
   end
   
-  def handle_call({:search_list_indexes}, _from, state) do
-    { :reply, :riakc_pb_socket.list_search_indexes(state.socket_pid), state}
+  def handle_call({:search_list_indexes}, _from, mystate) do
+    { :reply, :riakc_pb_socket.list_search_indexes(state(mystate, :socket_pid)), mystate}
   end
 
-  def handle_call({:search_create_index, index}, _from, state) do
-    { :reply, :riakc_pb_socket.create_search_index(state.socket_pid, index), state}
+  def handle_call({:search_create_index, index}, _from, mystate) do
+    { :reply, :riakc_pb_socket.create_search_index(state(mystate, :socket_pid), index), mystate}
   end
 
-  def handle_call({:search_get_index, index}, _from, state) do
-    { :reply, :riakc_pb_socket.get_search_index(state.socket_pid, index), state}
+  def handle_call({:search_get_index, index}, _from, mystate) do
+    { :reply, :riakc_pb_socket.get_search_index(state(mystate, :socket_pid), index), mystate}
   end
 
-  def handle_call({:search_delete_index, index}, _from, state) do
-    { :reply, :riakc_pb_socket.delete_search_index(state.socket_pid, index), state}
+  def handle_call({:search_delete_index, index}, _from, mystate) do
+    { :reply, :riakc_pb_socket.delete_search_index(state(mystate, :socket_pid), index), mystate}
   end
 
-  def handle_call({:search_get_schema, name}, _from, state) do
-    { :reply, :riakc_pb_socket.get_search_schema(state.socket_pid, name), state}
+  def handle_call({:search_get_schema, name}, _from, mystate) do
+    { :reply, :riakc_pb_socket.get_search_schema(state(mystate, :socket_pid), name), mystate}
   end
 
-  def handle_call({:search_create_schema, name, content}, _from, state) do
-    { :reply, :riakc_pb_socket.create_search_schema(state.socket_pid, name, content), state}
+  def handle_call({:search_create_schema, name, content}, _from, mystate) do
+    { :reply, :riakc_pb_socket.create_search_schema(state(mystate, :socket_pid), name, content), mystate}
   end
 
-  def handle_call({:search_query, index, query, options}, _from, state) do
-    { :reply, :riakc_pb_socket.search(state.socket_pid, index, query, options), state}
+  def handle_call({:search_query, index, query, options}, _from, mystate) do
+    { :reply, :riakc_pb_socket.search(state(mystate, :socket_pid), index, query, options), mystate}
   end
 
-  def handle_call({:search_query, index, query, options, timeout}, _from, state) do
-    { :reply, :riakc_pb_socket.search(state.socket_pid, index, query, options, timeout), state}
+  def handle_call({:search_query, index, query, options, timeout}, _from, mystate) do
+    { :reply, :riakc_pb_socket.search(state(mystate, :socket_pid), index, query, options, timeout), mystate}
   end
 
-  def handle_call({:counter_incr, bucket, key, amount}, _from, state) do
-    { :reply, :riakc_pb_socket.counter_incr(state.socket_pid, bucket, key, amount), state}
+  def handle_call({:counter_incr, bucket, key, amount}, _from, mystate) do
+    { :reply, :riakc_pb_socket.counter_incr(state(mystate, :socket_pid), bucket, key, amount), mystate}
   end
 
-  def handle_call({:counter_val, bucket, key}, _from, state) do
-    { :reply, :riakc_pb_socket.counter_val(state.socket_pid, bucket, key), state}
+  def handle_call({:counter_val, bucket, key}, _from, mystate) do
+    { :reply, :riakc_pb_socket.counter_val(state(mystate, :socket_pid), bucket, key), mystate}
   end
 end

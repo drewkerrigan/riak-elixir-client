@@ -1,8 +1,9 @@
 defmodule Riak.Supervisor do
+
   @moduledoc """
   Riak Client's base supervisor.
   """
-  use Supervisor.Behaviour
+  use Supervisor
 
   @doc """
   Start the supervisor.

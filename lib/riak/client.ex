@@ -247,12 +247,12 @@ defmodule Riak.Client do
   end
 
   def handle_call({:index_eq_query, bucket, {type, name}, key, opts}, _from, mystate) do
-    {:ok, name} = String.to_char_list(name)
+    name = String.to_char_list(name)
     { :reply, :riakc_pb_socket.get_index_eq(state(mystate, :socket_pid), bucket, {type, name}, key, opts), mystate}
   end
 
   def handle_call({:index_range_query, bucket, {type, name}, startkey, endkey, opts}, _from, mystate) do
-    {:ok, name} = String.to_char_list(name)
+    name = String.to_char_list(name)
     { :reply, :riakc_pb_socket.get_index_range(state(mystate, :socket_pid), bucket, {type, name}, startkey, endkey, opts), mystate}
   end
   

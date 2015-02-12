@@ -1,6 +1,34 @@
 defmodule RiakTest do
   use ExUnit.Case
 
+  defmodule RiakClient do
+    use Riak
+
+    def conf do
+      host = System.get_env("RIAK_HOST") || "127.0.0.1"
+      port = System.get_env("RIAK_PORT") || "8087"
+      host = to_char_list(host)
+      port = elem(Integer.parse(port), 0)
+      Riak.configure(host: host, port: port)
+    end
+
+  end
+
+  defmodule Struct do
+    use Application
+
+    # See http://elixir-lang.org/docs/stable/elixir/Application.html
+    # for more information on OTP Applications
+    def start(_type, _args) do
+      import Supervisor.Spec, warn: false
+
+      children = [worker(RiakClient, [])]
+
+      opts = [strategy: :one_for_one, name: Struct.Supervisor]
+      Supervisor.start_link(children, opts)
+    end
+  end
+
   # helper for chosing the index of a sibling value list
   def index_of(search, [search|_], index) do
     index
@@ -13,7 +41,7 @@ defmodule RiakTest do
   end
 
   setup do
-    Riak.configure(host: '127.0.0.1', port: 8087)
+    Struct.start(:undefined,[])
     :ok
   end
 
@@ -39,17 +67,6 @@ defmodule RiakTest do
 
     {:ok, props} = Riak.Bucket.get "user"
     assert(props[:notfound_ok] == true)
-  end
-
-  test "bucket types" do
-    assert(true)
-    # assert(:ok == Riak.Bucket.Type.put("multi", [{:allow_mult, true}]))
-    # # Currently there seems to be a bug that returns "Creating new atoms from protobuffs message!"
-    # {:ok, props} = Riak.Bucket.Type.get("multi")
-    # assert(is_list(props))
-    # assert(props[:allow_mult] == true)
-
-    # assert(:ok == Riak.Bucket.Type.reset("multi"))
   end
 
   test "crud operations and siblings" do
@@ -217,64 +234,5 @@ defmodule RiakTest do
     assert(u.data == h)
 
     assert(:ok == Riak.Bucket.reset "user")
-  end
-
-  test "counters" do
-    assert(true)
-    # {me, se, mi} = :erlang.now
-    # counter_key = "my_counter_#{me}#{se}#{mi}"
-
-    # #Creates bucket called "user_counter"
-    # assert(:ok == Riak.Counter.enable("user"))
-    # assert(:ok == Riak.Counter.increment("user", counter_key, 1))
-    # assert(:ok == Riak.Counter.increment("user", counter_key, 2))
-    # assert(:ok == Riak.Counter.increment("user", counter_key, 3))
-
-    # assert(6 == Riak.Counter.value("user", counter_key))
-  end
-
-  #Haven't found a way to make these work yet, use stored code
-  test "mapred" do
-    assert(true)
-    # {me, se, mi} = :erlang.now
-    # key = "#{me}#{se}#{mi}"
-
-    # u = RObj.create(bucket: "user", key: key, data: "Drew Kerrigan")
-    #   |> RObj.put_index({:binary_index, "first_name"}, ["Drew"])
-    #   |> RObj.put_index({:binary_index, "last_name"}, ["Kerrigan"])
-    #   |> Riak.put
-
-    # {:ok, [{n2, r2}]} = Riak.Mapred.query(
-    # res = Riak.Mapred.query(
-    #   {:index, "user", {:binary_index, 'first_name'}, 'Drev', 'Drex'},
-    #   [{:map, {:qfun, recsize}, :none, :false},
-    #    {:reduce, {:modfun, :'riak_kv_mapreduce', :'reduce_sum'}, :none, :true}])
-
-    # res = Riak.Mapred.query(
-    #   {:index, "user", {:binary_index, "first_name"}, "Drev", "Drex"}, 
-    #   [{:map, {:jsfun, "Riak.mapValues"}, :undefined, :false}])
-    # IO.inspect mapredres
-    # assert(is_list(mapredres))
-  end
-
-  #Haven't had time to test search functionality yet
-  test "search" do
-    assert(true)
-
-    # {:ok, [[index: "delete_meRJIndex", schema: "_yz_default"], [index: "foobarRJIndex", schema: "_yz_default"], [index: "peopleRJIndex", schema: "_yz_default"], [index: "test_postRJIndex", schema: "_yz_default"], [index: "user", schema: "_yz_default"]]}
-    # {:ok, [index: "user", schema: "_yz_default"]}
-    # {:ok, {:search_results, [], 0.0, 0}}
-    
-    # IO.inspect Riak.Search.Index.list()
-    # IO.inspect Riak.Search.Index.get User
-
-    # IO.inspect Riak.Search.query User, "first_name_t:*Drew*", []
-
-    #Delete works, but we want it to stick around because there is a delay from the time an index is created to when it can be used, so if search test fails at first, try again
-    #IO.inspect Riak.Search.Index.put User
-    #IO.inspect Riak.Search.Index.delete User
-
-    #IO.inspect Riak.Search.Schema.get(mod) do :gen_server.call(:elixiak, {:search_get_schema, mod.bucket}) end
-    #IO.inspect Riak.Search.Schema.create(mod, content) do :gen_server.call(:elixiak, {:search_create_schema, mod.bucket, content}) end
   end
 end

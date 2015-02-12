@@ -7,6 +7,26 @@ defmodule RObj do
     robj(obj, data: new_data)
   end
 
+  def data(obj) do
+    robj(obj, :data)
+  end
+
+  def metadata(new_metadata, obj) do
+    robj(obj, metadata: new_metadata)
+  end
+
+  def metadata(obj) do
+    robj(obj, :metadata)
+  end
+
+  def key(new_key, obj) do
+    robj(obj, key: new_key)
+  end
+
+  def key(obj) do
+    robj(obj, :key)
+  end
+
   def from_robj(robj) do
     robj(
       bucket: :riakc_obj.bucket(robj),
@@ -18,7 +38,7 @@ defmodule RObj do
   end
 
   def to_robj(obj) do
-    unless robj(obj, :key), do: obj = robj()
+    unless robj(obj, :key), do: obj = robj(obj, key: :undefined)
 
     myrobj = :riakc_obj.new(
       robj(obj, :bucket), 

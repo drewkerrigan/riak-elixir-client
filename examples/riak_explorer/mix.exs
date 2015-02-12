@@ -6,7 +6,11 @@ defmodule RiakExplorer.Mixfile do
      version: "0.0.1",
      elixir: "~> 1.0",
      deps: deps,
-     escript_main_module: ExMessengerClient]
+     escript: escript]
+  end
+
+  def escript do
+    [main_module: RiakExplorer]
   end
 
   def application do

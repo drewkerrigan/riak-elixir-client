@@ -8,16 +8,16 @@ defmodule RiakExplorer do
     switches =
       [
        help: :boolean,
-       list: :boolean,
-       type: :string,
+       buckets: :boolean,
+       keys: :boolean,
        bucket: :string
       ]
 
     aliases =
       [
        h: :help,
-       l: :list,
-       t: :type,
+       l: :buckets,
+       k: :keys,
        b: :bucket
       ]
 
@@ -26,18 +26,15 @@ defmodule RiakExplorer do
     case options do
       { [ help: true
           ], _, _} -> :help
-      { [ list: true
+      { [ buckets: true
           ], _, _} -> [:list_buckets]
-      { [ list: true, 
-          bucket: bucket
+      { [ buckets: true, 
+          keys: true
+          ], _, _} -> [:list_all_keys]
+      { [ buckets: true, 
+          keys: true,
+          buckets: bucket
           ], _, _} -> [:list_keys, bucket]
-      { [ list: true, 
-          type: type
-          ], _, _} -> [:list_buckets, type]
-      { [ list: true, 
-          type: type, 
-          bucket: bucket
-          ], _, _} -> [:list_keys, type, bucket]
       _ -> []
     end
   end
@@ -61,18 +58,30 @@ defmodule RiakExplorer do
   end
 
   def process([:list_buckets]) do
-
+    {:ok, pid} = connect
+    for bucket <- Riak.Bucket.list!(pid) do
+      IO.puts ["Bucket: ", bucket]
+    end
   end
 
   def process([:list_keys, bucket]) do
-
+    {:ok, pid} = connect
+    for key <- Riak.Bucket.keys!(pid, bucket) do
+      IO.puts ["Bucket: ", bucket, "Key: ", key]
+    end
   end
 
-  def process([:list_buckets, type]) do
-
+  def process([:list_all_keys]) do
+    {:ok, pid} = connect
+    for bucket <- Riak.Bucket.list!(pid), key <- Riak.Bucket.keys!(pid, bucket) do
+      IO.puts ["Bucket: ", bucket, "Key: ", key]
+    end
   end
 
-  def process([:list_keys, type, bucket]) do
+  
 
+  defp connect do
+    {:ok, pid } = Riak.Connection.start('127.0.0.1', 8087)    
+    {:ok, pid}
   end
 end

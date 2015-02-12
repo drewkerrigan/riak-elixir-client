@@ -40,36 +40,36 @@ One can pass the pid of the established connection or just use the pool (provide
     group: :riak,
     max_count: 10,
     init_count: 5,
-    start_mfa: {Riex.Connection, :start_link, []}
+    start_mfa: {Riak.Connection, :start_link, []}
   ],
    [ name: :riaklocal2,
     group: :riak,
     max_count: 15,
     init_count: 2,
-    start_mfa: {Riex.Connection, :start_link, ['127.0.0.1', 9090]}
+    start_mfa: {Riak.Connection, :start_link, ['127.0.0.1', 9090]}
   ] ]
 ]]
 
 ```
 
-Check Riex [`config/config.exs`](https://github.com/edgurgel/riex/blob/master/config/config.exs) for an example on the pool configuration for a local Riak. More info about configuration on Elixir website: [Application environment and configuration](http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6).
+Check Riak [`config/config.exs`](https://github.com/drewkerrigan/riak-elixir-client/blob/master/config/config.exs) for an example on the pool configuration for a local Riak. More info about configuration on Elixir website: [Application environment and configuration](http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6).
 
-After this pool configuration, any call to Riex can omit the pid if you want to use the pool.
+After this pool configuration, any call to Riak can omit the pid if you want to use the pool.
 
 For example:
 
 ```elixir
-Riex.delete(pid, "user", key)
+Riak.delete(pid, "user", key)
 
-Riex.delete("user", key)
+Riak.delete("user", key)
 ```
 
-The first call will use the pid you started using `Riex.Connection` and the second call will get a connection from the pool of connections provided by pooler.
+The first call will use the pid you started using `Riak.Connection` and the second call will get a connection from the pool of connections provided by pooler.
 
-###Establishing a Riex connection
+###Establishing a Riak connection
 
 ```elixir
-{:ok, pid} = Riex.Connection.start_link('127.0.0.1', 8087) # Default values
+{:ok, pid} = Riak.Connection.start_link('127.0.0.1', 8087) # Default values
 ```
 
 ###Save a value

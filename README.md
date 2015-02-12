@@ -75,21 +75,21 @@ The first call will use the pid you started using `Riak.Connection` and the seco
 ###Save a value
 
 ```elixir
-o = Riex.Object.create(bucket: "user", key: "my_key", data: "Drew Kerrigan")
-Riex.put(pid, o)
+o = Riak.Object.create(bucket: "user", key: "my_key", data: "Drew Kerrigan")
+Riak.put(pid, o)
 ```
 
 ###Find an object
 
 ```elixir
-o = Riex.find(pid, "user", "my_key")
+o = Riak.find(pid, "user", "my_key")
 ```
 
 ###Update an object
 
 ```elixir
 o = %{o | data: "Something Else"}
-Riex.put(pid, o)
+Riak.put(pid, o)
 ```
 
 ###Delete an object
@@ -97,13 +97,13 @@ Riex.put(pid, o)
 Using key
 
 ```elixir
-Riex.delete(pid, "user", key)
+Riak.delete(pid, "user", key)
 ```
 
 Using object
 
 ```elixir
-Riex.delete(pid, o)
+Riak.delete(pid, o)
 ```
 
 ### CRDTs
@@ -119,19 +119,19 @@ riak-admin bucket-type create counter_bucket '{"props":{"datatype":"counter"}}'
 riak-admin bucket-type activate counter_bucket
 ```
 
-One can create a counter (Riex.CRDT.Counter):
+One can create a counter (Riak.CRDT.Counter):
 
 ```elixir
 Counter.new
   |> Counter.increment
   |> Counter.increment(2)
-  |> Riex.update("counter_bucket", "bucketcounter", "my_key")
+  |> Riak.update("counter_bucket", "bucketcounter", "my_key")
 ```
 
 And fetch the counter:
 
 ```elixir
-counter = Riex.find("counter_bucket", "bucketcounter", my_key)
+counter = Riak.find("counter_bucket", "bucketcounter", my_key)
   |> Counter.value
 ```
 
@@ -146,19 +146,19 @@ riak-admin bucket-type create set_bucket '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate set_bucket
 ```
 
-Now one can create a set (Riex.CRDT.Set):
+Now one can create a set (Riak.CRDT.Set):
 
 ```elixir
 Set.new
   |> Set.put("foo")
   |> Set.put("bar")
-  |> Riex.update("set_bucket", "bucketset", "my_key")
+  |> Riak.update("set_bucket", "bucketset", "my_key")
 ```
 
 And fetch the set:
 
 ```elixir
-set = Riex.find("set_bucket", "bucketset", "my_key")
+set = Riak.find("set_bucket", "bucketset", "my_key")
   |> Set.value
 ```
 
@@ -175,7 +175,7 @@ riak-admin bucket-type create map_bucket '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate map_bucket
 ```
 
-Now one can create a map (Riex.CRDT.Map):
+Now one can create a map (Riak.CRDT.Map):
 
 ```elixir
 register = Register.new("data")
@@ -183,13 +183,13 @@ flag = Flag.new |> Flag.enable
 Map.new
   |> Map.put("k1", register)
   |> Map.put("k2", flag)
-  |> Riex.update("map_bucket", "bucketmap", "map_key")
+  |> Riak.update("map_bucket", "bucketmap", "map_key")
 ```
 
 And fetch the map:
 
 ```elixir
-map = Riex.find("map_bucket", "bucketmap", key) |> Map.value
+map = Riak.find("map_bucket", "bucketmap", key) |> Map.value
 ```
 
 Where map is an `orddict`.

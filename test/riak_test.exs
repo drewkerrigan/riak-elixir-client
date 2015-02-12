@@ -1,238 +1,206 @@
 defmodule RiakTest do
-  use ExUnit.Case
+  use Riak.Case
+  import Riak.Helper
 
-  defmodule RiakClient do
-    use Riak
+  test "put", context do
+    pid = context[:pid]
+    key = Riak.Helper.random_key
 
-    def conf do
-      host = System.get_env("RIAK_HOST") || "127.0.0.1"
-      port = System.get_env("RIAK_PORT") || "8087"
-      host = to_char_list(host)
-      port = elem(Integer.parse(port), 0)
-      Riak.configure(host: host, port: port)
-    end
+    o =  Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
 
+    assert Riak.put(pid, o) == o
   end
 
-  defmodule Struct do
-    use Application
+  test "find", context do
+    pid = context[:pid]
+    key = Riak.Helper.random_key
 
-    # See http://elixir-lang.org/docs/stable/elixir/Application.html
-    # for more information on OTP Applications
-    def start(_type, _args) do
-      import Supervisor.Spec, warn: false
+    data = "Drew Kerrigan"
+    o =  Riak.Object.create(bucket: "user", key: key, data: data)
+    Riak.put(pid, o)
 
-      children = [worker(RiakClient, [])]
-
-      opts = [strategy: :one_for_one, name: Struct.Supervisor]
-      Supervisor.start_link(children, opts)
-    end
+    assert Riak.find(pid, "user", key).data == o.data
   end
 
-  # helper for chosing the index of a sibling value list
-  def index_of(search, [search|_], index) do
-    index
-  end
-  def index_of(search, [_|rest], index) do
-    index_of(search, rest, index+1)
-  end
-  def index_of(search, haystack) do
-    index_of(search, haystack, 1)
-  end
+  test "delete", context do
+    pid = context[:pid]
+    key = Riak.Helper.random_key
 
-  setup do
-    Struct.start(:undefined,[])
-    :ok
+    o =  Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
+    Riak.put(pid, o)
+
+    assert Riak.delete(pid, o) == :ok
   end
 
-  test "list bucket" do
-    {:ok, buckets} = Riak.Bucket.list
-    assert(is_list(buckets))
-  end
+  test "crud operations and siblings", context do
+    pid = context[:pid]
+    key = Riak.Helper.random_key
 
-  test "list keys" do
-    {:ok, users} = Riak.Bucket.keys "user"
-    assert(is_list(users))
-  end
+    o =  Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
+    u = Riak.put(pid, o)
 
-  test "bucket props" do
-    # Currently there seems to be a bug that returns "Creating new atoms from protobuffs message!"
-    assert(:ok == Riak.Bucket.put "user", [{:notfound_ok, false}])
+    assert u != nil
 
-    {:ok, props} = Riak.Bucket.get "user"
-    assert(is_list(props))
-    assert(props[:notfound_ok] == false)
+    assert :ok == Riak.delete pid, "user", u.key
 
-    assert(:ok == Riak.Bucket.reset "user")
-
-    {:ok, props} = Riak.Bucket.get "user"
-    assert(props[:notfound_ok] == true)
-  end
-
-  test "crud operations and siblings" do
-    {me, se, mi} = :erlang.now
-    key = "#{me}#{se}#{mi}"
-    
-    u = RObj.create(bucket: "user", key: key, data: "Drew Kerrigan")
-      |> Riak.put
-
-    assert(u != nil)
-
-    assert(:ok == Riak.delete "user", u.key)
-
-    u = RObj.create(bucket: "user", data: "Drew Kerrigan")
-    assert(u.key == :undefined)
-    u = Riak.put u
-    assert(u.key != :undefined)
+    u = Riak.Object.create(bucket: "user", data: "Drew Kerrigan")
+    assert u.key == :undefined
+    u = Riak.put pid, u
+    assert u.key != :undefined
 
     # Get the object again so we don't create a sibling
-    u = Riak.find "user", u.key
+    u = Riak.find pid, "user", u.key
 
-    u = u.data("Something Else")
-      |> Riak.put
+    o = %{u | data: "Something Else"}
+    u = Riak.put pid, o
 
-    unewdata = Riak.find "user", u.key
+    unewdata = Riak.find pid, "user", u.key
 
     if is_list(unewdata) and length(unewdata) == 2 do
-      Riak.resolve "user", u.key, index_of("Drew Kerrigan", unewdata)
+      Riak.resolve pid, "user", u.key, index_of("Drew Kerrigan", unewdata)
 
-      unewdata = Riak.find "user", u.key
+      unewdata = Riak.find pid, "user", u.key
 
       unewdata
     end
 
-    assert(unewdata.data == "Something Else")
+    assert unewdata.data == "Something Else"
 
-    assert(:ok == Riak.delete "user", u.key)
-    assert(:ok == Riak.delete "user", key)
+    assert :ok == Riak.delete pid, "user", u.key
+    assert :ok == Riak.delete pid, "user", key
 
-    assert(nil == Riak.find "user", key)
+    assert nil == Riak.find pid, "user", key
   end
 
-  test "user metadata" do
-    {me, se, mi} = :erlang.now
-    key = "#{me}#{se}#{mi}"
-    mdtest = RObj.create(bucket: "user", key: key, data: "Drew Kerrigan")
-      |> RObj.put_metadata({"my_key", "my_value"})
-      |> RObj.put_metadata({"my_key2", "my_value2"})
-      |> Riak.put
-      |> RObj.get_metadata("my_key")
+  test "user metadata", context do
+    pid = context[:pid]
+    key = Riak.Helper.random_key
 
-    assert(mdtest == "my_value")
+    mdtest = Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
+      |> Riak.Object.put_metadata({"my_key", "my_value"})
+      |> Riak.Object.put_metadata({"my_key2", "my_value2"})
 
-    u = Riak.find "user", key
+      mdtest = Riak.put(pid, mdtest)
+        |> Riak.Object.get_metadata("my_key")
+
+    assert mdtest == "my_value"
+
+    u = Riak.find pid, "user", key
 
     mdtest2 = u
-      |> RObj.get_metadata("my_key2")
+      |> Riak.Object.get_metadata("my_key2")
 
-    assert(mdtest2 == "my_value2")
+    assert mdtest2 == "my_value2"
 
     mdtest3 = u
-      |> RObj.get_all_metadata()
+      |> Riak.Object.get_all_metadata()
       |> is_list
 
-    assert(mdtest3)
+    assert mdtest3
 
-    u = RObj.delete_metadata(u, "my_key")
-    
-    assert(nil == RObj.get_metadata(u, "my_key"))
-    assert("my_value2" == RObj.get_metadata(u, "my_key2"))
-    
-    u = RObj.delete_all_metadata(u)
+    u = Riak.Object.delete_metadata(u, "my_key")
 
-    assert(nil == RObj.get_metadata(u, "my_key2"))
-    assert([] == RObj.get_all_metadata(u))
+    assert nil == Riak.Object.get_metadata(u, "my_key")
+    assert "my_value2" == Riak.Object.get_metadata(u, "my_key2")
+
+    u = Riak.Object.delete_all_metadata(u)
+
+    assert nil == Riak.Object.get_metadata(u, "my_key2")
+    assert [] == Riak.Object.get_all_metadata(u)
   end
 
-  test "secondary indexes" do
-    {me, se, mi} = :erlang.now
-    key = "#{me}#{se}#{mi}"
-    u = RObj.create(bucket: "user", key: key, data: "Drew Kerrigan")
-      |> RObj.put_index({:binary_index, "first_name"}, ["Drew"])
-      |> RObj.put_index({:binary_index, "last_name"}, ["Kerrigan"])
-      |> Riak.put
+  test "secondary indexes", context do
+    pid = context[:pid]
+    key = Riak.Helper.random_key
 
-    assert(RObj.get_index(u, {:binary_index, "first_name"}) == ["Drew"])
+    o = Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
+      |> Riak.Object.put_index({:binary_index, "first_name"}, ["Drew"])
+      |> Riak.Object.put_index({:binary_index, "last_name"}, ["Kerrigan"])
+    Riak.put(pid, o)
 
-    {keys, terms, continuation} = Riak.Index.query("user", {:binary_index, "first_name"}, "Drew", [])
-    assert(is_list(keys))
-    assert(terms == :undefined)
-    assert(continuation == :undefined)
-    {keys, terms, continuation} = Riak.Index.query("user", {:binary_index, "last_name"}, "Kerrigam", "Kerrigao", [])
-    assert(is_list(keys))
-    assert(terms == :undefined)
-    assert(continuation == :undefined)
+    assert Riak.Object.get_index(o, {:binary_index, "first_name"}) == ["Drew"]
 
-    u = RObj.delete_index(u, {:binary_index, "first_name"})
-      |> Riak.put
+    {keys, terms, continuation} = Riak.Index.query(pid, "user", {:binary_index, "first_name"}, "Drew", [])
+    assert is_list(keys)
+    assert terms == :undefined
+    assert continuation == :undefined
+    {keys, terms, continuation} = Riak.Index.query(pid, "user", {:binary_index, "last_name"}, "Kerrigam", "Kerrigao", [])
+    assert is_list(keys)
+    assert terms == :undefined
+    assert continuation == :undefined
 
-    assert(RObj.get_index(u, {:binary_index, "first_name"}) == nil)
-    
-    assert(is_list(RObj.get_all_indexes(u)))
-    
-    indextest = u |> RObj.delete_all_indexes()
-      |> RObj.get_all_indexes()
+    o = Riak.Object.delete_index(o, {:binary_index, "first_name"})
+    Riak.put(pid, o)
 
-    assert(indextest == [])
+    assert Riak.Object.get_index(o, {:binary_index, "first_name"}) == nil
+
+    assert is_list(Riak.Object.get_all_indexes(o))
+
+    indextest = o |> Riak.Object.delete_all_indexes
+      |> Riak.Object.get_all_indexes
+
+    assert indextest == []
   end
 
-  test "links" do
-    RObj.create(bucket: "user", key: "drew1", data: "Drew1 Kerrigan")
-      |> Riak.put
-    RObj.create(bucket: "user", key: "drew2", data: "Drew2 Kerrigan")
-      |> Riak.put
+  test "links", context do
+    pid = context[:pid]
 
-    {me, se, mi} = :erlang.now
-    key = "#{me}#{se}#{mi}"
-    u = RObj.create(bucket: "user", key: key, data: "Drew Kerrigan")
-      |> RObj.put_link("my_tag", "user", "drew1")
-      |> RObj.put_link("my_tag", "user", "drew2")
-      |> Riak.put
+    o1 =Riak.Object.create(bucket: "user", key: "drew1", data: "Drew1 Kerrigan")
+    Riak.put(pid, o1)
+    o2 = Riak.Object.create(bucket: "user", key: "drew2", data: "Drew2 Kerrigan")
+    Riak.put(pid, o2)
 
-    assert(RObj.get_link(u, "my_tag") == [{"user", "drew1"}, {"user", "drew2"}])
-    
-    assert(RObj.delete_link(u, "my_tag") |> RObj.get_link("my_tag") == nil)
+    key = Riak.Helper.random_key
+
+    o = Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
+      |> Riak.Object.put_link("my_tag", "user", "drew1")
+      |> Riak.Object.put_link("my_tag", "user", "drew2")
+    Riak.put(pid, o)
+
+    assert Riak.Object.get_link(o, "my_tag") == [{"user", "drew1"}, {"user", "drew2"}]
+
+    assert Riak.Object.delete_link(o, "my_tag") |> Riak.Object.get_link("my_tag") == nil
 
     # Get the object again so we don't create a sibling
-    u = Riak.find "user", key
+    o = Riak.find pid, "user", key
 
-    u   |> RObj.put_link("my_tag", "user", "drew1")
-      |> RObj.put_link("my_tag", "user", "drew2")
-      |> Riak.put
+    o |> Riak.Object.put_link("my_tag", "user", "drew1")
+      |> Riak.Object.put_link("my_tag", "user", "drew2")
+    Riak.put(pid, o)
 
-    assert(RObj.get_link(u, "my_tag") == [{"user", "drew1"}, {"user", "drew2"}])
+    assert Riak.Object.get_link(o, "my_tag") == [{"user", "drew1"}, {"user", "drew2"}]
 
-    assert(is_list(RObj.get_all_links(u)))
-    assert(RObj.delete_all_links(u) |> RObj.get_all_links() == [])
+    assert is_list(Riak.Object.get_all_links(o))
+    assert Riak.Object.delete_all_links(o) |> Riak.Object.get_all_links == []
   end
 
-  test "ping" do
-    assert(Riak.ping == :pong)
+  test "ping", context do
+    assert Riak.ping(context[:pid]) == :pong
   end
 
-  test "siblings" do
-    assert(:ok == Riak.Bucket.put "user", [{:allow_mult, true}])
+  test "siblings", context do
+    pid = context[:pid]
+    assert :ok == Riak.Bucket.put pid, "user", [{:allow_mult, true}]
 
-    {me, se, mi} = :erlang.now
-    key = "#{me}#{se}#{mi}"
+    key = Riak.Helper.random_key
 
-    RObj.create(bucket: "user", key: key, data: "Drew1 Kerrigan")
-      |> Riak.put
-    RObj.create(bucket: "user", key: key, data: "Drew2 Kerrigan")
-      |> Riak.put
+    o1 = Riak.Object.create(bucket: "user", key: key, data: "Drew1 Kerrigan")
+    Riak.put(pid, o1)
+    o2 = Riak.Object.create(bucket: "user", key: key, data: "Drew2 Kerrigan")
+    Riak.put(pid, o2)
 
-    u = Riak.find "user", key
+    u = Riak.find pid, "user", key
 
-    assert(is_list(u))
+    assert is_list(u)
 
     [h|_t] = u
 
-    assert(:ok == Riak.resolve("user", key, 2))
-    
-    u = Riak.find "user", key
+    assert :ok == Riak.resolve(pid, "user", key, 2)
 
-    assert(u.data == h)
+    u = Riak.find pid, "user", key
 
-    assert(:ok == Riak.Bucket.reset "user")
+    assert u.data == h
+
+    assert :ok == Riak.Bucket.reset pid, "user"
   end
 end

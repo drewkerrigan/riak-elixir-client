@@ -171,7 +171,7 @@ Maps handle binary keys with any other datatype (map, set, flag, register and co
 Considering that you created the "map_bucket" bucket type using something like:
 
 ```
-riak-admin bucket-type create set_bucket '{"props":{"datatype":"map"}}'
+riak-admin bucket-type create map_bucket '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate map_bucket
 ```
 

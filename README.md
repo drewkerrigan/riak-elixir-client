@@ -21,13 +21,14 @@ Add the following to your mix.exs
 
 ```elixir
 ...
+def application do
+  [ applications: [ :riak ]]
+end
+...
 defp deps do
   [ {:riak, "~> 1.0"} ]
 end
 ...
-def application do
-  [ applications: [ :riak ]]
-end
 ```
 
 ## Usage
@@ -198,7 +199,7 @@ Where map is an `orddict`.
 
 Check the `examples/` directory for a few example elixir applications using the riak client. 
 
-For a more functionality, check `test/` directory.
+For more functionality, check `test/` directory.
 
 ##Tests
 

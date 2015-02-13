@@ -47,10 +47,10 @@ defmodule Riak.Bucket do
       buckets
     end
 
-    def keys(pid, bucket) when is_pid(pid), do: Riak.Bucket.keys(pid, bucket)
-    def keys(pid, bucket, timeout) when is_pid(pid), do: Riak.Bucket.keys(pid, bucket, timeout)
-    def keys!(pid, bucket) when is_pid(pid), do: Riak.Bucket.keys!(pid, bucket)
-    def keys!(pid, bucket, timeout) when is_pid(pid), do: Riak.Bucket.keys!(pid, bucket, timeout)
+    def keys(pid, type, bucket) when is_pid(pid), do: Riak.Bucket.keys(pid, {type, bucket})
+    def keys(pid, type, bucket, timeout) when is_pid(pid), do: Riak.Bucket.keys(pid, {type, bucket}, timeout)
+    def keys!(pid, type, bucket) when is_pid(pid), do: Riak.Bucket.keys!(pid, {type, bucket})
+    def keys!(pid, type, bucket, timeout) when is_pid(pid), do: Riak.Bucket.keys!(pid, {type, bucket}, timeout)
   end
 
   # This is important to "register" the atoms

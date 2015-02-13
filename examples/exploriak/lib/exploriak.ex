@@ -54,41 +54,41 @@ defmodule Exploriak do
   ## List
   def process([:list_buckets]) do
     IO.puts "Listing all buckets in default type"
-    for bucket <- Riak.Bucket.list!(pid) do
+    for bucket <- Riak.Bucket.list!(get_pid) do
       IO.puts ["Bucket: ", bucket]
     end
   end
 
   def process([:list_buckets, type]) do
     IO.puts "Listing all buckets in default type"
-    for bucket <- Riak.Bucket.Type.list!(pid, type) do
+    for bucket <- Riak.Bucket.Type.list!(get_pid, type) do
       IO.puts ["Bucket: ", bucket]
     end
   end
 
   def process([:list_keys, bucket]) do
     IO.puts ["Listing all keys in default type, ", bucket, " bucket"]
-    for key <- Riak.Bucket.keys!(pid, bucket) do
+    for key <- Riak.Bucket.keys!(get_pid, bucket) do
       IO.puts ["Bucket: ", bucket, "Key: ", key]
     end
   end
 
   def process([:list_keys, type, bucket]) do
     IO.puts ["Listing all keys in ", type, " type, ", bucket, " bucket"]
-    for key <- Riak.Bucket.Type.keys!(pid, type, bucket) do
+    for key <- Riak.Bucket.Type.keys!(get_pid, type, bucket) do
       IO.puts ["Bucket: ", bucket, "Key: ", key]
     end
   end
 
   def process([:list_keys]) do
     IO.puts ["Listing all keys in default type, all buckets"]
-    for bucket <- Riak.Bucket.list!(pid), key <- Riak.Bucket.keys!(pid, bucket) do
+    for bucket <- Riak.Bucket.list!(get_pid), key <- Riak.Bucket.keys!(get_pid, bucket) do
       IO.puts ["Bucket: ", bucket, "Key: ", key]
     end
   end
 
-  defp pid do
+  defp get_pid do
     {:ok, pid } = Riak.Connection.start('127.0.0.1', 8087)    
-    {:ok, pid}
+    pid
   end
 end

@@ -39,6 +39,18 @@ defmodule Riak.Bucket do
     defpool get(pid, type) when is_pid(pid), do: get_bucket_type(pid, type)
     defpool put(pid, type, props) when is_pid(pid), do: set_bucket_type(pid, type, props)
     defpool reset(pid, bucket) when is_pid(pid), do: reset_bucket(pid, bucket)
+
+    defpool list(pid, type) when is_pid(pid), do: list_buckets(pid, type)
+
+    defpool list!(pid, type) when is_pid(pid) do
+      {:ok, buckets} = list(pid, type)
+      buckets
+    end
+
+    def keys(pid, bucket) when is_pid(pid), do: Riak.Bucket.keys(pid, bucket)
+    def keys(pid, bucket, timeout) when is_pid(pid), do: Riak.Bucket.keys(pid, bucket, timeout)
+    def keys!(pid, bucket) when is_pid(pid) do: Riak.Bucket.keys!(pid, bucket)
+    def keys!(pid, bucket, timeout) when is_pid(pid) do: Riak.Bucket.keys!(pid, bucket, timeout)
   end
 
   # This is important to "register" the atoms

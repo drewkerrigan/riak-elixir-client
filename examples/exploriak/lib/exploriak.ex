@@ -8,8 +8,10 @@ defmodule Exploriak do
     switches =
       [
        help: :boolean,
+       ## List
        list: :boolean,
        keys: :boolean,
+       type: :string,
        bucket: :string
       ]
 
@@ -17,9 +19,12 @@ defmodule Exploriak do
 
     case options do
       {[help: true],_,_} -> :help
-      {[buckets: true],_,_} -> [:list_buckets]
-      {[buckets: true, keys: true],_,_} -> [:list_all_keys]
-      {[buckets: true, keys: true, buckets: bucket],_,_} -> [:list_keys, bucket]
+      ## List
+      {[list: true],_,_} -> [:list_buckets]
+      {[list: true, type: type],_,_} -> [:list_buckets, type]
+      {[list: true, keys: true],_,_} -> [:list_keys]
+      {[list: true, keys: true, bucket: bucket],_,_} -> [:list_keys, bucket]
+      {[list: true, keys: true, type: type, bucket: bucket],_,_} -> [:list_keys, type, bucket]
       _ -> :help
     end
   end
@@ -27,44 +32,62 @@ defmodule Exploriak do
   def process(:help) do
     IO.puts """
       Usage:
-        ./exploriak -s server_name [-n nickname]
+        ./exploriak [operation] [options]
       Options:
         --help      # Show this help message and quit.
       Listing:
         --list      # (boolean) List keys or buckets
+        --keys      # (boolean) If not used, only buckets will be listed
        Selectors: 
-        --type      # (string) Bucket type 
+        --type      # (string) Bucket type
         --bucket    # (string) Bucket
-        --keys      # (boolean) Use to list the keys
-       bucket: :string
+
+      Examples:
+        ./exploriak --list # List all buckets in default bucket type
+        ./exploriak --list --type mytype # List all buckets in mytype bucket type
+        ./exploriak --list --keys --bucket mybucket # List all keys in default bucket type, mybucket
+
     """
     System.halt(0)
   end
 
+  ## List
   def process([:list_buckets]) do
-    {:ok, pid} = connect
+    IO.puts "Listing all buckets in default type"
     for bucket <- Riak.Bucket.list!(pid) do
       IO.puts ["Bucket: ", bucket]
     end
   end
 
+  def process([:list_buckets, type]) do
+    IO.puts "Listing all buckets in default type"
+    for bucket <- Riak.Bucket.Type.list!(pid, type) do
+      IO.puts ["Bucket: ", bucket]
+    end
+  end
+
   def process([:list_keys, bucket]) do
-    {:ok, pid} = connect
+    IO.puts ["Listing all keys in default type, ", bucket, " bucket"]
     for key <- Riak.Bucket.keys!(pid, bucket) do
       IO.puts ["Bucket: ", bucket, "Key: ", key]
     end
   end
 
-  def process([:list_all_keys]) do
-    {:ok, pid} = connect
+  def process([:list_keys, type, bucket]) do
+    IO.puts ["Listing all keys in ", type, " type, ", bucket, " bucket"]
+    for key <- Riak.Bucket.Type.keys!(pid, type, bucket) do
+      IO.puts ["Bucket: ", bucket, "Key: ", key]
+    end
+  end
+
+  def process([:list_keys]) do
+    IO.puts ["Listing all keys in default type, all buckets"]
     for bucket <- Riak.Bucket.list!(pid), key <- Riak.Bucket.keys!(pid, bucket) do
       IO.puts ["Bucket: ", bucket, "Key: ", key]
     end
   end
 
-  
-
-  defp connect do
+  defp pid do
     {:ok, pid } = Riak.Connection.start('127.0.0.1', 8087)    
     {:ok, pid}
   end

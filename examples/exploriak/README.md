@@ -1,4 +1,4 @@
-RiakExplorer
+Exploriak
 ============
 
 ** TODO: Add description **

@@ -1,4 +1,4 @@
-defmodule RiakExplorerTest do
+defmodule ExploriakTest do
   use ExUnit.Case
 
   test "the truth" do

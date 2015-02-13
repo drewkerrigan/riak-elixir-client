@@ -1,6 +1,6 @@
 .PHONY: all
 
 all:
-	rm -f riak_explorer
+	rm -f exploriak
 	mix deps.get
 	mix escript.build 

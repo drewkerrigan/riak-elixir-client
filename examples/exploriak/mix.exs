@@ -1,8 +1,8 @@
-defmodule RiakExplorer.Mixfile do
+defmodule Exploriak.Mixfile do
   use Mix.Project
 
   def project do
-    [ app: :riak_explorer,
+    [ app: :exploriak,
       version: "0.0.1",
       elixir: "~> 1.0",
       deps: deps,
@@ -10,12 +10,8 @@ defmodule RiakExplorer.Mixfile do
   end
 
   def escript do
-    [ main_module: RiakExplorer,
+    [ main_module: Exploriak,
       app: :riak ]
-  end
-
-  def application do
-    [ applications: [ :riak ]]
   end
 
   defp deps do

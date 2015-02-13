@@ -1,4 +1,4 @@
-defmodule RiakExplorer do
+defmodule Exploriak do
 
   def main(args) do
     args |> parse_args |> process
@@ -8,33 +8,18 @@ defmodule RiakExplorer do
     switches =
       [
        help: :boolean,
-       buckets: :boolean,
+       list: :boolean,
        keys: :boolean,
        bucket: :string
       ]
 
-    aliases =
-      [
-       h: :help,
-       l: :buckets,
-       k: :keys,
-       b: :bucket
-      ]
-
-    options = OptionParser.parse(args, switches: switches, aliases: aliases)
+    options = OptionParser.parse(args, switches: switches)
 
     case options do
-      { [ help: true
-          ], _, _} -> :help
-      { [ buckets: true
-          ], _, _} -> [:list_buckets]
-      { [ buckets: true, 
-          keys: true
-          ], _, _} -> [:list_all_keys]
-      { [ buckets: true, 
-          keys: true,
-          buckets: bucket
-          ], _, _} -> [:list_keys, bucket]
+      {[help: true],_,_} -> :help
+      {[buckets: true],_,_} -> [:list_buckets]
+      {[buckets: true, keys: true],_,_} -> [:list_all_keys]
+      {[buckets: true, keys: true, buckets: bucket],_,_} -> [:list_keys, bucket]
       _ -> :help
     end
   end
@@ -42,12 +27,15 @@ defmodule RiakExplorer do
   def process(:help) do
     IO.puts """
       Usage:
-        ./riak_explorer -s server_name [-n nickname]
+        ./exploriak -s server_name [-n nickname]
       Options:
-        -h, [--help]      # Show this help message and quit.
-        -l, [--list]      # List keys or buckets (boolean)
-        -t, [--type]      # Bucket type (optional string)
-        -b, [--bucket]      # Bucket (optional string)
+        --help      # Show this help message and quit.
+      Listing:
+        --list      # (boolean) List keys or buckets
+       Selectors: 
+        --type      # (string) Bucket type 
+        --bucket    # (string) Bucket
+        --keys      # (boolean) Use to list the keys
        bucket: :string
     """
     System.halt(0)

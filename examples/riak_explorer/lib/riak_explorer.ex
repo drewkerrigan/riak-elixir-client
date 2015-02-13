@@ -35,7 +35,7 @@ defmodule RiakExplorer do
           keys: true,
           buckets: bucket
           ], _, _} -> [:list_keys, bucket]
-      _ -> []
+      _ -> :help
     end
   end
 
@@ -51,10 +51,6 @@ defmodule RiakExplorer do
        bucket: :string
     """
     System.halt(0)
-  end
-
-  def process([]) do
-    process([nil, nil])
   end
 
   def process([:list_buckets]) do

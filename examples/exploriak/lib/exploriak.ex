@@ -69,21 +69,21 @@ defmodule Exploriak do
   def process([:list_keys, bucket]) do
     IO.puts ["Listing all keys in default type, ", bucket, " bucket"]
     for key <- Riak.Bucket.keys!(get_pid, bucket) do
-      IO.puts ["Bucket: ", bucket, "Key: ", key]
+      IO.puts ["Bucket: ", bucket, ", Key: ", key]
     end
   end
 
   def process([:list_keys, type, bucket]) do
     IO.puts ["Listing all keys in ", type, " type, ", bucket, " bucket"]
     for key <- Riak.Bucket.Type.keys!(get_pid, type, bucket) do
-      IO.puts ["Bucket: ", bucket, "Key: ", key]
+      IO.puts ["Bucket: ", bucket, ", Key: ", key]
     end
   end
 
   def process([:list_keys]) do
     IO.puts ["Listing all keys in default type, all buckets"]
     for bucket <- Riak.Bucket.list!(get_pid), key <- Riak.Bucket.keys!(get_pid, bucket) do
-      IO.puts ["Bucket: ", bucket, "Key: ", key]
+      IO.puts ["Bucket: ", bucket, ", Key: ", key]
     end
   end
 

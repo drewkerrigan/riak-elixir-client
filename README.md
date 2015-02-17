@@ -21,7 +21,7 @@ def application do
 end
 ...
 defp deps do
-  [ {:riak, "~> 1.0"} ] Hex package will be released soon
+  [ {:riak, "~> 1.0"} ]
 end
 ...
 ```

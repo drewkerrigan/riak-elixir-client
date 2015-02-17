@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Riak.Bucket</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">Riak Elixir Client v1.0.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Riak.html">Riak</a> &rarr; <a href="Riak.Bucket.html">Bucket</a></div>
+      <h1>
+        Riak.Bucket
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+
+      
+        <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#get/1">get(bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get/2">get(pid, bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys!/1">keys!(bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys!/2">keys!(pid, bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys!/3">keys!(pid, bucket, timeout)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys/1">keys(bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys/2">keys(pid, bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys/3">keys(pid, bucket, timeout)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#list!/0">list!()</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#list!/1">list!(pid)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#list!/2">list!(pid, timeout)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#list/0">list()</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#list/1">list(pid)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#list/2">list(pid, timeout)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#possible_props/0">possible_props()</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/2">put(bucket, props)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/3">put(pid, bucket, props)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/4">put(pid, bucket, type, props)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reset/1">reset(bucket)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reset/2">reset(pid, bucket)</a></td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="get/1">
+    <span class="signature"><strong>get(bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L29" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="get/2">
+    <span class="signature"><strong>get(pid, bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L29" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys/1">
+    <span class="signature"><strong>keys(bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L17" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys/2">
+    <span class="signature"><strong>keys(pid, bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L17" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys/3">
+    <span class="signature"><strong>keys(pid, bucket, timeout)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L18" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys!/1">
+    <span class="signature"><strong>keys!(bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L20" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys!/2">
+    <span class="signature"><strong>keys!(pid, bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L20" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys!/3">
+    <span class="signature"><strong>keys!(pid, bucket, timeout)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys!/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L24" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="list/0">
+    <span class="signature"><strong>list()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#list/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L5" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="list/1">
+    <span class="signature"><strong>list(pid)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#list/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L5" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="list/2">
+    <span class="signature"><strong>list(pid, timeout)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#list/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L6" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="list!/0">
+    <span class="signature"><strong>list!()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#list!/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L8" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="list!/1">
+    <span class="signature"><strong>list!(pid)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#list!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L8" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="list!/2">
+    <span class="signature"><strong>list!(pid, timeout)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#list!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L12" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="possible_props/0">
+    <span class="signature"><strong>possible_props()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#possible_props/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L57" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/2">
+    <span class="signature"><strong>put(bucket, props)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L31" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/3">
+    <span class="signature"><strong>put(pid, bucket, props)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L31" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/4">
+    <span class="signature"><strong>put(pid, bucket, type, props)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L32" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="reset/1">
+    <span class="signature"><strong>reset(bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reset/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L36" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="reset/2">
+    <span class="signature"><strong>reset(pid, bucket)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reset/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/bucket.ex#L36" class="view_source">Source</a>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>

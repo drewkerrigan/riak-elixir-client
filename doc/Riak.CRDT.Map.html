@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Riak.CRDT.Map</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">Riak Elixir Client v1.0.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Riak.html">Riak</a> &rarr; <a href="Riak.CRDT.html">CRDT</a> &rarr; <a href="Riak.CRDT.Map.html">Map</a></div>
+      <h1>
+        Riak.CRDT.Map
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>Encapsulates Riak maps</p>
+
+        </section>
+      
+
+      
+        <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#delete/2">delete(map, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Delete a <code class="inline">key</code> from the <code class="inline">map</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get/3">get(map, key_type, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Fetch the value associated to <code class="inline">key</code> with the <code class="inline">key_type</code> on <code class="inline">map</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#has_key?/2">has_key?(map, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Test if the <code class="inline">key</code> is contained in the <code class="inline">map</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys/1">keys(map)</a></td>
+  
+    <td class="summary_synopsis"><p>List all keys of the <code class="inline">map</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/0">new()</a></td>
+  
+    <td class="summary_synopsis"><p>Creates a new <code class="inline">map</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/3">put(map, key, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Update the <code class="inline">key</code> on the <code class="inline">map</code> by passing the <code class="inline">value</code>
+The value can be any other CRDT</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#size/1">size(map)</a></td>
+  
+    <td class="summary_synopsis"><p>Get the <code class="inline">map</code> size</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update/4">update(map, key_type, key, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Update the <code class="inline">key</code> on the <code class="inline">map</code> by passing the function <code class="inline">fun</code>
+to update the value based on the current value (if exists) as argument
+The key_type must be :register, :map, :set, :flag or :counter</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#value/1">value(map)</a></td>
+  
+    <td class="summary_synopsis"><p>Get the original value of the <code class="inline">map</code></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="delete/2">
+    <span class="signature"><strong>delete(map, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Delete a <code class="inline">key</code> from the <code class="inline">map</code></p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L51" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="get/3">
+    <span class="signature"><strong>get(map, key_type, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Fetch the value associated to <code class="inline">key</code> with the <code class="inline">key_type</code> on <code class="inline">map</code></p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L20" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="has_key?/2">
+    <span class="signature"><strong>has_key?(map, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#has_key?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Test if the <code class="inline">key</code> is contained in the <code class="inline">map</code></p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L68" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="keys/1">
+    <span class="signature"><strong>keys(map)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>List all keys of the <code class="inline">map</code></p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L63" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="new/0">
+    <span class="signature"><strong>new()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Creates a new <code class="inline">map</code></p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L10" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/3">
+    <span class="signature"><strong>put(map, key, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Update the <code class="inline">key</code> on the <code class="inline">map</code> by passing the <code class="inline">value</code>
+The value can be any other CRDT</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L41" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="size/1">
+    <span class="signature"><strong>size(map)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#size/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Get the <code class="inline">map</code> size</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L15" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="update/4">
+    <span class="signature"><strong>update(map, key_type, key, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Update the <code class="inline">key</code> on the <code class="inline">map</code> by passing the function <code class="inline">fun</code>
+to update the value based on the current value (if exists) as argument
+The key_type must be :register, :map, :set, :flag or :counter</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L29" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="value/1">
+    <span class="signature"><strong>value(map)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#value/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Get the original value of the <code class="inline">map</code></p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L58" class="view_source">Source</a>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>

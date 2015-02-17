@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Riak.CRDT.Counter</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">Riak Elixir Client v1.0.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Riak.html">Riak</a> &rarr; <a href="Riak.CRDT.html">CRDT</a> &rarr; <a href="Riak.CRDT.Counter.html">Counter</a></div>
+      <h1>
+        Riak.CRDT.Counter
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>Counter data-type on Riak 2.0.</p>
+
+        </section>
+      
+
+      
+        <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/counter.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#decrement/2">decrement(counter, amount \\ 1)</a></td>
+  
+    <td class="summary_synopsis"><p>Decrement a <code class="inline">counter</code> on the <code class="inline">amount</code> defaulting in 1</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#increment/2">increment(counter, amount \\ 1)</a></td>
+  
+    <td class="summary_synopsis"><p>Increment a <code class="inline">counter</code> on the <code class="inline">amount</code> defaulting in 1</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/0">new()</a></td>
+  
+    <td class="summary_synopsis"><p>Create a new counter</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#value/1">value(counter)</a></td>
+  
+    <td class="summary_synopsis"><p>Get the original value as a number</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="decrement/2">
+    <span class="signature"><strong>decrement(counter, amount \\ 1)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#decrement/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Decrement a <code class="inline">counter</code> on the <code class="inline">amount</code> defaulting in 1</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/counter.ex#L22" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="increment/2">
+    <span class="signature"><strong>increment(counter, amount \\ 1)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#increment/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Increment a <code class="inline">counter</code> on the <code class="inline">amount</code> defaulting in 1</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/counter.ex#L15" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="new/0">
+    <span class="signature"><strong>new()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Create a new counter</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/counter.ex#L10" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="value/1">
+    <span class="signature"><strong>value(counter)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#value/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Get the original value as a number</p>
+
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/counter.ex#L29" class="view_source">Source</a>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>

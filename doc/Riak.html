@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Riak</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">Riak Elixir Client v1.0.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Riak.html">Riak</a></div>
+      <h1>
+        Riak
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <section id="moduledoc" class="docstring">
+          <h1>Riak Elixir Client</h1>
+<p><a href="https://travis-ci.org/drewkerrigan/riak-elixir-client"><img src="https://travis-ci.org/drewkerrigan/riak-elixir-client.svg?branch=master" alt="Build Status"/></a></p>
+<p>A Riak client written in Elixir.  Now includes a connection pooling with <a href="http://github.com/seth/pooler">pooler</a> and a variety of other improvements from <a href="https://github.com/edgurgel/riex">riex</a>.</p>
+<h2>Setup</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li>Riak 2.0+
+</li>
+<li>Elixir 1.0+
+</li>
+</ul>
+<h4>In an Elixir application</h4>
+<p>Add the following to mix.exs</p>
+<pre><code class="elixir">...
+def application do
+  [ applications: [ :riak ]]
+end
+...
+defp deps do
+  [ {:riak, &quot;~&gt; 1.0&quot;} ]
+end
+...</code></pre>
+<h2>Usage</h2>
+<h3>Establishing a Riak connection</h3>
+<pre><code class="elixir">{:ok, pid} = Riak.Connection.start_link(&#39;127.0.0.1&#39;, 8087) # Default values</code></pre>
+<h3>Connection Pooling</h3>
+<p>Most functions in this module can be called by passing the pid of the established connection or using a pool of connections (provided by pooler).  Define pools by using the group <code class="inline">riak</code>.  Following is an example <code class="inline">config/config.exs</code>:</p>
+<pre><code class="elixir">[pooler: [pools: [
+  [ name: :riaklocal1,
+    group: :riak,
+    max_count: 10,
+    init_count: 5,
+    start_mfa: {Riak.Connection, :start_link, []}
+  ],
+   [ name: :riaklocal2,
+    group: :riak,
+    max_count: 15,
+    init_count: 2,
+    start_mfa: {Riak.Connection, :start_link, [&#39;127.0.0.1&#39;, 9090]}
+  ] ]
+]]</code></pre>
+<p>For an example using this functionality with a local Riak instance, check <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/config/config.exs"><code class="inline">config/config.exs</code></a>.  More information about Elixir configuration can be found on [http://elixir-lang.org(http://elixir-lang.org)]: <a href="http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6">Application environment and configuration</a>.</p>
+<p>Once a pool configuration is properly defined in a project, calls to Riak can omit the pid.  For example:</p>
+<p>This call uses a pid from the pool of connections provided by pooler:</p>
+<pre><code class="elixir">Riak.delete(&quot;user&quot;, key)</code></pre>
+<p>This call requires a pid obtained by first calling <code class="inline">Riak.Connection.start_link</code>:</p>
+<pre><code class="elixir">Riak.delete(pid, &quot;user&quot;, key)</code></pre>
+<h3>Save a value</h3>
+<pre><code class="elixir">o = Riak.Object.create(bucket: &quot;user&quot;, key: &quot;my_key&quot;, data: &quot;Han Solo&quot;)
+Riak.put(pid, o)</code></pre>
+<h3>Find an object</h3>
+<pre><code class="elixir">o = Riak.find(pid, &quot;user&quot;, &quot;my_key&quot;)</code></pre>
+<h3>Update an object</h3>
+<pre><code class="elixir">o = %{o | data: &quot;Something Else&quot;}
+Riak.put(pid, o)</code></pre>
+<h3>Delete an object</h3>
+<p>Using key</p>
+<pre><code class="elixir">Riak.delete(pid, &quot;user&quot;, key)</code></pre>
+<p>Using object</p>
+<pre><code class="elixir">Riak.delete(pid, o)</code></pre>
+<h3>Datatypes</h3>
+<p>Riak Datatypes (a.k.a. CRDTs) are avaiable in <a href="http://basho.com/introducing-riak-2-0/">Riak versions 2.0</a> and greater.  The types included are: maps, sets, counters, registers and flags.</p>
+<h4>Setup</h4>
+<p>Datatypes require the use of bucket-types.  Maps, sets, and counters can be used as top-level bucket-type datatypes; Registers and flags may only be used within maps.</p>
+<p>The following examples assume the presence of 3 datatype enabled bucket-types.  You can create these bucket-types by running the following commands on a single Riak node in your cluster:</p>
+<p>Bucket-Type: <code class="inline">counters</code></p>
+<pre><code class="">riak-admin bucket-type create counters &#39;{&quot;props&quot;:{&quot;datatype&quot;:&quot;counter&quot;}}&#39;
+riak-admin bucket-type activate counters</code></pre>
+<p>Bucket-Type: <code class="inline">sets</code></p>
+<pre><code class="">riak-admin bucket-type create sets &#39;{&quot;props&quot;:{&quot;datatype&quot;:&quot;set&quot;}}&#39;
+riak-admin bucket-type activate sets</code></pre>
+<p>Bucket-Type: <code class="inline">maps</code></p>
+<pre><code class="">riak-admin bucket-type create maps &#39;{&quot;props&quot;:{&quot;datatype&quot;:&quot;map&quot;}}&#39;
+riak-admin bucket-type activate maps</code></pre>
+<h4>Counters</h4>
+<p>Create a counter (<code class="inline">alias Riak.CRDT.Counter</code>):</p>
+<pre><code class="elixir">Counter.new
+  |&gt; Counter.increment
+  |&gt; Counter.increment(2)
+  |&gt; Riak.update(&quot;counters&quot;, &quot;my_counter_bucket&quot;, &quot;my_key&quot;)</code></pre>
+<p>Fetch a counter:</p>
+<pre><code class="elixir">counter = Riak.find(&quot;counters&quot;, &quot;my_counter_bucket&quot;, &quot;my_key&quot;)
+  |&gt; Counter.value</code></pre>
+<p><code class="inline">counter</code> will be 3.</p>
+<p><strong><em>NOTE</em></strong>: “Counter drift” is a possibility that needs to be accounted for with any distributed system such as Riak.  The problem can manifest itself during failure states in either your applicaiton or Riak itself.  If an increment operation fails from the client’s point of view, there is not sufficient information available to know whether or not that call made it to zero or all of the replicas for that counter object.  As such, if the client attempts to retry the increment after recieving something like a error code 500 from Riak, that counter object is at risk of drifting positive.  Similarly if the client decides not to retry, that counter object is at risk of drifting negative.</p>
+<p>For these reasons, counters are only suggested for use-cases that can handle some (albeit small) amount of counter drift.  Good examples of appropriate use-cases are: Facebook likes, Twitter retweet counts, Youtube view counts, etc.  Some examples of poor use-cases for Riak counters are: bank account balances, anything related to money.  It is possible to implement these types of solutions using Riak, but more client side logic is necessary.  For an example of a client-side ledger with tunable retry options, check <a href="https://github.com/drewkerrigan/riak-ruby-ledger">github.com/drewkerrigan/riak-ruby-ledger</a>.  Another approach could be the client-side implementation of a HAT (Highly Available Transaction) algorithm.</p>
+<h4>Sets</h4>
+<p>Create a set (<code class="inline">alias Riak.CRDT.Set</code>):</p>
+<pre><code class="elixir">Set.new
+  |&gt; Set.put(&quot;foo&quot;)
+  |&gt; Set.put(&quot;bar&quot;)
+  |&gt; Riak.update(&quot;sets&quot;, &quot;my_set_bucket&quot;, &quot;my_key&quot;)</code></pre>
+<p>And fetch the set:</p>
+<pre><code class="elixir">set = Riak.find(&quot;sets&quot;, &quot;my_set_bucket&quot;, &quot;my_key&quot;)
+  |&gt; Set.value</code></pre>
+<p>Where <code class="inline">set</code> is an <code class="inline">orddict</code>.</p>
+<h4>Maps</h4>
+<p>Maps handle binary keys with any other datatype (map, set, flag, register and counter).</p>
+<p>Create a map (<code class="inline">alias Riak.CRDT.Map</code>):</p>
+<pre><code class="elixir">register = Register.new(&quot;some string&quot;)
+flag = Flag.new |&gt; Flag.enable
+Map.new
+  |&gt; Map.put(&quot;k1&quot;, register)
+  |&gt; Map.put(&quot;k2&quot;, flag)
+  |&gt; Riak.update(&quot;maps&quot;, &quot;my_map_bucket&quot;, &quot;map_key&quot;)</code></pre>
+<p>And fetch the map:</p>
+<pre><code class="elixir">map = Riak.find(&quot;maps&quot;, &quot;my_map_bucket&quot;, key) |&gt; Map.value</code></pre>
+<p>Where <code class="inline">map</code> is an <code class="inline">orddict</code>.</p>
+<h2>Examples</h2>
+<p>Check the <code class="inline">examples/</code> directory for a few example elixir applications using the riak client.  </p>
+<p>For more functionality, check <code class="inline">test/</code> directory.</p>
+<h2>Tests</h2>
+<pre><code class="">MIX_ENV=test mix do deps.get, test</code></pre>
+<h2>License</h2>
+<pre><code>Copyright 2015 Drew Kerrigan.
+Copyright 2014 Eduardo Gurgel.
+
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</code></pre>
+
+        </section>
+      
+
+      
+        <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#delete/1">delete(obj)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete/2">delete(pid, obj)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete/3">delete(pid, bucket, key)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#find/2">find(bucket, key)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#find/3">find(pid, bucket, key)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#find/4">find(pid, type, bucket, key)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ping/0">ping()</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ping/1">ping(pid)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/1">put(obj)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/2">put(pid, obj)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#resolve/3">resolve(bucket, key, index)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#resolve/4">resolve(pid, bucket, key, index)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update/4">update(datatype, type, bucket, key)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update/5">update(pid, datatype, type, bucket, key)</a></td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="delete/1">
+    <span class="signature"><strong>delete(obj)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L299" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete/2">
+    <span class="signature"><strong>delete(pid, obj)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L299" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete/3">
+    <span class="signature"><strong>delete(pid, bucket, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L300" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="find/2">
+    <span class="signature"><strong>find(bucket, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#find/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L268" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="find/3">
+    <span class="signature"><strong>find(pid, bucket, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#find/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L268" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="find/4">
+    <span class="signature"><strong>find(pid, type, bucket, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#find/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L280" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="ping/0">
+    <span class="signature"><strong>ping()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ping/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L241" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="ping/1">
+    <span class="signature"><strong>ping(pid)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ping/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L241" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/1">
+    <span class="signature"><strong>put(obj)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L243" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/2">
+    <span class="signature"><strong>put(pid, obj)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L243" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="resolve/3">
+    <span class="signature"><strong>resolve(bucket, key, index)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#resolve/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L290" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="resolve/4">
+    <span class="signature"><strong>resolve(pid, bucket, key, index)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#resolve/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L290" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="update/4">
+    <span class="signature"><strong>update(datatype, type, bucket, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L251" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="update/5">
+    <span class="signature"><strong>update(pid, datatype, type, bucket, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update/5" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak.ex#L251" class="view_source">Source</a>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>

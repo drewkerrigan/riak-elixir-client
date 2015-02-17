@@ -9,10 +9,6 @@ defmodule Riak.Mixfile do
       build_per_environment: false,
       name: "Riak Elixir Client",
       source_url: "https://github.com/drewkerrigan/riak-elixir-client",
-      docs: fn ->
-        {ref, 0} = System.cmd("git", [ "rev-parse", "--verify", "--quiet", "HEAD" ])
-        [ source_ref: ref, main: "README", readme: "README.md" ]
-      end,
       description: description,
       package: package ]
   end
@@ -24,7 +20,8 @@ defmodule Riak.Mixfile do
   end
 
   defp deps do
-    [ {:ex_doc, only: :dev},
+    [ {:earmark, only: :dev},
+      {:ex_doc, only: :dev},
       {:pooler, github: "seth/pooler", tag: "1.3.3"},
       {:meck, github: "eproxus/meck", tag: "0.8.2", override: true},
       {:riak_pb, github: "basho/riak_pb", override: true, tag: "2.0.0.16", compile: "./rebar get-deps compile deps_dir=../"},

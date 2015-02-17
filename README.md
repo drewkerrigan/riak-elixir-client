@@ -157,7 +157,7 @@ Counter.new
 Fetch a counter:
 
 ```elixir
-counter = Riak.find("counters", "my_counter_bucket", my_key)
+counter = Riak.find("counters", "my_counter_bucket", "my_key")
   |> Counter.value
 ```
 

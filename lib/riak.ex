@@ -1,9 +1,9 @@
 defmodule Riak do
   @moduledoc """
-  # Riak Elixir Client 
+  # Riak Elixir Client
   [![Build Status](https://travis-ci.org/drewkerrigan/riak-elixir-client.svg?branch=master)](https://travis-ci.org/drewkerrigan/riak-elixir-client)
 
-  A Riak client written in Elixir.  Now includes a connection pooling with [pooler](http://github.com/seth/pooler) and a variety of other improvements from [riex](https://github.com/edgurgel/riex).
+  A Riak client written in Elixir.  Now includes connection pooling with [pooler](http://github.com/seth/pooler) and a variety of other improvements from [riex](https://github.com/edgurgel/riex).
 
   ## Setup
 
@@ -234,6 +234,7 @@ defmodule Riak do
       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
       See the License for the specific language governing permissions and
       limitations under the License.
+
   """
   import Riak.Pool
   require Record

@@ -185,7 +185,7 @@ set = Riak.find("sets", "my_set_bucket", "my_key")
   |> Set.value
 ```
 
-Where `set` is an orddict.
+Where `set` is an `orddict`.
 
 ####Maps
 
@@ -208,7 +208,7 @@ And fetch the map:
 map = Riak.find("maps", "my_map_bucket", key) |> Map.value
 ```
 
-Where map is an `orddict`.
+Where `map` is an `orddict`.
 
 ##Examples
 

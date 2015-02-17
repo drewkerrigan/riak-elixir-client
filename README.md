@@ -1,6 +1,6 @@
-# Riak Elixir Client [![Build Status](https://travis-ci.org/drewkerrigan/riak-elixir-client.svg?branch=master)](https://travis-ci.org/drewkerrigan/riak-elixir-client)
+#Riak Elixir Client [![Build Status](https://travis-ci.org/drewkerrigan/riak-elixir-client.svg?branch=master)](https://travis-ci.org/drewkerrigan/riak-elixir-client)
 
-A Riak client written in Elixir. Now includes a variety of improvements and refactors from [riex](https://github.com/edgurgel/riex).
+A Riak client written in Elixir.  Now includes a variety of improvements and refactors from [riex](https://github.com/edgurgel/riex).
 
 Included applications:
 
@@ -9,15 +9,15 @@ Included applications:
 
 ##Setup
 
-### Prerequisites
+###Prerequisites
 
 * Riak 2.0+
 * Elixir 1.0+
 * Erlang 17.0+
 
-#### In your Elixir application
+####In an Elixir application
 
-Add the following to your mix.exs
+Add the following to mix.exs
 
 ```elixir
 ...
@@ -32,11 +32,17 @@ end
 ...
 ```
 
+##Usage
 
+###Establishing a Riak connection
 
-## Usage
+```elixir
+{:ok, pid} = Riak.Connection.start_link('127.0.0.1', 8087) # Default values
+```
 
-One can pass the pid of the established connection or just use the pool (provided by pooler). You just need to define your pools using the group "riak. For example having this on your `config/config.exs`:
+###Connection Pooling
+
+Most functions in this module can be called by passing the pid of the established connection or using a pool of connections (provided by pooler).  Define pools by using the group `riak`.  Following is an example `config/config.exs`:
 
 ```elixir
 [pooler: [pools: [
@@ -56,30 +62,26 @@ One can pass the pid of the established connection or just use the pool (provide
 
 ```
 
-Check Riak [`config/config.exs`](https://github.com/drewkerrigan/riak-elixir-client/blob/master/config/config.exs) for an example on the pool configuration for a local Riak. More info about configuration on Elixir website: [Application environment and configuration](http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6).
+For an example using this functionality with a local Riak instance, check [`config/config.exs`](https://github.com/drewkerrigan/riak-elixir-client/blob/master/config/config.exs).  More information about Elixir configuration can be found on [http://elixir-lang.org(http://elixir-lang.org)]: [Application environment and configuration](http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6).
 
-After this pool configuration, any call to Riak can omit the pid if you want to use the pool.
+Once a pool configuration is properly defined in a project, calls to Riak can omit the pid.  For example:
 
-For example:
+This call uses a pid from the pool of connections provided by pooler:
 
 ```elixir
-Riak.delete(pid, "user", key)
-
 Riak.delete("user", key)
 ```
 
-The first call will use the pid you started using `Riak.Connection` and the second call will get a connection from the pool of connections provided by pooler.
-
-###Establishing a Riak connection
+This call requires a pid obtained by first calling `Riak.Connection.start_link`:
 
 ```elixir
-{:ok, pid} = Riak.Connection.start_link('127.0.0.1', 8087) # Default values
+Riak.delete(pid, "user", key)
 ```
 
 ###Save a value
 
 ```elixir
-o = Riak.Object.create(bucket: "user", key: "my_key", data: "Drew Kerrigan")
+o = Riak.Object.create(bucket: "user", key: "my_key", data: "Han Solo")
 Riak.put(pid, o)
 ```
 
@@ -110,97 +112,107 @@ Using object
 Riak.delete(pid, o)
 ```
 
-### CRDTs
+###Datatypes
 
-Riak Datatypes are avaiable since [Riak 2.0](http://basho.com/introducing-riak-2-0/). The types included are: maps, sets, counters, registers and flags.
+Riak Datatypes (a.k.a. CRDTs) are avaiable in [Riak versions 2.0](http://basho.com/introducing-riak-2-0/) and greater.  The types included are: maps, sets, counters, registers and flags.
 
-#### Counters
+####Setup
 
-Considering that you created the "counter_bucket" bucket type using something like:
+Datatypes require the use of bucket-types.  Maps, sets, and counters can be used as top-level bucket-type datatypes; Registers and flags may only be used within maps.
+
+The following examples assume the presence of 3 datatype enabled bucket-types.  You can create these bucket-types by running the following commands on a single Riak node in your cluster:
+
+Bucket-Type: `counters`
 
 ```
-riak-admin bucket-type create counter_bucket '{"props":{"datatype":"counter"}}'
-riak-admin bucket-type activate counter_bucket
+riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
+riak-admin bucket-type activate counters
 ```
 
-One can create a counter (Riak.CRDT.Counter):
+Bucket-Type: `sets`
+
+```
+riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
+riak-admin bucket-type activate sets
+```
+
+Bucket-Type: `maps`
+
+```
+riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
+riak-admin bucket-type activate maps
+```
+
+####Counters
+
+Create a counter (`alias Riak.CRDT.Counter`):
 
 ```elixir
 Counter.new
   |> Counter.increment
   |> Counter.increment(2)
-  |> Riak.update("counter_bucket", "bucketcounter", "my_key")
+  |> Riak.update("counters", "my_counter_bucket", "my_key")
 ```
 
-And fetch the counter:
+Fetch a counter:
 
 ```elixir
-counter = Riak.find("counter_bucket", "bucketcounter", my_key)
+counter = Riak.find("counters", "my_counter_bucket", my_key)
   |> Counter.value
 ```
 
 `counter` will be 3.
 
-#### Sets
+***NOTE***: "Counter drift" is a possibility that needs to be accounted for with any distributed system such as Riak.  The problem can manifest itself during failure states in either your applicaiton or Riak itself.  If an increment operation fails from the client's point of view, there is not sufficient information available to know whether or not that call made it to zero or all of the replicas for that counter object.  As such, if the client attempts to retry the increment after recieving something like a error code 500 from Riak, that counter object is at risk of drifting positive.  Similarly if the client decides not to retry, that counter object is at risk of drifting negative.
 
-Considering that you created the "set_bucket" bucket type using something like:
+For these reasons, counters are only suggested for use-cases that can handle some (albeit small) amount of counter drift.  Good examples of appropriate use-cases are: Facebook likes, Twitter retweet counts, Youtube view counts, etc.  Some examples of poor use-cases for Riak counters are: bank account balances, anything related to money.  It is possible to implement these types of solutions using Riak, but more client side logic is necessary.  For an example of a client-side ledger with tunable retry options, check [github.com/drewkerrigan/riak-ruby-ledger](https://github.com/drewkerrigan/riak-ruby-ledger).  Another approach could be the client-side implementation of a HAT (Highly Available Transaction) algorithm.
 
-```
-riak-admin bucket-type create set_bucket '{"props":{"datatype":"set"}}'
-riak-admin bucket-type activate set_bucket
-```
+####Sets
 
-Now one can create a set (Riak.CRDT.Set):
+Create a set (`alias Riak.CRDT.Set`):
 
 ```elixir
 Set.new
   |> Set.put("foo")
   |> Set.put("bar")
-  |> Riak.update("set_bucket", "bucketset", "my_key")
+  |> Riak.update("sets", "my_set_bucket", "my_key")
 ```
 
 And fetch the set:
 
 ```elixir
-set = Riak.find("set_bucket", "bucketset", "my_key")
+set = Riak.find("sets", "my_set_bucket", "my_key")
   |> Set.value
 ```
 
 Where `set` is an orddict.
 
-#### Maps
+####Maps
 
 Maps handle binary keys with any other datatype (map, set, flag, register and counter).
 
-Considering that you created the "map_bucket" bucket type using something like:
-
-```
-riak-admin bucket-type create map_bucket '{"props":{"datatype":"map"}}'
-riak-admin bucket-type activate map_bucket
-```
-
-Now one can create a map (Riak.CRDT.Map):
+Create a map (`alias Riak.CRDT.Map`):
 
 ```elixir
-register = Register.new("data")
+register = Register.new("some string")
 flag = Flag.new |> Flag.enable
 Map.new
   |> Map.put("k1", register)
   |> Map.put("k2", flag)
-  |> Riak.update("map_bucket", "bucketmap", "map_key")
+  |> Riak.update("maps", "my_map_bucket", "map_key")
 ```
 
 And fetch the map:
 
 ```elixir
-map = Riak.find("map_bucket", "bucketmap", key) |> Map.value
+map = Riak.find("maps", "my_map_bucket", key) |> Map.value
 ```
 
 Where map is an `orddict`.
 
-## Examples
+##Examples
 
-Check the `examples/` directory for a few example elixir applications using the riak client. 
+Check the `examples/` directory for a few example elixir applications using the riak client.  
 
 For more functionality, check `test/` directory.
 
@@ -210,7 +222,7 @@ For more functionality, check `test/` directory.
 MIX_ENV=test mix do deps.get, test
 ```
 
-## License
+##License
 
     Copyright 2015 Drew Kerrigan.
     Copyright 2014 Eduardo Gurgel.

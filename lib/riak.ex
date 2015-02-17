@@ -3,15 +3,9 @@ defmodule Riak do
   A Client for Riak.
 
   ## Setup
-  The `start` function starts the OTP application, and `configure`
-  sends a message to the OTP server running locally which starts
-  the protobuf link with your Riak cluster.
+  Start the protobuf link with your Riak cluster.
 
       iex> Riak.Connection.start_link
-
-  The client supports secondary indexes. Remember to use a storage
-  backend that support secondary indexes (such as *leveldb*), in
-  your Riak configuration.
 
   ## Basic CRUD operations
   Data is inserted into the database using the `put` function. The

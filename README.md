@@ -21,7 +21,8 @@ def application do
 end
 ...
 defp deps do
-  [ {:riak, "~> 1.0"} ]
+  # [ {:riak, "~> 1.0"} ] # This client will be released to Hex soon
+  [ {:riak, github: "drewkerrigan/riak-elixir-client"} ]
 end
 ...
 ```

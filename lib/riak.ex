@@ -239,8 +239,14 @@ defmodule Riak do
   import Riak.Pool
   require Record
 
+  @doc """
+  Ping the server.
+  """
   defpool ping(pid) when is_pid(pid), do: :riakc_pb_socket.ping(pid)
 
+  @doc """
+  Put the metadata/value in the object under bucket-type/bucket/key.
+  """
   defpool put(pid, obj) when is_pid(pid) do
     case :riakc_pb_socket.put(pid, Riak.Object.to_robj(obj)) do
       {:ok, new_object} -> %{obj | key: :riakc_obj.key(new_object)}
@@ -249,11 +255,19 @@ defmodule Riak do
     end
   end
 
+  @doc """
+  Updates the convergent datatype in Riak with local
+  modifications stored in the container type.
+  """
   defpool update(pid, datatype, type, bucket, key) when is_pid(pid) do
     :riakc_pb_socket.update_type(pid, {type, bucket},
                                  key, to_op(datatype))
   end
 
+  @doc """
+  Extracts an operation from the datatype that can be encoded into an
+  update request.
+  """
   defp to_op(datatype) do
     case datatype do
       datatype when Record.is_record(datatype, :set) ->
@@ -266,6 +280,9 @@ defmodule Riak do
     end
   end
 
+  @doc """
+  Get bucket-type/bucket/key from the server.
+  """
   defpool find(pid, bucket, key) when is_pid(pid) do
     case :riakc_pb_socket.get(pid, bucket, key) do
       {:ok, object} ->
@@ -278,6 +295,13 @@ defmodule Riak do
     end
   end
 
+  @doc """
+  Fetches the representation of a convergent datatype from Riak.
+  
+  TODO: In the current implementation, it's very easy to confuse working
+  with regular k/v objects and datatypes. Clarify so that these aren't
+  conflated by assuming that any object with a type is a datatype.
+  """
   defpool find(pid, type, bucket, key) when is_pid(pid) do
     case :riakc_pb_socket.fetch_type(pid, {type, bucket}, key) do
       {:ok, object} -> object
@@ -285,9 +309,15 @@ defmodule Riak do
     end
   end
 
+  @doc """
+  Builds a list of sibling values ignoring metadata.
+  """
   defp build_sibling_list([{_md, val}|t], final_list), do: build_sibling_list(t,[val|final_list])
   defp build_sibling_list([], final_list), do: final_list
 
+  @doc """
+  Picks the sibling to "win" over the other siblings via a list index.
+  """
   defpool resolve(pid, bucket, key, index) when is_pid(pid) do
     case :riakc_pb_socket.get(pid, bucket, key) do
       {:ok, object} ->
@@ -297,6 +327,9 @@ defmodule Riak do
     end
   end
 
+  @doc """
+  Delete the key/value.
+  """
   defpool delete(pid, obj) when is_pid(pid), do: delete(pid, obj.bucket, obj.key)
   defpool delete(pid, bucket, key) when is_pid(pid), do: :riakc_pb_socket.delete(pid, bucket, key)
 end

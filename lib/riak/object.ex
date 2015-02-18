@@ -2,7 +2,22 @@ defmodule Riak.Object do
   @moduledoc """
   The Data wrapper makes it convenient to work with Riak data in Elixir
   """
+
+  @doc """
+  Struct representing a Riak Object. Attributes:
+  * `type`: String; Bucket Type with a unique name within the cluster namespace
+  * `bucket`: String; Bucket with a unique name within the bucket type namespace
+  * `key`: String; Not required; Key with a unique name within the bucket namespace
+  * `data`: Any; Value to be stored under the key
+  * `metadata`: Orddict; User specified metadata
+  * `vclock`: String; Dotted Version Vector / Causal Context for object
+  * `content_type`: String; Content Type for object
+  """
   defstruct [bucket: nil, type: nil, key: :undefined, data: nil, metadata: nil, vclock: nil, content_type: "application/json"]
+
+  @doc """
+  Get all metadata entries
+  """
   def get_metadata(obj, key) do
     case :riakc_obj.get_user_metadata_entry(obj.metadata, key) do
       :notfound -> nil

@@ -10,6 +10,10 @@ defmodule Riak.I18n do
     ]
   ]
 
+  @doc """
+  Look up the human readable error message and return a tuple with the format:
+  {:error, [{:code, "error.[module].[specific error]"}, {:message, "human readable message"}]}
+  """
   def error(code, args \\ []) do
     {:error, code: code, message: t!("en", code, args)}
   end

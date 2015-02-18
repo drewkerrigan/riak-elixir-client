@@ -7,7 +7,7 @@ defmodule Riak.Bucket do
   ***This is a potentially expensive operation and should not be used in production.***
   """
   defpool list(pid) when is_pid(pid), do: list_buckets(pid)
-  defpool list(pid, type) when is_pid(pid), is_binary(type), do: list_buckets(pid, type)
+  defpool list(pid, type) when is_pid(pid) and is_binary(type), do: list_buckets(pid, type)
   defpool list(pid, timeout) when is_pid(pid), do: list_buckets(pid, timeout)
   defpool list(pid, type, timeout) when is_pid(pid), do: list_buckets(pid, type, timeout)
 
@@ -23,7 +23,7 @@ defmodule Riak.Bucket do
     {:ok, buckets} = list(pid, timeout)
     buckets
   end
-  defpool list!(pid, type) when is_pid(pid), is_binary(type) do
+  defpool list!(pid, type) when is_pid(pid) and is_binary(type) do
     {:ok, buckets} = list(pid, type)
     buckets
   end
@@ -36,7 +36,7 @@ defmodule Riak.Bucket do
   List all keys in a bucket.
   ***This is a potentially expensive operation and should not be used in production.***
   """
-  def keys(pid, type, bucket) when is_pid(pid), is_binary(bucket), do: keys(pid, {type, bucket})
+  def keys(pid, type, bucket) when is_pid(pid) and is_binary(bucket), do: keys(pid, {type, bucket})
   def keys(pid, type, bucket, timeout) when is_pid(pid), do: keys(pid, {type, bucket}, timeout)
   defpool keys(pid, bucket) when is_pid(pid), do: list_keys(pid, bucket)
   defpool keys(pid, bucket, timeout) when is_pid(pid), do: list_keys(pid, bucket, timeout)
@@ -45,7 +45,7 @@ defmodule Riak.Bucket do
   List all keys in a bucket. Return only buckets.
   ***This is a potentially expensive operation and should not be used in production.***
   """
-  def keys!(pid, type, bucket) when is_pid(pid), is_binary(bucket), do: keys!(pid, {type, bucket})
+  def keys!(pid, type, bucket) when is_pid(pid) and is_binary(bucket), do: keys!(pid, {type, bucket})
   def keys!(pid, type, bucket, timeout) when is_pid(pid), do: keys!(pid, {type, bucket}, timeout)
   defpool keys!(pid, bucket) when is_pid(pid) do
     {:ok, keys} = keys(pid, bucket)

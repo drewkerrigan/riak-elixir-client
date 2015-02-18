@@ -10,9 +10,9 @@ defmodule Riak.CRDT.CounterTest do
     Counter.new
       |> Counter.increment
       |> Counter.increment(2)
-      |> Riak.update("counter_bucket", "bucketcounter", key)
+      |> Riak.update("counters", "bucketcounter", key)
 
-    counter = Riak.find("counter_bucket", "bucketcounter", key)
+    counter = Riak.find("counters", "bucketcounter", key)
       |> Counter.value
 
     assert counter == 3

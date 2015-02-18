@@ -120,14 +120,18 @@ defmodule RiakTest do
 
     assert Riak.Object.get_index(o, {:binary_index, "first_name"}) == ["Drew"]
 
-    {keys, terms, continuation} = Riak.Index.query(pid, "user", {:binary_index, "first_name"}, "Drew", [])
-    assert is_list(keys)
-    assert terms == :undefined
-    assert continuation == :undefined
-    {keys, terms, continuation} = Riak.Index.query(pid, "user", {:binary_index, "last_name"}, "Kerrigam", "Kerrigao", [])
-    assert is_list(keys)
-    assert terms == :undefined
-    assert continuation == :undefined
+    case Riak.Index.query(pid, "user", {:binary_index, "first_name"}, "Drew", []) do
+      {:error, code: "error.index.unsupported", message: _} -> 
+        :ok
+      {keys, terms, continuation} ->
+        assert is_list(keys)
+        assert terms == :undefined
+        assert continuation == :undefined
+        {keys, terms, continuation} = Riak.Index.query(pid, "user", {:binary_index, "last_name"}, "Kerrigam", "Kerrigao", [])
+        assert is_list(keys)
+        assert terms == :undefined
+        assert continuation == :undefined
+    end
 
     o = Riak.Object.delete_index(o, {:binary_index, "first_name"})
     Riak.put(pid, o)

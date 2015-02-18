@@ -30,9 +30,9 @@ defmodule Riak.CRDT.MapTest do
       |> Map.put(flag_key, flag)
       |> Map.update(:counter, counter_key, fn _ -> counter end)
       |> Map.put(set_key, set)
-      |> Riak.update("map_bucket", "bucketmap", key)
+      |> Riak.update("maps", "bucketmap", key)
 
-    map = Riak.find("map_bucket", "bucketmap", key)
+    map = Riak.find("maps", "bucketmap", key)
       |> Map.value
 
     map_keys = :orddict.fetch_keys(map)
@@ -60,9 +60,9 @@ defmodule Riak.CRDT.MapTest do
 
     Map.new
       |> Map.put(nested_key, nested)
-      |> Riak.update("map_bucket", "bucketmap", key)
+      |> Riak.update("maps", "bucketmap", key)
 
-    map = Riak.find("map_bucket", "bucketmap", key)
+    map = Riak.find("maps", "bucketmap", key)
 
     value_map = map |> Map.value
 

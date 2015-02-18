@@ -10,9 +10,9 @@ defmodule Riak.CRDT.SetTest do
     Set.new
       |> Set.put("foo")
       |> Set.put("bar")
-      |> Riak.update("set_bucket", "bucketset", key)
+      |> Riak.update("sets", "bucketset", key)
 
-    set = Riak.find("set_bucket", "bucketset", key)
+    set = Riak.find("sets", "bucketset", key)
       |> Set.value
 
     assert "foo" in set
@@ -25,9 +25,9 @@ defmodule Riak.CRDT.SetTest do
     Set.new
       |> Set.put("foo") |> Set.put("bar")
       |> Set.put("foo") |> Set.put("bar")
-      |> Riak.update("set_bucket", "bucketset", key)
+      |> Riak.update("sets", "bucketset", key)
 
-    size = Riak.find("set_bucket", "bucketset", key)
+    size = Riak.find("sets", "bucketset", key)
       |> Set.size
 
     assert size == 2

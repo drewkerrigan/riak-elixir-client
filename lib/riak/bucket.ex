@@ -19,12 +19,12 @@ defmodule Riak.Bucket do
     {:ok, buckets} = list(pid)
     buckets
   end
-  defpool list!(pid, timeout) when is_pid(pid) do
-    {:ok, buckets} = list(pid, timeout)
-    buckets
-  end
   defpool list!(pid, type) when is_pid(pid) and is_binary(type) do
     {:ok, buckets} = list(pid, type)
+    buckets
+  end
+  defpool list!(pid, timeout) when is_pid(pid) do
+    {:ok, buckets} = list(pid, timeout)
     buckets
   end
   defpool list!(pid, type, timeout) when is_pid(pid) do

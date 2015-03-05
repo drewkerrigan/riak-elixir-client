@@ -57,7 +57,7 @@ Most functions in this module can be called by passing the pid of the establishe
 
 ```
 
-For an example using this functionality with a local Riak instance, check [`config/config.exs`](https://github.com/drewkerrigan/riak-elixir-client/blob/master/config/config.exs).  More information about Elixir configuration can be found on [http://elixir-lang.org(http://elixir-lang.org)]: [Application environment and configuration](http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6).
+For an example using this functionality with a local Riak instance, check [`config/config.exs`](https://github.com/drewkerrigan/riak-elixir-client/blob/master/config/config.exs).  More information about Elixir configuration can be found on [http://elixir-lang.org](http://elixir-lang.org): [Application environment and configuration](http://elixir-lang.org/getting_started/mix_otp/10.html#toc_6).
 
 Once a pool configuration is properly defined in a project, calls to Riak can omit the pid.  For example:
 

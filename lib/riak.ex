@@ -264,10 +264,6 @@ defmodule Riak do
                                  key, to_op(datatype))
   end
 
-  @doc """
-  Extracts an operation from the datatype that can be encoded into an
-  update request.
-  """
   defp to_op(datatype) do
     case datatype do
       datatype when Record.is_record(datatype, :set) ->
@@ -309,9 +305,6 @@ defmodule Riak do
     end
   end
 
-  @doc """
-  Builds a list of sibling values ignoring metadata.
-  """
   defp build_sibling_list([{_md, val}|t], final_list), do: build_sibling_list(t,[val|final_list])
   defp build_sibling_list([], final_list), do: final_list
 

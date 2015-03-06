@@ -7,9 +7,7 @@ defmodule Riak.Bucket do
   ***This is a potentially expensive operation and should not be used in production.***
   """
   defpool list(pid) when is_pid(pid), do: list_buckets(pid)
-  defpool list(pid, type) when is_pid(pid) and is_binary(type), do: list_buckets(pid, type)
   defpool list(pid, timeout) when is_pid(pid), do: list_buckets(pid, timeout)
-  defpool list(pid, type, timeout) when is_pid(pid), do: list_buckets(pid, type, timeout)
 
   @doc """
   List all buckets on the server with or without server-side timeout. Return only buckets.
@@ -21,14 +19,6 @@ defmodule Riak.Bucket do
   end
   defpool list!(pid, timeout) when is_pid(pid) do
     {:ok, buckets} = list(pid, timeout)
-    buckets
-  end
-  defpool list!(pid, type) when is_pid(pid) and is_binary(type) do
-    {:ok, buckets} = list(pid, type)
-    buckets
-  end
-  defpool list!(pid, type, timeout) when is_pid(pid) do
-    {:ok, buckets} = list(pid, type, timeout)
     buckets
   end
 
@@ -84,6 +74,18 @@ defmodule Riak.Bucket do
     Set properties for bucket type.
     """
     defpool put(pid, type, props) when is_pid(pid), do: set_bucket_type(pid, type, props)
+
+    defpool list(pid, type) when is_pid(pid) and is_binary(type), do: list_buckets(pid, type)
+    defpool list(pid, type, timeout) when is_pid(pid), do: list_buckets(pid, type, timeout)
+
+    defpool list!(pid, type) when is_pid(pid) and is_binary(type) do
+      {:ok, buckets} = list(pid, type)
+      buckets
+    end
+    defpool list!(pid, type, timeout) when is_pid(pid) do
+      {:ok, buckets} = list(pid, type, timeout)
+      buckets
+    end
   end
 
   @doc """

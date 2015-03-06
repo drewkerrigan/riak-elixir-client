@@ -1,5 +1,4 @@
 defmodule Riak.Mapred do
-  @deprecated
   import Riak.Pool
   import :riakc_pb_socket
 

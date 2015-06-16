@@ -220,7 +220,7 @@ MIX_ENV=test mix do deps.get, test
 
 *Note*
 
-The following CRDT bucket-types are prerequisites for some tests
+The creation of the following CRDT bucket-types is a prerequisite for passing the tests.
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate maps

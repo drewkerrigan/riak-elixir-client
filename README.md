@@ -217,6 +217,22 @@ For more functionality, check `test/` directory.
 MIX_ENV=test mix do deps.get, test
 ```
 
+*Note*
+
+test/map_test.exs requires a bucket to be previously setup in riak.
+```
+riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
+riak-admin bucket-type activate maps
+```
+
+test/set_test.exs requires a bucket to be previously setup in riak.
+```
+riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
+riak-admin bucket-type activate sets
+```
+
+
+
 ## License
 
     Copyright 2015 Drew Kerrigan.

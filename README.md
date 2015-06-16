@@ -231,6 +231,12 @@ riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate sets
 ```
 
+test/crdt_counter_test.exs requires a bucket to be previously setup in riak.
+```
+riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
+riak-admin bucket-type activate counters
+```
+
 
 
 ## License

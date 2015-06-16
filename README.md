@@ -219,19 +219,19 @@ MIX_ENV=test mix do deps.get, test
 
 *Note*
 
-test/map_test.exs requires a bucket to be previously setup in riak.
+A riak maps bucket-type is a prerequisite for test/map_test.exs  
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate maps
 ```
 
-test/set_test.exs requires a bucket to be previously setup in riak.
+A riak sets bucket-type is a prerequisite for test/set_test.exs
 ```
 riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate sets
 ```
 
-test/crdt_counter_test.exs requires a bucket to be previously setup in riak.
+A riak counters bucket-type is a prerequisite for riak/crdt_counter_test.exs
 ```
 riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
 riak-admin bucket-type activate counters

@@ -219,6 +219,7 @@ MIX_ENV=test mix do deps.get, test
 
 
 *Note*
+
 The following CRDT bucket-types are prerequisites for some tests
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'

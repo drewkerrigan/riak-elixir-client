@@ -217,26 +217,17 @@ For more functionality, check `test/` directory.
 MIX_ENV=test mix do deps.get, test
 ```
 
-*Note*
 
-A riak maps bucket-type is a prerequisite for test/map_test.exs  
+*Note*
+The following CRDT bucket-types are prerequisites for some tests
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate maps
-```
-
-A riak sets bucket-type is a prerequisite for test/set_test.exs
-```
 riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate sets
-```
-
-A riak counters bucket-type is a prerequisite for riak/crdt_counter_test.exs
-```
 riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
 riak-admin bucket-type activate counters
 ```
-
 
 
 ## License

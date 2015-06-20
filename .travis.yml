@@ -1,4 +1,6 @@
-language: erlang
+language: elixir
+elixir:
+    - 1.0.2
 notifications:
   recipients:
     - drew@kerrigan.io
@@ -6,15 +8,7 @@ otp_release:
   - 17.0
   - 17.1
 env:
-  - ELIXIR="v1.0.2"
+  - MIX_ENV=test
 services:
   - riak
-install: mix deps.get
-before_install:
-  - mkdir -p vendor/elixir
-  - wget -q https://github.com/elixir-lang/elixir/releases/download/$ELIXIR/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
-  - export PATH="$PWD/vendor/elixir/bin:$PATH"
-  - export MIX_ENV=test
-  - mix local.hex --force
-  - rebar --version
 script: mix test --exclude riak2

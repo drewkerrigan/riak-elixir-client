@@ -8,6 +8,7 @@ defmodule Riak.Search do
     def list(pid) when is_pid(pid), do: list_search_indexes(pid)
     def put(pid, bucket) when is_pid(pid), do: create_search_index(pid, bucket)
     def put(pid, bucket, schema) when is_pid(pid), do: create_search_index(pid, bucket, schema, [])
+    def put(pid, bucket, schema, props) when is_pid(pid), do: create_search_index(pid, bucket, schema, props)
     def get(pid, bucket) when is_pid(pid), do: get_search_index(pid, bucket)
     def delete(pid, bucket) when is_pid(pid), do: delete_search_index(pid, bucket)
   end

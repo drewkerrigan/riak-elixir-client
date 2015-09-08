@@ -1,3 +1,5 @@
+use Mix.Config
+
 config :pooler, pools:
   [
     [

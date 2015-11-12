@@ -23,10 +23,10 @@ defmodule Riak.Mixfile do
     [ {:earmark, only: :dev},
       {:ex_doc, only: :dev},
       {:linguist, "~> 0.1"},
-      {:pooler, "1.4.0"},
+      {:pooler, github: "seth/pooler", tag: "1.5.0"},
       {:meck, github: "eproxus/meck", tag: "0.8.2", override: true},
-      {:riak_pb, github: "basho/riak_pb", override: true, tag: "2.0.0.16", compile: "./rebar get-deps compile deps_dir=../"},
-      {:riakc, github: "basho/riak-erlang-client", tag: "2.0.1"} ]
+      {:riak_pb, github: "basho/riak_pb", override: true, tag: "2.1.0.7", compile: "./rebar get-deps compile deps_dir=../"},
+      {:riakc, github: "basho/riak-erlang-client"} ]
   end
 
   defp description do

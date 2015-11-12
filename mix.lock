@@ -1,8 +1,9 @@
-%{"earmark": {:hex, :earmark, "0.1.13"},
-  "ex_doc": {:hex, :ex_doc, "0.7.0"},
-  "linguist": {:hex, :linguist, "0.1.4"},
-  "meck": {:git, "git://github.com/eproxus/meck.git", "dde759050eff19a1a80fd854d7375174b191665d", [tag: "0.8.2"]},
-  "pooler": {:hex, :pooler, "1.4.0"},
-  "protobuffs": {:git, "git://github.com/basho/erlang_protobuffs.git", "5257dfe4e000b58487af89b849c7336ffa9bae82", [tag: "0.8.1p4"]},
-  "riak_pb": {:git, "git://github.com/basho/riak_pb.git", "fc18a9b37170431f659e08d66ed78e3f6bbc47ca", [tag: "2.0.0.16"]},
-  "riakc": {:git, "git://github.com/basho/riak-erlang-client.git", "c3fb38c0590876cd4864f4553bda52b46edd7bc7", [tag: "2.0.1"]}}
+%{"earmark": {:hex, :earmark, "0.1.19"},
+  "ex_doc": {:hex, :ex_doc, "0.10.0"},
+  "hamcrest": {:git, "https://github.com/hyperthunk/hamcrest-erlang.git", "908a24fda4a46776a5135db60ca071e3d783f9f6", [branch: "master"]},
+  "linguist": {:hex, :linguist, "0.1.5"},
+  "meck": {:git, "https://github.com/eproxus/meck.git", "dde759050eff19a1a80fd854d7375174b191665d", [tag: "0.8.2"]},
+  "pooler": {:git, "https://github.com/seth/pooler.git", "b6c522a67a1d067122705ef725535a8664dd8514", [tag: "1.5.0"]},
+  "protobuffs": {:git, "git://github.com/basho/erlang_protobuffs.git", "a1eeee77aef639a33cc5a2dd7abed7e4f4b83f9b", [tag: "0.8.2"]},
+  "riak_pb": {:git, "https://github.com/basho/riak_pb.git", "eacf4404625de69f7b3908cebd8efe416d9598b0", [tag: "2.1.0.7"]},
+  "riakc": {:git, "https://github.com/basho/riak-erlang-client.git", "527722d12d0433b837cdb92a60900c2cb5df8942", []}}

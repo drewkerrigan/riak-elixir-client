@@ -37,6 +37,7 @@ defmodule Riak.Mixfile do
     [ files: ~w(config doc examples lib test LICENSE mix.exs mix.lock README.md THANKS),
       maintainers: [ "Drew Kerrigan", "Eduardo Gurgel" ],
       licenses: [ "Apache 2.0" ],
-      links: %{"GitHub" => "https://github.com/drewkerrigan/riak-elixir-client"} ]
+      links: %{"GitHub" => "https://github.com/drewkerrigan/riak-elixir-client",
+               "Documentation" => "http://hexdocs.pm/riak"} ]
   end
 end

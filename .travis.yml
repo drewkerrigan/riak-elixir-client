@@ -5,7 +5,7 @@ notifications:
   recipients:
     - drew@kerrigan.io
 otp_release:
-  - 18
+  - 18.1
 env:
   - MIX_ENV=test
 services:

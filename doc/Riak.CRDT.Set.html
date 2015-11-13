@@ -1,44 +1,73 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
   <head>
-    <title>Riak.CRDT.Set</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
-    <script type="text/javascript" charset="utf-8">
-      relpath = '';
-      if (relpath != '') relpath += '/';
-    </script>
-
-    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Riak.CRDT.Set – Riak Elixir Client v1.0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.10.0">
+    <link rel="stylesheet" href="dist/app.css" />
+    <script src="dist/sidebar_items.js"></script>
   </head>
+  <body data-type="modules">
 
-  <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="icon-menu"></i>
+  </button>
 
-    <section id="content">
-      <div class="breadcrumbs">Riak Elixir Client v1.0.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Riak.html">Riak</a> &rarr; <a href="Riak.CRDT.html">CRDT</a> &rarr; <a href="Riak.CRDT.Set.html">Set</a></div>
+  
+  <a href="extra-api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        Riak Elixir Client
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div id="content" class="content-inner">
+
+
       <h1>
         Riak.CRDT.Set
         
+        
+          <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L1" title="View Source" class="view-source" rel="help">
+            <i class="icon-code"></i>
+          </a>
+        
       </h1>
-
-      <ul class="summary_links">
-        
-          <li><a href="#summary">Summary</a></li>
-        
-        
-        
-          <li><a href="#functions_details">Functions</a></li>
-        
-        
-        
-      </ul>
 
       
         <section id="moduledoc" class="docstring">
@@ -49,171 +78,81 @@ It accepts only binary as items.</p>
       
 
       
-        <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L1" class="view_source">Source</a>
-      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
 
-      
-        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
-        <table class="summary">
-          <tr>
-  <td class="summary_signature"><a href="#delete/2">delete(set, value)</a></td>
-  
-    <td class="summary_synopsis"><p>Delete <code class="inline">value</code> on <code class="inline">set</code></p>
-</td>
-  
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#member?/2">member?(set, value)</a></td>
-  
-    <td class="summary_synopsis"><p>Checks if <code class="inline">set</code> contains <code class="inline">value</code></p>
-</td>
-  
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#new/0">new()</a></td>
-  
-    <td class="summary_synopsis"><p>Create an empty set</p>
-</td>
-  
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#put/2">put(set, value)</a></td>
-  
-    <td class="summary_synopsis"><p>Insert <code class="inline">value</code> on <code class="inline">set</code></p>
-</td>
-  
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#size/1">size(set)</a></td>
-  
-    <td class="summary_synopsis"><p>Returns the number of elements in <code class="inline">set</code></p>
-</td>
-  
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#value/1">value(set)</a></td>
-  
-    <td class="summary_synopsis"><p>Get original value as an <code class="inline">ordset</code></p>
-</td>
-  
-</tr>
-
-        </table>
-      
-
-      
-
-      
-        <section id="functions_details" class="details_list">
-          <h2>Functions</h2>
-          <section class="detail">
-  <div class="detail_header" id="delete/2">
-    <span class="signature"><strong>delete(set, value)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete/2">delete(set, value)</a>
   </div>
   
-  <section class="docstring">
-    <p>Delete <code class="inline">value</code> on <code class="inline">set</code></p>
-
-  </section>
+    <div class="summary-synopsis"><p>Delete <code class="inline">value</code> on <code class="inline">set</code></p>
+</div>
   
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L37" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="member?/2">
-    <span class="signature"><strong>member?(set, value)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#member?/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#member?/2">member?(set, value)</a>
   </div>
   
-  <section class="docstring">
-    <p>Checks if <code class="inline">set</code> contains <code class="inline">value</code>.</p>
-
-  </section>
+    <div class="summary-synopsis"><p>Checks if <code class="inline">set</code> contains <code class="inline">value</code></p>
+</div>
   
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L23" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="new/0">
-    <span class="signature"><strong>new()</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#new/0" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/0">new()</a>
   </div>
   
-  <section class="docstring">
-    <p>Create an empty set</p>
-
-  </section>
+    <div class="summary-synopsis"><p>Create an empty set</p>
+</div>
   
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L11" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="put/2">
-    <span class="signature"><strong>put(set, value)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#put/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put/2">put(set, value)</a>
   </div>
   
-  <section class="docstring">
-    <p>Insert <code class="inline">value</code> on <code class="inline">set</code></p>
-
-  </section>
+    <div class="summary-synopsis"><p>Insert <code class="inline">value</code> on <code class="inline">set</code></p>
+</div>
   
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L30" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="size/1">
-    <span class="signature"><strong>size(set)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#size/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#size/1">size(set)</a>
   </div>
   
-  <section class="docstring">
-    <p>Returns the number of elements in <code class="inline">set</code></p>
-
-  </section>
+    <div class="summary-synopsis"><p>Returns the number of elements in <code class="inline">set</code></p>
+</div>
   
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L44" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="value/1">
-    <span class="signature"><strong>value(set)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#value/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#value/1">value(set)</a>
   </div>
   
-  <section class="docstring">
-    <p>Get original value as an <code class="inline">ordset</code></p>
+    <div class="summary-synopsis"><p>Get original value as an <code class="inline">ordset</code></p>
+</div>
+  
+</div>
 
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L16" class="view_source">Source</a>
-  
-</section>
+  </div>
+
+
+          
+
+          
 
         </section>
       
@@ -221,6 +160,144 @@ It accepts only binary as items.</p>
       
 
       
-    </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="delete/2">
+  <div class="detail-header">
+    <a href="#delete/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete(set, value)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L37" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Delete <code class="inline">value</code> on <code class="inline">set</code></p>
+
+  </section>
+</div>
+<div class="detail" id="member?/2">
+  <div class="detail-header">
+    <a href="#member?/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">member?(set, value)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L23" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Checks if <code class="inline">set</code> contains <code class="inline">value</code>.</p>
+
+  </section>
+</div>
+<div class="detail" id="new/0">
+  <div class="detail-header">
+    <a href="#new/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">new()</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L11" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Create an empty set</p>
+
+  </section>
+</div>
+<div class="detail" id="put/2">
+  <div class="detail-header">
+    <a href="#put/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">put(set, value)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L30" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Insert <code class="inline">value</code> on <code class="inline">set</code></p>
+
+  </section>
+</div>
+<div class="detail" id="size/1">
+  <div class="detail-header">
+    <a href="#size/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">size(set)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L44" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Returns the number of elements in <code class="inline">set</code></p>
+
+  </section>
+</div>
+<div class="detail" id="value/1">
+  <div class="detail-header">
+    <a href="#value/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">value(set)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/set.ex#L16" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Get original value as an <code class="inline">ordset</code></p>
+
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+        <footer class="footer">
+      <p>
+        <span class="line">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.10.0),
+        </span>
+        <span class="line">
+          designed by
+          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+      </p>
+    </footer>
+  </div>
+</section>
+</div>
+    <script src="dist/app.js"></script>
   </body>
 </html>
+

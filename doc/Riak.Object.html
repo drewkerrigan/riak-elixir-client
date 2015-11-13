@@ -1,44 +1,73 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
   <head>
-    <title>Riak.Object</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
-    <script type="text/javascript" charset="utf-8">
-      relpath = '';
-      if (relpath != '') relpath += '/';
-    </script>
-
-    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Riak.Object – Riak Elixir Client v1.0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.10.0">
+    <link rel="stylesheet" href="dist/app.css" />
+    <script src="dist/sidebar_items.js"></script>
   </head>
+  <body data-type="modules">
 
-  <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="icon-menu"></i>
+  </button>
 
-    <section id="content">
-      <div class="breadcrumbs">Riak Elixir Client v1.0.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Riak.html">Riak</a> &rarr; <a href="Riak.Object.html">Object</a></div>
+  
+  <a href="extra-api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        Riak Elixir Client
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div id="content" class="content-inner">
+
+
       <h1>
         Riak.Object
         
+        
+          <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L1" title="View Source" class="view-source" rel="help">
+            <i class="icon-code"></i>
+          </a>
+        
       </h1>
-
-      <ul class="summary_links">
-        
-          <li><a href="#summary">Summary</a></li>
-        
-        
-        
-          <li><a href="#functions_details">Functions</a></li>
-        
-        
-        
-      </ul>
 
       
         <section id="moduledoc" class="docstring">
@@ -48,441 +77,175 @@
       
 
       
-        <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L1" class="view_source">Source</a>
-      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
 
-      
-        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
-        <table class="summary">
-          <tr>
-  <td class="summary_signature"><a href="#create/0">create()</a></td>
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#__struct__/0">__struct__()</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#create/1">create(args)</a></td>
+    <div class="summary-synopsis"><p>Struct representing a Riak Object. Attributes:</p>
+<ul>
+<li><code class="inline">type</code>: String; Bucket Type with a unique name within the cluster namespace
+</li>
+<li><code class="inline">bucket</code>: String; Bucket with a unique name within the bucket type namespace
+</li>
+<li><code class="inline">key</code>: String; Not required; Key with a unique name within the bucket namespace
+</li>
+<li><code class="inline">data</code>: Any; Value to be stored under the key
+</li>
+<li><code class="inline">metadata</code>: Orddict; User specified metadata
+</li>
+<li><code class="inline">vclock</code>: String; Dotted Version Vector / Causal Context for object
+</li>
+<li><code class="inline">content_type</code>: String; Content Type for object
+</li>
+</ul>
+</div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#delete_all_indexes/1">delete_all_indexes(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create/0">create()</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#delete_all_links/1">delete_all_links(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create/1">create(args)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#delete_all_metadata/1">delete_all_metadata(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_all_indexes/1">delete_all_indexes(obj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#delete_index/2">delete_index(obj, arg2)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_all_links/1">delete_all_links(obj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#delete_link/2">delete_link(obj, tag)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_all_metadata/1">delete_all_metadata(obj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#delete_metadata/2">delete_metadata(obj, key)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_index/2">delete_index(obj, arg)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#from_robj/1">from_robj(robj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_link/2">delete_link(obj, tag)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#get_all_indexes/1">get_all_indexes(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_metadata/2">delete_metadata(obj, key)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#get_all_links/1">get_all_links(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_robj/1">from_robj(robj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#get_all_metadata/1">get_all_metadata(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_all_indexes/1">get_all_indexes(obj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#get_index/2">get_index(obj, arg2)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_all_links/1">get_all_links(obj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#get_link/2">get_link(obj, tag)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_all_metadata/1">get_all_metadata(obj)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#get_metadata/2">get_metadata(obj, key)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_index/2">get_index(obj, arg)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#index_id/1">index_id(arg1)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_link/2">get_link(obj, tag)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#put_index/3">put_index(obj, arg2, values)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_metadata/2">get_metadata(obj, key)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#put_link/4">put_link(obj, tag, bucket, key)</a></td>
+    <div class="summary-synopsis"><p>Get all metadata entries</p>
+</div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#put_metadata/2">put_metadata(obj, arg2)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#index_id/1">index_id(arg)</a>
+  </div>
   
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#to_robj/1">to_robj(obj)</a></td>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put_index/3">put_index(obj, arg, values)</a>
+  </div>
   
-</tr>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put_link/4">put_link(obj, tag, bucket, key)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put_metadata/2">put_metadata(obj, arg)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_robj/1">to_robj(obj)</a>
+  </div>
+  
+</div>
 
-        </table>
-      
+  </div>
 
-      
 
-      
-        <section id="functions_details" class="details_list">
-          <h2>Functions</h2>
-          <section class="detail">
-  <div class="detail_header" id="create/0">
-    <span class="signature"><strong>create()</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#create/0" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L97" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="create/1">
-    <span class="signature"><strong>create(args)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#create/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L99" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="delete_all_indexes/1">
-    <span class="signature"><strong>delete_all_indexes(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete_all_indexes/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L44" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="delete_all_links/1">
-    <span class="signature"><strong>delete_all_links(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete_all_links/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L67" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="delete_all_metadata/1">
-    <span class="signature"><strong>delete_all_metadata(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete_all_metadata/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L19" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="delete_index/2">
-    <span class="signature"><strong>delete_index(obj, arg2)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete_index/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L40" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="delete_link/2">
-    <span class="signature"><strong>delete_link(obj, tag)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete_link/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L64" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="delete_metadata/2">
-    <span class="signature"><strong>delete_metadata(obj, key)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#delete_metadata/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L15" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="from_robj/1">
-    <span class="signature"><strong>from_robj(robj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#from_robj/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L75" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="get_all_indexes/1">
-    <span class="signature"><strong>get_all_indexes(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#get_all_indexes/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L38" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="get_all_links/1">
-    <span class="signature"><strong>get_all_links(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#get_all_links/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L60" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="get_all_metadata/1">
-    <span class="signature"><strong>get_all_metadata(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#get_all_metadata/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L13" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="get_index/2">
-    <span class="signature"><strong>get_index(obj, arg2)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#get_index/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L31" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="get_link/2">
-    <span class="signature"><strong>get_link(obj, tag)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#get_link/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L53" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="get_metadata/2">
-    <span class="signature"><strong>get_metadata(obj, key)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#get_metadata/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L6" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="index_id/1">
-    <span class="signature"><strong>index_id(arg1)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#index_id/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L28" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="put_index/3">
-    <span class="signature"><strong>put_index(obj, arg2, values)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#put_index/3" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L48" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="put_link/4">
-    <span class="signature"><strong>put_link(obj, tag, bucket, key)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#put_link/4" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L71" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="put_metadata/2">
-    <span class="signature"><strong>put_metadata(obj, arg2)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#put_metadata/2" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L23" class="view_source">Source</a>
-  
-</section>
-<section class="detail">
-  <div class="detail_header" id="to_robj/1">
-    <span class="signature"><strong>to_robj(obj)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#to_robj/1" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-  
-    <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L85" class="view_source">Source</a>
-  
-</section>
+          
+
+          
 
         </section>
       
@@ -490,6 +253,411 @@
       
 
       
-    </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="__struct__/0">
+  <div class="detail-header">
+    <a href="#__struct__/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">__struct__()</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L16" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Struct representing a Riak Object. Attributes:</p>
+<ul>
+<li><code class="inline">type</code>: String; Bucket Type with a unique name within the cluster namespace
+</li>
+<li><code class="inline">bucket</code>: String; Bucket with a unique name within the bucket type namespace
+</li>
+<li><code class="inline">key</code>: String; Not required; Key with a unique name within the bucket namespace
+</li>
+<li><code class="inline">data</code>: Any; Value to be stored under the key
+</li>
+<li><code class="inline">metadata</code>: Orddict; User specified metadata
+</li>
+<li><code class="inline">vclock</code>: String; Dotted Version Vector / Causal Context for object
+</li>
+<li><code class="inline">content_type</code>: String; Content Type for object
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="create/0">
+  <div class="detail-header">
+    <a href="#create/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">create()</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L112" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="create/1">
+  <div class="detail-header">
+    <a href="#create/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">create(args)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L114" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete_all_indexes/1">
+  <div class="detail-header">
+    <a href="#delete_all_indexes/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_all_indexes(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L59" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete_all_links/1">
+  <div class="detail-header">
+    <a href="#delete_all_links/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_all_links(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L82" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete_all_metadata/1">
+  <div class="detail-header">
+    <a href="#delete_all_metadata/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_all_metadata(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L34" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete_index/2">
+  <div class="detail-header">
+    <a href="#delete_index/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_index(obj, arg)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L55" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete_link/2">
+  <div class="detail-header">
+    <a href="#delete_link/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_link(obj, tag)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L79" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete_metadata/2">
+  <div class="detail-header">
+    <a href="#delete_metadata/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_metadata(obj, key)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L30" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="from_robj/1">
+  <div class="detail-header">
+    <a href="#from_robj/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">from_robj(robj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L90" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get_all_indexes/1">
+  <div class="detail-header">
+    <a href="#get_all_indexes/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_all_indexes(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L53" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get_all_links/1">
+  <div class="detail-header">
+    <a href="#get_all_links/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_all_links(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L75" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get_all_metadata/1">
+  <div class="detail-header">
+    <a href="#get_all_metadata/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_all_metadata(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L28" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get_index/2">
+  <div class="detail-header">
+    <a href="#get_index/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_index(obj, arg)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L46" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get_link/2">
+  <div class="detail-header">
+    <a href="#get_link/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_link(obj, tag)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L68" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get_metadata/2">
+  <div class="detail-header">
+    <a href="#get_metadata/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_metadata(obj, key)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L21" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Get all metadata entries</p>
+
+  </section>
+</div>
+<div class="detail" id="index_id/1">
+  <div class="detail-header">
+    <a href="#index_id/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">index_id(arg)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L43" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="put_index/3">
+  <div class="detail-header">
+    <a href="#put_index/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">put_index(obj, arg, values)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L63" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="put_link/4">
+  <div class="detail-header">
+    <a href="#put_link/4" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">put_link(obj, tag, bucket, key)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L86" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="put_metadata/2">
+  <div class="detail-header">
+    <a href="#put_metadata/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">put_metadata(obj, arg)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L38" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="to_robj/1">
+  <div class="detail-header">
+    <a href="#to_robj/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">to_robj(obj)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L100" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+        <footer class="footer">
+      <p>
+        <span class="line">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.10.0),
+        </span>
+        <span class="line">
+          designed by
+          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+      </p>
+    </footer>
+  </div>
+</section>
+</div>
+    <script src="dist/app.js"></script>
   </body>
 </html>
+

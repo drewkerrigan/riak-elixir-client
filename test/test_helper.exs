@@ -21,7 +21,7 @@ defmodule Riak.Helper do
   end
 
   def random_key do
-    {me, se, mi} = :erlang.now
+    {me, se, mi} = :erlang.timestamp
     "#{me}#{se}#{mi}"
   end
 

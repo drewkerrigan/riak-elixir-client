@@ -208,7 +208,7 @@ defmodule Riak do
 
   ## Examples
 
-  Check the `examples/` directory for a few example elixir applications using the riak client.  
+  Check the `examples/` directory for a few example elixir applications using the riak client.
 
   For more functionality, check `test/` directory.
 
@@ -293,7 +293,7 @@ defmodule Riak do
 
   @doc """
   Fetches the representation of a convergent datatype from Riak.
-  
+
   TODO: In the current implementation, it's very easy to confuse working
   with regular k/v objects and datatypes. Clarify so that these aren't
   conflated by assuming that any object with a type is a datatype.
@@ -325,4 +325,5 @@ defmodule Riak do
   """
   defpool delete(pid, obj) when is_pid(pid), do: delete(pid, obj.bucket, obj.key)
   defpool delete(pid, bucket, key) when is_pid(pid), do: :riakc_pb_socket.delete(pid, bucket, key)
+  defpool delete(pid, type, bucket, key) when is_pid(pid), do: :riakc_pb_socket.delete(pid, {type, bucket}, key)
 end

@@ -49,11 +49,11 @@ defmodule Riak.CRDT.FlagTest do
   end
 
   test "create and disable a flag, save then get value" do
-    flag1 = RiakMap.new
+    RiakMap.new
       |> RiakMap.put("flag_key_false", Flag.new |> Flag.enable)
       |> Riak.update("maps", "flagbucket", "flagmap2")
 
-    flag2 = Riak.find("maps", "flagbucket", "flagmap2")
+    Riak.find("maps", "flagbucket", "flagmap2")
       |> RiakMap.update(:flag, "flag_key_false", &Flag.disable/1)
       |> Riak.update("maps", "flagbucket", "flagmap2")
 

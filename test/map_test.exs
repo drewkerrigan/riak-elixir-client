@@ -70,4 +70,24 @@ defmodule Riak.CRDT.MapTest do
 
     assert :orddict.fetch({"nested_key", :map}, value_map) == [{{"flag_key", :flag}, true}]
   end
+
+  test "create, update, delete map" do
+    #   m = Riak.find(riak, "maps", "users", "1d1cf86e-e7c8-11e4-b576-542696dfbfa9") |> Riak.CRDT.Map.value
+    #   :ok = Riak.delete(riak, "users", "1d1cf86e-e7c8-11e4-b576-542696dfbfa9") # Doesn't delete it
+    #   Riak.delete(riak, "maps", "users", "1d1cf86e-e7c8-11e4-b576-542696dfbfa9") # No such function - errors out
+    key = Riak.Helper.random_key
+
+    Map.new
+      |> Map.put("register_key", Register.new("Some Data"))
+      |> Riak.update("maps", "users", key)
+
+    reg_data = Riak.find("maps", "users", key)
+      |> Map.get(:register, "register_key")
+
+    assert "Some Data" == reg_data
+
+    Riak.delete("maps", "users", key)
+    assert Riak.find("maps", "users", key) == nil
+
+  end
 end

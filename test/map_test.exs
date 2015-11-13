@@ -72,9 +72,6 @@ defmodule Riak.CRDT.MapTest do
   end
 
   test "create, update, delete map" do
-    #   m = Riak.find(riak, "maps", "users", "1d1cf86e-e7c8-11e4-b576-542696dfbfa9") |> Riak.CRDT.Map.value
-    #   :ok = Riak.delete(riak, "users", "1d1cf86e-e7c8-11e4-b576-542696dfbfa9") # Doesn't delete it
-    #   Riak.delete(riak, "maps", "users", "1d1cf86e-e7c8-11e4-b576-542696dfbfa9") # No such function - errors out
     key = Riak.Helper.random_key
 
     Map.new

@@ -15,7 +15,6 @@ defmodule Exploriak.Mixfile do
   end
 
   defp deps do
-    #[ {:riak, "~> 1.0"} ]
-    [ {:riak, github: "drewkerrigan/riak-elixir-client"} ]
+    [ {:riak, "~> 1.0"} ]
   end
 end

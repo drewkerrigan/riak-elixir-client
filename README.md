@@ -1,6 +1,6 @@
 # Riak Elixir Client
 [![Build Status](https://travis-ci.org/drewkerrigan/riak-elixir-client.svg?branch=master)](https://travis-ci.org/drewkerrigan/riak-elixir-client)
-[![Hex version](https://img.shields.io/hexpm/v/riak.svg "Hex Version")](https://hex.pm/packages/benchfella)
+[![Hex version](https://img.shields.io/hexpm/v/riak.svg "Hex Version")](https://hex.pm/packages/riak)
 ![Hex downloads](https://img.shields.io/hexpm/dt/riak.svg "Hex Downloads")
 
 

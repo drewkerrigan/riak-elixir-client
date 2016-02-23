@@ -9,6 +9,8 @@ defmodule Riak.CRDT.Set do
   Create an empty set
   """
   def new, do: :riakc_set.new
+  def new(context), do: :riakc_set.new(context)
+  def new(value, context) when is_list(value), do: :riakc_set.new(value, context)
 
   @doc """
   Get original value as an `ordset`

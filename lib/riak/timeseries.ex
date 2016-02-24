@@ -38,7 +38,7 @@ defmodule Riak.Timeseries do
     receive do
       {^req_id, :done} -> {:ok, List.flatten(acc)}
       {^req_id, {:error, reason}} -> {:error, reason}
-      {req_id, {_, res}} -> wait_for_list(req_id, [res|acc])
+      {^req_id, {_, res}} -> wait_for_list(req_id, [res|acc])
     end
   end
 end

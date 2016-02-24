@@ -2,6 +2,8 @@ defmodule Riak.CRDTTest do
   use ExUnit.Case
   import Riak.CRDT
 
+  @moduletag :riak2
+
   test 'type of Register' do
     assert type(Riak.CRDT.Register.new) == :register
   end

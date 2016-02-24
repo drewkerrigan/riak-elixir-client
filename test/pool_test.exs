@@ -2,6 +2,8 @@ defmodule Riak.PoolTest do
   use Riak.Case
   import Riak.Helper
 
+  @moduletag :riak1
+
   test "put" do
     key = random_key
 

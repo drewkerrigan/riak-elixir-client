@@ -44,8 +44,8 @@ defmodule Riak.TimeseriesTest do
     e9 = {:ok, {[], []}}
     r9 = Timeseries.get("GeoCheckin", ["family2", "series99", 26])
 
-    # e10 = {[],[]}
-    # r10 = Timeseries.query("select * from GeoCheckin where time > 25 and time < 27 and myfamily = 'family2' and myseries = 'series99'")
+    e10 = {[],[]}
+    r10 = Timeseries.query("select * from GeoCheckin where time > 25 and time < 27 and myfamily = 'family2' and myseries = 'series99'")
 
     assert e1 == r1
     assert e2 == r2
@@ -56,6 +56,6 @@ defmodule Riak.TimeseriesTest do
     assert e7 == r7
     assert e8 == r8
     assert e9 == r9
-    # assert e10 == e10
+    assert e10 == r10
   end
 end

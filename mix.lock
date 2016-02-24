@@ -6,4 +6,4 @@
   "pooler": {:hex, :pooler, "1.5.0"},
   "protobuffs": {:git, "git://github.com/basho/erlang_protobuffs.git", "a1eeee77aef639a33cc5a2dd7abed7e4f4b83f9b", [tag: "0.8.2"]},
   "riak_pb": {:git, "git://github.com/basho/riak_pb.git", "e0986adb3b0b79765b91c04bfee5b16cfedb1165", [branch: "riak_ts-develop-1.2"]},
-  "riakc": {:git, "git://github.com/drewkerrigan/riak-erlang-client.git", "3c371d203677a016f7acbe965d97934d2a9dd2f4", [branch: "riak_ts-develop-1.2"]}}
+  "riakc": {:git, "git://github.com/drewkerrigan/riak-erlang-client.git", "fd996c5aa742b3fc56f01b887a50c9c157103070", [branch: "riak_ts-develop-1.2"]}}

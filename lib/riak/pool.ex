@@ -23,7 +23,12 @@ defmodule Riak.Pool do
         end
       end
       def unquote(name)(unquote_splicing(other_args)) do
-        pid = :pooler.take_group_member(:riak)
+        pid = case :pooler.take_group_member(:riak) do
+          :error_no_members ->
+            :timer.sleep(100 + :random.uniform(50)) # waits for a random time from 100ms to 150ms
+            :pooler.take_group_member(:riak)
+          pid -> pid
+        end
         result = unquote(name)(pid, unquote_splicing(other_args))
         :pooler.return_group_member(:riak, pid, :ok)
         result
@@ -35,4 +40,5 @@ defmodule Riak.Pool do
   defp extract_guards(else_), do: {else_, []}
   defp extract_or_guards({:when, _, [left, right]}), do: [left|extract_or_guards(right)];
   defp extract_or_guards(term), do: [term]
+
 end

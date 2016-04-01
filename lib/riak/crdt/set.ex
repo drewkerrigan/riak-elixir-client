@@ -18,6 +18,7 @@ defmodule Riak.CRDT.Set do
   def value(set) when Record.is_record(set, :set) do
     :riakc_set.value(set)
   end
+  def value(nil), do: {:error, :nil_object}
 
   @doc """
   Checks if `set` contains `value`.
@@ -25,6 +26,7 @@ defmodule Riak.CRDT.Set do
   def member?(set, value) when Record.is_record(set, :set) and is_binary(value) do
     :riakc_set.is_element(value, set)
   end
+  def member?(nil, _), do: {:error, :nil_object}
 
   @doc """
   Insert `value` on `set`
@@ -32,6 +34,7 @@ defmodule Riak.CRDT.Set do
   def put(set, value) when Record.is_record(set, :set) and is_binary(value) do
     :riakc_set.add_element(value, set)
   end
+  def put(nil, _), do: {:error, :nil_object}
 
   @doc """
   Delete `value` on `set`
@@ -39,6 +42,7 @@ defmodule Riak.CRDT.Set do
   def delete(set, value) when Record.is_record(set, :set) and is_binary(value) do
     :riakc_set.del_element(value, set)
   end
+  def delete(nil, _), do: {:error, :nil_object}
 
   @doc """
   Returns the number of elements in `set`
@@ -46,4 +50,5 @@ defmodule Riak.CRDT.Set do
   def size(set) when Record.is_record(set, :set) do
     :riakc_set.size(set)
   end
+  def size(nil), do: {:error, :nil_object}
 end

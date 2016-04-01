@@ -13,6 +13,7 @@ defmodule Riak.CRDT.Map do
   Get the `map` size
   """
   def size(map) when Record.is_record(map, :map), do: :riakc_map.size(map)
+  def size(nil), do: {:error, :nil_object}
 
   @doc """
   Fetch the value associated to `key` with the `key_type` on `map`
@@ -20,6 +21,7 @@ defmodule Riak.CRDT.Map do
   def get(map, key_type, key) when Record.is_record(map, :map) do
     :riakc_map.fetch({key, key_type}, map)
   end
+  def get(nil, _, _), do: {:error, :nil_object}
 
   @doc """
   Update the `key` on the `map` by passing the function `fun`
@@ -33,6 +35,7 @@ defmodule Riak.CRDT.Map do
 
     :riakc_map.update({key, key_type}, fun, map)
   end
+  def update(nil, _, _, _), do: {:error, :nil_object}
 
   @doc """
   Update the `key` on the `map` by passing the `value`
@@ -44,6 +47,7 @@ defmodule Riak.CRDT.Map do
     fun = fn _ -> value end
     :riakc_map.update({key, key_type}, fun, map)
   end
+  def put(nil, _, _), do: {:error, :nil_object}
 
   @doc """
   Delete a `key` from the `map`
@@ -51,16 +55,19 @@ defmodule Riak.CRDT.Map do
   def delete(map, key) when Record.is_record(map, :map) and is_binary(key) do
     :riakc_map.erase(key, map)
   end
+  def delete(nil, _), do: {:error, :nil_object}
 
   @doc """
   Get the original value of the `map`
   """
   def value(map) when Record.is_record(map, :map), do: :riakc_map.value(map)
+  def value(nil), do: {:error, :nil_object}
 
   @doc """
   List all keys of the `map`
   """
   def keys(map) when Record.is_record(map, :map), do: :riakc_map.fetch_keys(map)
+  def keys(nil), do: {:error, :nil_object}
 
   @doc """
   Test if the `key` is contained in the `map`
@@ -68,4 +75,5 @@ defmodule Riak.CRDT.Map do
   def has_key?(map, key) when Record.is_record(map, :map) and is_binary(key) do
     :riakc_map.is_key(key, map)
   end
+  def has_key?(nil, _), do: {:error, :nil_object}
 end

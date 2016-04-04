@@ -220,6 +220,8 @@ For more functionality, check `test/` directory.
 MIX_ENV=test mix do deps.get, test
 ```
 
+***NOTE:*** If you see errors related to `{:error, :nil_object}`, Ensure that you have created and activated the below `map`, `set`, and `counter` bucket types.
+
 
 *Note*
 

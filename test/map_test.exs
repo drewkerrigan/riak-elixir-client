@@ -87,4 +87,17 @@ defmodule Riak.CRDT.MapTest do
     assert Riak.find("maps", "users", key) == nil
 
   end
+
+  test "map key exists" do
+    key = Riak.Helper.random_key
+
+    Map.new
+    |> Map.put("register_key", Register.new("Some Data"))
+    |> Riak.update("maps", "users", key)
+
+    exists = Riak.find("maps", "users", key)
+    |> Map.has_key?("nothere")
+
+    assert exists == false
+  end
 end

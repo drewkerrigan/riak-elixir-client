@@ -1,9 +1,8 @@
-[![Stories in Ready](https://badge.waffle.io/drewkerrigan/riak-elixir-client.png?label=ready&title=Ready)](https://waffle.io/drewkerrigan/riak-elixir-client)
 # Riak Elixir Client
 [![Build Status](https://travis-ci.org/drewkerrigan/riak-elixir-client.svg?branch=master)](https://travis-ci.org/drewkerrigan/riak-elixir-client)
 [![Hex version](https://img.shields.io/hexpm/v/riak.svg "Hex Version")](https://hex.pm/packages/riak)
 ![Hex downloads](https://img.shields.io/hexpm/dt/riak.svg "Hex Downloads")
-
+[![Stories in Ready](https://badge.waffle.io/drewkerrigan/riak-elixir-client.png?label=ready&title=Ready)](https://waffle.io/drewkerrigan/riak-elixir-client)
 
 A Riak client written in Elixir.  Now includes connection pooling with [pooler](http://github.com/seth/pooler) and a variety of other improvements from [riex](https://github.com/edgurgel/riex).
 

@@ -114,8 +114,9 @@ defmodule Riak.Object do
     data =
       try do
         :riakc_obj.get_update_value(robj)
-      rescue
-        e -> nil
+      catch
+        :no_value -> nil
+        e -> raise e
       end
     %Riak.Object{bucket: to_nil(:riakc_obj.bucket(robj)),
                  type: to_nil(:riakc_obj.bucket_type(robj)),

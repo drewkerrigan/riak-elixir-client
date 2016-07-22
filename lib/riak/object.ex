@@ -112,9 +112,10 @@ defmodule Riak.Object do
 
   def from_robj(robj) do
     data =
-      case :riakc_obj.get_contents(robj) do
-        [] -> nil
-        _ -> :riakc_obj.get_update_value(robj)
+      try do
+        :riakc_obj.get_update_value(robj)
+      rescue
+        e -> nil
       end
     %Riak.Object{bucket: to_nil(:riakc_obj.bucket(robj)),
                  type: to_nil(:riakc_obj.bucket_type(robj)),
@@ -153,14 +154,9 @@ defmodule Riak.Object do
     robj
   end
 
-  # def create do
-  #   create(bucket: "default")
-  #   %Riak.Object{}
-  # end
-
-  def create(args \\ [{:bucket, "default"}]) do
+  def create(args \\ [bucket: "default"]) do
     obj = struct(Riak.Object, args)
-    from_robj(to_robj(obj)) # FIXME
+    from_robj(to_robj(obj))
   end
 
   defp to_undefined(nil) do

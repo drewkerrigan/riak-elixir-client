@@ -96,8 +96,18 @@ defmodule Riak.CRDT.MapTest do
     |> Riak.update("maps", "users", key)
 
     exists = Riak.find("maps", "users", key)
-    |> Map.has_key?("nothere")
+    |> Map.has_key?({"nothere", :register})
 
     assert exists == false
+
+    exists = Riak.find("maps", "users", key)
+    |> Map.has_key?({"register_key", :register})
+
+    assert exists == true
+
+    keys = Riak.find("maps", "users", key)
+    |> Map.keys()
+
+    assert keys == [{"register_key", :register}]
   end
 end

@@ -72,7 +72,7 @@ defmodule Riak.CRDT.Map do
   @doc """
   Test if the `key` is contained in the `map`
   """
-  def has_key?(map, key) when Record.is_record(map, :map) and is_binary(key) do
+  def has_key?(map, key) when Record.is_record(map, :map) do
     :riakc_map.is_key(key, map)
   end
   def has_key?(nil, _), do: {:error, :nil_object}

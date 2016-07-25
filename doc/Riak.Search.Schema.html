@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riak.Search.Schema – Riak Elixir Client v1.0.0</title>
+    <title>Riak.Search.Schema – Riak Elixir Client v1.1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.10.0">
     <link rel="stylesheet" href="dist/app.css" />
@@ -28,7 +28,7 @@
         Riak Elixir Client
       </h1>
       <h2 class="sidebar-projectVersion">
-        v1.0.0
+        v1.1.0
       </h2>
     </div>
     
@@ -63,7 +63,7 @@
         Riak.Search.Schema
         
         
-          <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L16" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L18" title="View Source" class="view-source" rel="help">
             <i class="icon-code"></i>
           </a>
         
@@ -88,13 +88,25 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#create/3">create(pid, bucket, content)</a>
+    <a href="#create/2">create(schema, content)</a>
   </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get/2">get(pid, bucket)</a>
+    <a href="#create/3">create(pid, schema, content)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/1">get(schema)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/2">get(pid, schema)</a>
   </div>
   
 </div>
@@ -119,12 +131,46 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="create/3">
+          <div class="detail" id="create/2">
+  <div class="detail-header">
+    <a href="#create/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">create(schema, content)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L21" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="create/3">
   <div class="detail-header">
     <a href="#create/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">create(pid, bucket, content)</span>
+    <span class="signature">create(pid, schema, content)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L21" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get/1">
+  <div class="detail-header">
+    <a href="#get/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get(schema)</span>
       
       <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L19" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
@@ -141,9 +187,9 @@
     <a href="#get/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get(pid, bucket)</span>
+    <span class="signature">get(pid, schema)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L17" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L19" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riak.Object – Riak Elixir Client v1.0.0</title>
+    <title>Riak.Object – Riak Elixir Client v1.1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.10.0">
     <link rel="stylesheet" href="dist/app.css" />
@@ -28,7 +28,7 @@
         Riak Elixir Client
       </h1>
       <h2 class="sidebar-projectVersion">
-        v1.0.0
+        v1.1.0
       </h2>
     </div>
     
@@ -118,13 +118,7 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#create/0">create()</a>
-  </div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#create/1">create(args)</a>
+    <a href="#create/1">create(args \\ [bucket: &quot;default&quot;])</a>
   </div>
   
 </div>
@@ -294,31 +288,14 @@
 
   </section>
 </div>
-<div class="detail" id="create/0">
-  <div class="detail-header">
-    <a href="#create/0" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">create()</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L112" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
-     </a>
-    
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-</div>
 <div class="detail" id="create/1">
   <div class="detail-header">
     <a href="#create/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">create(args)</span>
+    <span class="signature">create(args \\ [bucket: &quot;default&quot;])</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L114" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L158" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -335,7 +312,7 @@
     </a>
     <span class="signature">delete_all_indexes(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L59" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L72" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -352,7 +329,7 @@
     </a>
     <span class="signature">delete_all_links(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L82" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L102" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -369,7 +346,7 @@
     </a>
     <span class="signature">delete_all_metadata(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L34" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L39" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -386,7 +363,7 @@
     </a>
     <span class="signature">delete_index(obj, arg)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L55" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L66" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -403,7 +380,7 @@
     </a>
     <span class="signature">delete_link(obj, tag)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L79" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L98" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -420,7 +397,7 @@
     </a>
     <span class="signature">delete_metadata(obj, key)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L30" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L34" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -437,7 +414,7 @@
     </a>
     <span class="signature">from_robj(robj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L90" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L113" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -454,7 +431,7 @@
     </a>
     <span class="signature">get_all_indexes(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L53" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L62" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -471,7 +448,7 @@
     </a>
     <span class="signature">get_all_links(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L75" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L93" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -488,7 +465,7 @@
     </a>
     <span class="signature">get_all_metadata(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L28" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L29" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -505,7 +482,7 @@
     </a>
     <span class="signature">get_index(obj, arg)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L46" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L53" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -522,7 +499,7 @@
     </a>
     <span class="signature">get_link(obj, tag)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L68" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L85" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -557,7 +534,7 @@
     </a>
     <span class="signature">index_id(arg)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L43" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L50" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -574,7 +551,7 @@
     </a>
     <span class="signature">put_index(obj, arg, values)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L63" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L77" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -591,7 +568,7 @@
     </a>
     <span class="signature">put_link(obj, tag, bucket, key)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L86" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L107" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -608,7 +585,7 @@
     </a>
     <span class="signature">put_metadata(obj, arg)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L38" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L44" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -625,7 +602,7 @@
     </a>
     <span class="signature">to_robj(obj)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L100" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/object.ex#L130" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     

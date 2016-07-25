@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riak.Search.Index – Riak Elixir Client v1.0.0</title>
+    <title>Riak.Search.Index – Riak Elixir Client v1.1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.10.0">
     <link rel="stylesheet" href="dist/app.css" />
@@ -28,7 +28,7 @@
         Riak Elixir Client
       </h1>
       <h2 class="sidebar-projectVersion">
-        v1.0.0
+        v1.1.0
       </h2>
     </div>
     
@@ -63,7 +63,7 @@
         Riak.Search.Index
         
         
-          <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L7" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L9" title="View Source" class="view-source" rel="help">
             <i class="icon-code"></i>
           </a>
         
@@ -88,13 +88,31 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#delete/2">delete(pid, bucket)</a>
+    <a href="#delete/1">delete(index)</a>
   </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get/2">get(pid, bucket)</a>
+    <a href="#delete/2">delete(pid, index)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/1">get(index)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/2">get(pid, index)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list/0">list()</a>
   </div>
   
 </div>
@@ -106,19 +124,25 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#put/2">put(pid, bucket)</a>
+    <a href="#put/1">put(index)</a>
   </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#put/3">put(pid, bucket, schema)</a>
+    <a href="#put/2">put(pid, index)</a>
   </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#put/4">put(pid, bucket, schema, props)</a>
+    <a href="#put/3">put(pid, index, schema)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put/4">put(pid, index, schema, props)</a>
   </div>
   
 </div>
@@ -143,14 +167,48 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="delete/2">
+          <div class="detail" id="delete/1">
+  <div class="detail-header">
+    <a href="#delete/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete(index)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L15" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="delete/2">
   <div class="detail-header">
     <a href="#delete/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">delete(pid, bucket)</span>
+    <span class="signature">delete(pid, index)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L13" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L15" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="get/1">
+  <div class="detail-header">
+    <a href="#get/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get(index)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L14" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -165,9 +223,26 @@
     <a href="#get/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">get(pid, bucket)</span>
+    <span class="signature">get(pid, index)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L12" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L14" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="list/0">
+  <div class="detail-header">
+    <a href="#list/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">list()</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L10" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -184,7 +259,24 @@
     </a>
     <span class="signature">list(pid)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L8" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L10" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="put/1">
+  <div class="detail-header">
+    <a href="#put/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">put(index)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L11" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -199,9 +291,9 @@
     <a href="#put/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">put(pid, bucket)</span>
+    <span class="signature">put(pid, index)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L9" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L11" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -216,9 +308,9 @@
     <a href="#put/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">put(pid, bucket, schema)</span>
+    <span class="signature">put(pid, index, schema)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L10" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L12" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -233,9 +325,9 @@
     <a href="#put/4" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">put(pid, bucket, schema, props)</span>
+    <span class="signature">put(pid, index, schema, props)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L11" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L13" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     

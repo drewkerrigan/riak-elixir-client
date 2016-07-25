@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riak.Search – Riak Elixir Client v1.0.0</title>
+    <title>Riak.Search – Riak Elixir Client v1.1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.10.0">
     <link rel="stylesheet" href="dist/app.css" />
@@ -28,7 +28,7 @@
         Riak Elixir Client
       </h1>
       <h2 class="sidebar-projectVersion">
-        v1.0.0
+        v1.1.0
       </h2>
     </div>
     
@@ -88,13 +88,25 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#query/4">query(pid, bucket, query, options \\ [])</a>
+    <a href="#query/2">query(index, query)</a>
   </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#query/5">query(pid, bucket, query, options, timeout)</a>
+    <a href="#query/3">query(pid, index, query)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#query/4">query(pid, index, query, options)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#query/5">query(pid, index, query, options, timeout)</a>
   </div>
   
 </div>
@@ -119,14 +131,48 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="query/4">
+          <div class="detail" id="query/2">
+  <div class="detail-header">
+    <a href="#query/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">query(index, query)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L5" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="query/3">
+  <div class="detail-header">
+    <a href="#query/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">query(pid, index, query)</span>
+      
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L5" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="query/4">
   <div class="detail-header">
     <a href="#query/4" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">query(pid, bucket, query, options \\ [])</span>
+    <span class="signature">query(pid, index, query, options)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L4" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L6" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -141,9 +187,9 @@
     <a href="#query/5" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">query(pid, bucket, query, options, timeout)</span>
+    <span class="signature">query(pid, index, query, options, timeout)</span>
       
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L5" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/search.ex#L7" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     

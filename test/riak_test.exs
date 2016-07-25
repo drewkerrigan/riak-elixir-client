@@ -1,6 +1,8 @@
 defmodule RiakTest do
   use Riak.Case
 
+  @moduletag :riak1
+
   test "put", context do
     pid = context[:pid]
     key = Riak.Helper.random_key

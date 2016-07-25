@@ -6,7 +6,7 @@ defmodule Riak.Case do
   setup do
     {:ok, pid } = Riak.Connection.start('127.0.0.1', 8087)
     on_exit fn ->
-      Riak.Helper.clean! pid
+      #Riak.Helper.clean! pid
       Process.exit(pid, :kill)
     end
     {:ok, pid: pid}
@@ -15,6 +15,7 @@ end
 
 defmodule Riak.Helper do
   def clean!(pid) do
+    # This is terrible, and should not be used.
     for bucket <- Riak.Bucket.list!(pid), key <- Riak.Bucket.keys!(pid, bucket) do
       Riak.delete(pid, bucket, key)
     end

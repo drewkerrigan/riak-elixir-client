@@ -110,6 +110,59 @@ Using object
 Riak.delete(pid, o)
 ```
 
+### Timeseries
+
+Riak Timeseries functionality is available in [TS 1.3.1 releases of Riak](http://docs.basho.com/riak/ts/1.3.1/downloads/) and greater.
+
+#### Setup
+
+Create a table:
+
+```
+riak-admin bucket-type create GeoCheckin '{"props":{"table_def": "CREATE TABLE GeoCheckin (region VARCHAR NOT NULL, state VARCHAR NOT NULL, time TIMESTAMP NOT NULL, weather VARCHAR NOT NULL, temperature DOUBLE, PRIMARY KEY ((region, state, QUANTUM(time, 15, 'm')), region, state, time))"}}'
+riak-admin bucket-type activate GeoCheckin
+```
+
+#### Insert Rows
+
+```
+Riak.Timeseries.put("GeoCheckin", [
+    {"region1", "state1", 25, "hot", 23.0},
+    {"region2", "state99", 26, "windy", 19.0}
+])
+> :ok
+```
+
+#### Get a row by primary key
+
+```
+Riak.Timeseries.get("GeoCheckin", ["region1", "state1", 25])
+> {["region", "state", "time", "weather", "temperature"], [{"region1", "state1", 25, "hot", 23.0}]}
+```
+
+#### Get all rows
+
+*Note*: This is a very expensive operation for a loaded cluster
+
+```
+Riak.Timeseries.list!("GeoCheckin")
+> [{"region1", "state1", 25, "hot", 23.0}, {"region2", "state99", 26, "windy", 19.0}]
+```
+
+#### Delete a row
+
+```
+Riak.Timeseries.delete("GeoCheckin", ["region2", "state99", 26])
+> :ok
+```
+
+#### Query
+
+```
+Riak.Timeseries.query("select * from GeoCheckin where time > 24 and time < 26 and region = 'region1' and state = 'state1'")
+> {["region", "state", "time", "weather", "temperature"], [{"region1", "state1", 25, "hot", 23.0}]}
+```
+
 ### Datatypes
 
 Riak Datatypes (a.k.a. CRDTs) are avaiable in [Riak versions 2.0](http://basho.com/introducing-riak-2-0/) and greater.  The types included are: maps, sets, counters, registers and flags.
@@ -225,7 +278,8 @@ MIX_ENV=test mix do deps.get, test
 
 *Note*
 
-The creation of the following CRDT bucket-types is a prerequisite for passing the tests.
+The creation of the following CRDT bucket-types is a prerequisite for passing the CRDT tests.
+
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate maps
@@ -233,6 +287,15 @@ riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate sets
 riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
 riak-admin bucket-type activate counters
+```
+
+*Note*
+
+The creation of this Timeseries table is a prerequisite for passing the Timeseries tests.
+
+```
+riak-admin bucket-type create GeoCheckin '{"props":{"table_def": "CREATE TABLE GeoCheckin (region VARCHAR NOT NULL, state VARCHAR NOT NULL, time TIMESTAMP NOT NULL, weather VARCHAR NOT NULL, temperature DOUBLE, PRIMARY KEY ((region, state, QUANTUM(time, 15, 'm')), region, state, time))"}}'
+riak-admin bucket-type activate GeoCheckin
 ```
 
 

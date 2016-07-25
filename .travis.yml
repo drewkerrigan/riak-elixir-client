@@ -10,4 +10,4 @@ env:
   - MIX_ENV=test
 services:
   - riak
-script: mix test --exclude riak2
+script: mix test --exclude riak2 --exclude riakts

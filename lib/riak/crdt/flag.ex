@@ -17,6 +17,7 @@ defmodule Riak.CRDT.Flag do
   def value(flag) when Record.is_record(flag, :flag) do
     :riakc_flag.value(flag)
   end
+  def value(nil), do: {:error, :nil_object}
 
   @doc """
   Turns the value to true
@@ -24,11 +25,18 @@ defmodule Riak.CRDT.Flag do
   def enable(flag) when Record.is_record(flag, :flag) do
     :riakc_flag.enable(flag)
   end
+  def enable(nil), do: {:error, :nil_object}
 
   @doc """
   Turns the value to false
   """
   def disable(flag) when Record.is_record(flag, :flag) do
-    :riakc_flag.disable(flag)
+    # This is not ideal, create a :riakc_flag::flag() record with a disable op
+    case flag do
+      {:flag, value, _, :undefined} ->
+        {:flag, value, :disable, :undefined};
+      _ -> :riakc_flag.disable(flag)
+    end
   end
+  def disable(nil), do: {:error, :nil_object}
 end

@@ -20,6 +20,7 @@ defmodule Riak.CRDT.Register do
   def value(register) when Record.is_record(register, :register) do
     :riakc_register.value(register)
   end
+  def value(nil), do: {:error, :nil_object}
 
   @doc """
   Set the `value` on the `register`
@@ -28,4 +29,5 @@ defmodule Riak.CRDT.Register do
                            and is_binary(value) do
     :riakc_register.set(value, register)
   end
+  def set(nil, _), do: {:error, :nil_object}
 end

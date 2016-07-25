@@ -1,6 +1,5 @@
 defmodule RiakTest do
   use Riak.Case
-  import Riak.Helper
 
   @moduletag :riak1
 
@@ -46,9 +45,9 @@ defmodule RiakTest do
     assert :ok == Riak.delete pid, "user", u.key
 
     u = Riak.Object.create(bucket: "user", data: "Drew Kerrigan")
-    assert u.key == :undefined
+    assert u.key == nil
     u = Riak.put pid, u
-    assert u.key != :undefined
+    assert u.key != nil
 
     # Get the object again so we don't create a sibling
     u = Riak.find pid, "user", u.key
@@ -58,14 +57,6 @@ defmodule RiakTest do
 
     unewdata = Riak.find pid, "user", u.key
 
-    if is_list(unewdata) and length(unewdata) == 2 do
-      Riak.resolve pid, "user", u.key, index_of("Drew Kerrigan", unewdata)
-
-      unewdata = Riak.find pid, "user", u.key
-
-      unewdata
-    end
-
     assert unewdata.data == "Something Else"
 
     assert :ok == Riak.delete pid, "user", u.key
@@ -73,6 +64,27 @@ defmodule RiakTest do
 
     assert nil == Riak.find pid, "user", key
   end
+
+  # test "create siblings", context do
+  #   pid = context[:pid]
+  #   key = Riak.Helper.random_key
+
+  #   o = Riak.Object.create(type: "siblings", bucket: "user", key: key, data: "Drew Kerrigan")
+  #   Riak.put(pid, o)
+  #   Riak.put(pid, o)
+  #   u = Riak.find(pid, {"siblings", "user"}, key)
+  #   u = case u do
+  #         nil -> Riak.find(pid, {"siblings", "user"}, key)
+  #         u -> u
+  #       end
+  #   assert u != nil
+  #   assert is_list(u)
+  #   Riak.resolve(pid, {"siblings", "user"}, key, Riak.Helper.index_of("Drew Kerrigan", u))
+  #   u = Riak.find(pid, {"siblings", "user"}, key)
+  #   assert u != nil
+  #   assert u.data == "Drew Kerrigan"
+  #   assert :ok == Riak.delete pid, u
+  # end
 
   test "user metadata", context do
     pid = context[:pid]

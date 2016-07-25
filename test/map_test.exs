@@ -55,20 +55,34 @@ defmodule Riak.CRDT.MapTest do
 
     flag = Flag.new |> Flag.enable
     flag_key = "flag_key"
+
     nested = Map.new |> Map.put(flag_key, flag)
     nested_key = "nested_key"
 
     Map.new
-      |> Map.put(nested_key, nested)
-      |> Riak.update("maps", "bucketmap", key)
+    |> Map.put(nested_key, nested)
+    |> Riak.update("maps", "bucketmap", key)
 
     map = Riak.find("maps", "bucketmap", key)
 
     value_map = map |> Map.value
 
     assert :orddict.size(value_map) == 1
+    assert :orddict.fetch({nested_key, :map}, value_map) == [{{flag_key, :flag}, true}]
 
-    assert :orddict.fetch({"nested_key", :map}, value_map) == [{{"flag_key", :flag}, true}]
+    exists = Riak.find("maps", "bucketmap", key)
+    |> Map.has_key?({nested_key, :map})
+
+    assert exists == true
+
+    Riak.find("maps", "bucketmap", key) |> Map.delete({nested_key, :map})
+    |> Riak.update("maps", "bucketmap", key)
+
+    exists = Riak.find("maps", "bucketmap", key)
+    |> Map.has_key?({nested_key, :map})
+
+    assert exists == false
+
   end
 
   test "create, update, delete map" do

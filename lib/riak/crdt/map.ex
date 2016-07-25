@@ -52,7 +52,7 @@ defmodule Riak.CRDT.Map do
   @doc """
   Delete a `key` from the `map`
   """
-  def delete(map, key) when Record.is_record(map, :map) and is_binary(key) do
+  def delete(map, key) when Record.is_record(map, :map) do
     :riakc_map.erase(key, map)
   end
   def delete(nil, _), do: {:error, :nil_object}

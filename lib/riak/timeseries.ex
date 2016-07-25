@@ -1,8 +1,12 @@
 defmodule Riak.Timeseries do
   import Riak.Pool
 
-  defpool query(pid, query_text) when is_pid(pid) do
-    :riakc_ts.query(pid, query_text)
+  defpool query(pid, query_text) when is_pid(pid) and is_binary(query_text) do
+    query_list = :erlang.binary_to_list(query_text)
+    case :riakc_ts.query(pid, query_list) do
+      {:ok, results} -> results;
+      err -> err
+    end
   end
 
   defpool put(pid, table, data) when is_pid(pid)  and is_list(data)do
@@ -14,7 +18,10 @@ defmodule Riak.Timeseries do
   end
 
   defpool get(pid, table, key, options) when is_pid(pid) and is_list(key) do
-    :riakc_ts.get(pid, table, key, options)
+    case :riakc_ts.get(pid, table, key, options) do
+      {:ok, results} -> results;
+      err -> err
+    end
   end
 
   defpool delete(pid, table, key) when is_pid(pid) and is_list(key) do
@@ -36,7 +43,7 @@ defmodule Riak.Timeseries do
 
   defp wait_for_list(req_id, acc) do
     receive do
-      {^req_id, :done} -> {:ok, List.flatten(acc)}
+      {^req_id, :done} -> List.flatten(acc)
       {^req_id, {:error, reason}} -> {:error, reason}
       {^req_id, {_, res}} -> wait_for_list(req_id, [res|acc])
     end

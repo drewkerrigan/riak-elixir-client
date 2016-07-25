@@ -225,7 +225,8 @@ MIX_ENV=test mix do deps.get, test
 
 *Note*
 
-The creation of the following CRDT bucket-types is a prerequisite for passing the tests.
+The creation of the following CRDT bucket-types is a prerequisite for passing the CRDT tests.
+
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate maps
@@ -233,6 +234,15 @@ riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate sets
 riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
 riak-admin bucket-type activate counters
+```
+
+*Note*
+
+The creation of this Timeseries table is a prerequisite for passing the Timeseries tests.
+
+```
+riak-admin bucket-type create GeoCheckin '{"props":{"table_def": "CREATE TABLE GeoCheckin (region VARCHAR NOT NULL, state VARCHAR NOT NULL, time TIMESTAMP NOT NULL, weather VARCHAR NOT NULL, temperature DOUBLE, PRIMARY KEY ((region, state, QUANTUM(time, 15, 'm')), region, state, time))"}}'
+riak-admin bucket-type activate GeoCheckin
 ```
 
 

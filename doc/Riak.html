@@ -146,7 +146,7 @@ riak-admin bucket-type activate sets</code></pre>
 <pre><code class="elixir">riak-admin bucket-type create maps &#39;{&quot;props&quot;:{&quot;datatype&quot;:&quot;map&quot;}}&#39;
 riak-admin bucket-type activate maps</code></pre>
 <h4>Counters</h4>
-<p>Create a counter (<code class="inline">alias Riak.CRDT.Counter</code>):</p>
+<p>Create a counter (<code class="inline">alias Riak.Datatype.Counter</code>):</p>
 <pre><code class="elixir">Counter.new
   |&gt; Counter.increment
   |&gt; Counter.increment(2)
@@ -158,7 +158,7 @@ riak-admin bucket-type activate maps</code></pre>
 <p><strong><em>NOTE</em></strong>: “Counter drift” is a possibility that needs to be accounted for with any distributed system such as Riak.  The problem can manifest itself during failure states in either your applicaiton or Riak itself.  If an increment operation fails from the client’s point of view, there is not sufficient information available to know whether or not that call made it to zero or all of the replicas for that counter object.  As such, if the client attempts to retry the increment after recieving something like a error code 500 from Riak, that counter object is at risk of drifting positive.  Similarly if the client decides not to retry, that counter object is at risk of drifting negative.</p>
 <p>For these reasons, counters are only suggested for use-cases that can handle some (albeit small) amount of counter drift.  Good examples of appropriate use-cases are: Facebook likes, Twitter retweet counts, Youtube view counts, etc.  Some examples of poor use-cases for Riak counters are: bank account balances, anything related to money.  It is possible to implement these types of solutions using Riak, but more client side logic is necessary.  For an example of a client-side ledger with tunable retry options, check <a href="https://github.com/drewkerrigan/riak-ruby-ledger">github.com/drewkerrigan/riak-ruby-ledger</a>.  Another approach could be the client-side implementation of a HAT (Highly Available Transaction) algorithm.</p>
 <h4>Sets</h4>
-<p>Create a set (<code class="inline">alias Riak.CRDT.Set</code>):</p>
+<p>Create a set (<code class="inline">alias Riak.Datatype.Set</code>):</p>
 <pre><code class="elixir">Set.new
   |&gt; Set.put(&quot;foo&quot;)
   |&gt; Set.put(&quot;bar&quot;)
@@ -169,7 +169,7 @@ riak-admin bucket-type activate maps</code></pre>
 <p>Where <code class="inline">set</code> is an <code class="inline">orddict</code>.</p>
 <h4>Maps</h4>
 <p>Maps handle binary keys with any other datatype (map, set, flag, register and counter).</p>
-<p>Create a map (<code class="inline">alias Riak.CRDT.Map</code>):</p>
+<p>Create a map (<code class="inline">alias Riak.Datatype.Map</code>):</p>
 <pre><code class="elixir">register = Register.new(&quot;some string&quot;)
 flag = Flag.new |&gt; Flag.enable
 Map.new

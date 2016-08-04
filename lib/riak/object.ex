@@ -3,17 +3,121 @@ defmodule Riak.Object do
   The Data wrapper makes it convenient to work with Riak data in Elixir
   """
 
-  @doc """
-  Struct representing a Riak Object. Attributes:
-  * `type`: String; Bucket Type with a unique name within the cluster namespace
-  * `bucket`: String; Bucket with a unique name within the bucket type namespace
-  * `key`: String; Not required; Key with a unique name within the bucket namespace
-  * `data`: Any; Value to be stored under the key
-  * `metadata`: Orddict; User specified metadata
-  * `vclock`: String; Dotted Version Vector / Causal Context for object
-  * `content_type`: String; Content Type for object
-  """
-  defstruct [bucket: nil, type: nil, key: nil, data: nil, metadata: nil, vclock: nil, content_type: "application/json"]
+  @md_ctype "content-type"
+  @md_charset "charset"
+  @md_encoding "content-encoding"
+  @md_vtag "X-Riak-VTag"
+  @md_links "Links"
+  @md_lastmod "X-Riak-Last-Modified"
+  @md_usermeta "X-Riak-Meta"
+  @md_index "index"
+  @md_deleted "X-Riak-Deleted"
+
+  @opaque t :: %__MODULE__{
+    type: string,
+    bucket: string,
+    key: string,
+    data: binary,
+    siblings: list,
+    context: binary,
+    content_type: string,
+    charset: string,
+    content_encoding: string,
+    vtag: string,
+    links: MapSet,
+    last_modified: string,
+    indexes: map,
+    metadata: map,
+    deleted: boolean
+  }
+
+  defstruct [
+    type: nil,
+    bucket: nil,
+    key: nil,
+    old_data: nil,
+    data: nil,
+    siblings: [],
+    context: nil,
+    content_type: "application/json",
+    charset: nil,
+    content_encoding: nil,
+    vtag: nil,
+    links: MapSet.new,
+    last_modified: nil,
+    indexes: %{},
+    metadata: %{},
+    deleted: false]
+
+  @spec new :: t
+  def new(), do: %__MODULE__{}
+
+  def new(%__MODULE__{} = set), do: set
+  def new(enumerable) do
+    struct(__MODULE__, Enum.to_list(enumerable))
+  end
+
+  def md_get(md, key) do
+    case :dict.find(key, md) do
+      :error -> nil
+      {ok, :undefined} -> nil
+      {ok, v} -> v
+    end
+  end
+
+  def from_md_dict(md) do
+    %__MODULE__{
+      content_type: md_get(md, @md_ctype),
+      charset: md_get(md, @md_charset),
+      content_encoding: md_get(md, @md_encoding),
+      vtag: md_get(md, @md_vtag),
+      links: md_get(md, @md_links),
+      last_modified: md_get(md, @md_lastmod),
+      metadata: md_get(md, @md_usermeta),
+      indexes: md_get(md, @md_index),
+      deleted: md_get(md, @md_deleted)
+    }
+
+  def from_record({:riakc_obj, {type, bucket}, key, context, [{md, data}], :undefined, :undefined}) do
+    obj = from_md_dict(md)
+    %{obj |
+      type: type,
+      bucket: bucket,
+      key: key,
+      data: data,
+      context: context
+    }
+  end
+
+  def from_record({:riakc_obj, {type, bucket}, key, context, [{_, _}|_], _, _}=rec) do
+    %{obj |
+      type: type,
+      bucket: bucket,
+      key: key,
+      data: nil,
+      context: context,
+      siblings: from_record_siblings(rec, [])
+    }
+  end
+
+  def from_record_siblings({:riakc_obj, _, _, _, [], _, _}, acc) do
+    acc
+  end
+
+  def from_record_siblings({:riakc_obj, {type, bucket}, key, context, [{md, data}|rest], um, ud}, acc) do
+    sibling = from_record({:riakc_obj, {type, bucket}, key, context, [{md, data}], um, ud})
+    next = {:riakc_obj, {type, bucket}, key, context, rest, um, ud}
+    from_record_siblings(next, [sibling | acc])
+  end
+
+  def to_record(obj) do
+    {:riakc_obj, {type, bucket}, key, context, [], to_md_dict(obj), obj.data}
+  end
+
+
+
+
+
 
   @doc """
   Get all metadata entries

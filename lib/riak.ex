@@ -306,8 +306,24 @@ defmodule Riak do
     end
   end
 
-  defp build_sibling_list([{_md, val}|t], final_list), do: build_sibling_list(t,[val|final_list])
+  # [["X-Riak-Deleted" | true]]
+  defp sibling_deleted?(md) do
+    md
+    |> Tuple.to_list
+    |> List.last
+    |> Tuple.to_list
+    |> List.first
+    |> Tuple.to_list
+    |> Enum.any?(fn
+      [["X-Riak-Deleted" | true]] -> true
+      _ -> false
+    end)
+  end
+  defp build_sibling_list([], [final_list]), do: %Riak.Object{data: final_list}
   defp build_sibling_list([], final_list), do: final_list
+  defp build_sibling_list([{md, val}|t], final_list) do
+    build_sibling_list(t, (if sibling_deleted?(md), do: final_list, else: [val|final_list]))
+  end
 
   @doc """
   Picks the sibling to "win" over the other siblings via a list index.

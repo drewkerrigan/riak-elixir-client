@@ -308,16 +308,10 @@ defmodule Riak do
 
   # [["X-Riak-Deleted" | true]]
   defp sibling_deleted?(md) do
-    md
-    |> Tuple.to_list
-    |> List.last
-    |> Tuple.to_list
-    |> List.first
-    |> Tuple.to_list
-    |> Enum.any?(fn
-      [["X-Riak-Deleted" | true]] -> true
-      _ -> false
-    end)
+    presented = md
+                |> :dict.fetch_keys
+                |> Enum.find(& &1 == "X-Riak-Deleted")
+    presented && :dict.fetch("X-Riak-Deleted", md)
   end
   defp build_sibling_list([], [final_list]), do: %Riak.Object{data: final_list}
   defp build_sibling_list([], final_list), do: final_list

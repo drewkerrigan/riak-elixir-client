@@ -23,6 +23,22 @@ defmodule RiakTest do
     assert Riak.find(pid, "user", key).data == o.data
   end
 
+  # curl -XDELETE http://localhost:8098/types/spot/buckets/active/keys/EURUSD
+  @tag :skip
+  test "find with deleted", context do
+
+    pid = context[:pid]
+    key = Riak.Helper.random_key
+    data = "Drew_Kerrigan"
+
+    target = "http://localhost:8098/types/user_types/buckets/user/keys"
+    System.cmd("curl", ~w[-s -XPUT #{target}/#{key} -d {"value_s":"#{data}_1"} -H Content-Type:application/json])
+    System.cmd("curl", ~w[-s -XDELETE #{target}/#{key}])
+    System.cmd("curl", ~w[-s -XPUT #{target}/#{key} -d {"value_s":"#{data}_2"} -H Content-Type:application/json])
+
+    assert Riak.find(pid, {"user_types", "user"}, key).data == ~s[{"value_s":"#{data}_2"}]
+  end
+
   test "delete", context do
     pid = context[:pid]
     key = Riak.Helper.random_key
@@ -135,7 +151,7 @@ defmodule RiakTest do
     assert Riak.Object.get_index(o, {:binary_index, "first_name"}) == ["Drew"]
 
     case Riak.Index.query(pid, "user", {:binary_index, "first_name"}, "Drew", []) do
-      {:error, code: "error.index.unsupported", message: _} -> 
+      {:error, code: "error.index.unsupported", message: _} ->
         :ok
       {keys, terms, continuation} ->
         assert is_list(keys)

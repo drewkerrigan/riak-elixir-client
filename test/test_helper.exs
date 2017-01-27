@@ -1,3 +1,4 @@
+ExUnit.configure(exclude: [skip: true])
 ExUnit.start
 
 defmodule Riak.Case do

@@ -20,6 +20,7 @@ defmodule Riak.Mixfile do
 
   defp deps do
     [ {:ex_doc, ">= 0.0.0", only: :dev},
+      {:earmark, ">= 0.0.0", only: :dev},
       {:linguist, "~> 0.1"},
       {:pooler, "~> 1.5"},
       {:riakc, "~> 2.5"} ]

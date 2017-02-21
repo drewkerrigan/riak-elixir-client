@@ -3,14 +3,13 @@ defmodule Riak.Mixfile do
 
   def project do
     [ app: :riak,
-      version: "1.1.0",
-      elixir: "~> 1.0",
-      deps: deps,
+      version: "1.1.1",
       build_per_environment: false,
       name: "Riak Elixir Client",
       source_url: "https://github.com/drewkerrigan/riak-elixir-client",
-      description: description,
-      package: package ]
+      deps: deps(),
+      description: description(),
+      package: package() ]
   end
 
   # Configuration for the OTP application
@@ -20,11 +19,10 @@ defmodule Riak.Mixfile do
   end
 
   defp deps do
-    [ {:earmark, only: :dev},
-      {:ex_doc, only: :dev},
+    [ {:ex_doc, ">= 0.0.0", only: :dev},
       {:linguist, "~> 0.1"},
       {:pooler, "~> 1.5"},
-      {:riakc, "~> 2.4"} ]
+      {:riakc, "~> 2.5"} ]
   end
 
   defp description do

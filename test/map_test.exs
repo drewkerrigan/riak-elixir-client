@@ -1,127 +1,84 @@
-defmodule Riak.CRDT.MapTest do
+defmodule Riak.Datatype.MapTest do
   require IEx
   use Riak.Case
-  alias Riak.CRDT.Map
-  alias Riak.CRDT.Register
-  alias Riak.CRDT.Flag
-  alias Riak.CRDT.Counter
-  alias Riak.CRDT.Set
+  alias Riak.Datatype.Map
+  alias Riak.Datatype.Register
+  alias Riak.Datatype.Flag
 
   @moduletag :riak2
 
   test "create, update and find a map with other CRDTs" do
     key = Riak.Helper.random_key
+    bucket = {"maps", "bucketmap"}
 
-    reg_data = "Register data"
-    reg = Register.new(reg_data)
-    reg_key = "register_key"
+    Map.new(%{register_key: "Register Data",
+              flag_key: true,
+              counter_key: 1,
+              set_key: ["foo"]})
+              |> Riak.Datatype.put(bucket, key)
 
-    flag = Flag.new |> Flag.enable
-    flag_key = "flag_key"
+    map = Riak.Datatype.find(bucket, key)
+    assert Map.has_key?(map, :counter_key)
+    assert Map.has_key?(map, :flag_key)
+    assert Map.has_key?(map, :register_key)
+    assert Map.has_key?(map, :set_key)
+    assert Enum.count(map) == 4
 
-    counter = Counter.new |> Counter.increment
-    counter_key = "counter_key"
-
-    set = Set.new |> Set.put("foo")
-    set_key = "set_key"
-
-    Map.new
-      |> Map.put(reg_key, reg)
-      |> Map.put(flag_key, flag)
-      |> Map.update(:counter, counter_key, fn _ -> counter end)
-      |> Map.put(set_key, set)
-      |> Riak.update("maps", "bucketmap", key)
-
-    map = Riak.find("maps", "bucketmap", key)
-      |> Map.value
-
-    map_keys = :orddict.fetch_keys(map)
-    assert {"counter_key", :counter} in map_keys
-    assert {"flag_key", :flag} in map_keys
-    assert {"register_key", :register} in map_keys
-    assert {"set_key", :set} in map_keys
-
-    assert :orddict.size(map) == 4
-
-    data = :orddict.to_list(map)
-    assert {{reg_key, :register}, reg_data} in data
-    assert {{flag_key, :flag}, true} in data
-    assert {{counter_key, :counter}, 1} in data
-    assert {{set_key, :set}, ["foo"]} in data
+    data = Map.value(map)
+    assert data.register_key == "Register Data"
+    assert data.flag_key == true
+    assert data.counter_key == 1
+    assert data.set_key == ["foo"]
   end
 
   test "create, update and find nested maps" do
     key = Riak.Helper.random_key
+    bucket = {"maps", "bucketmap"}
 
-    flag = Flag.new |> Flag.enable
-    flag_key = "flag_key"
+    Riak.Datatype.new(%{nested_key: %{flag_key: true}})
+    |> Riak.Datatype.put(bucket, key)
 
-    nested = Map.new |> Map.put(flag_key, flag)
-    nested_key = "nested_key"
+    map = Riak.Datatype.find(bucket, key)
+    flag = Map.get(map, :nested_key) |> Map.get(:flag_key)
+    assert Enum.count(map) == 1
+    assert Flag.value(flag) == true
+    assert Map.has_key?(map, :nested_key) == true
 
-    Map.new
-    |> Map.put(nested_key, nested)
-    |> Riak.update("maps", "bucketmap", key)
+    Riak.Datatype.find(bucket, key)
+    |> Map.delete(:nested_key)
+    |> Riak.Datatype.update(bucket, key)
 
-    map = Riak.find("maps", "bucketmap", key)
-
-    value_map = map |> Map.value
-
-    assert :orddict.size(value_map) == 1
-    assert :orddict.fetch({nested_key, :map}, value_map) == [{{flag_key, :flag}, true}]
-
-    exists = Riak.find("maps", "bucketmap", key)
-    |> Map.has_key?({nested_key, :map})
-
-    assert exists == true
-
-    Riak.find("maps", "bucketmap", key) |> Map.delete({nested_key, :map})
-    |> Riak.update("maps", "bucketmap", key)
-
-    exists = Riak.find("maps", "bucketmap", key)
-    |> Map.has_key?({nested_key, :map})
-
-    assert exists == false
-
+    map = Riak.Datatype.find(bucket, key)
+    assert Map.has_key?(map, :nested_key) == false
   end
 
   test "create, update, delete map" do
     key = Riak.Helper.random_key
+    bucket = {"maps", "users"}
 
-    Map.new
-      |> Map.put("register_key", Register.new("Some Data"))
-      |> Riak.update("maps", "users", key)
+    Map.new(%{register_key: Register.new("Some Data")})
+    |> Riak.Datatype.put(bucket, key)
 
-    reg_data = Riak.find("maps", "users", key)
-      |> Map.get(:register, "register_key")
+    reg = Riak.Datatype.find(bucket, key)
+    |> Map.get(:register_key)
 
-    assert "Some Data" == reg_data
+    assert "Some Data" == Register.value(reg)
 
-    Riak.delete("maps", "users", key)
-    assert Riak.find("maps", "users", key) == nil
-
+    Riak.Datatype.delete(bucket, key)
+    assert Riak.Datatype.find(bucket, key) == nil
   end
 
   test "map key exists" do
     key = Riak.Helper.random_key
+    bucket = {"maps", "users"}
 
     Map.new
-    |> Map.put("register_key", Register.new("Some Data"))
-    |> Riak.update("maps", "users", key)
+    |> Map.put("register_key", "Some Data")
+    |> Riak.Datatype.update(bucket, key)
 
-    exists = Riak.find("maps", "users", key)
-    |> Map.has_key?({"nothere", :register})
-
-    assert exists == false
-
-    exists = Riak.find("maps", "users", key)
-    |> Map.has_key?({"register_key", :register})
-
-    assert exists == true
-
-    keys = Riak.find("maps", "users", key)
-    |> Map.keys()
-
-    assert keys == [{"register_key", :register}]
+    map = Riak.Datatype.find(bucket, key)
+    assert Map.has_key?(map, "nothere") == false
+    assert Map.has_key?(map, "register_key") == true
+    assert Map.keys(map) == [:register_key]
   end
 end

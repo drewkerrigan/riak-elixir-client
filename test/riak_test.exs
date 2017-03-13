@@ -107,11 +107,11 @@ defmodule RiakTest do
     key = Riak.Helper.random_key
 
     mdtest = Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
-      |> Riak.Object.put_metadata({"my_key", "my_value"})
-      |> Riak.Object.put_metadata({"my_key2", "my_value2"})
+    |> Riak.Object.put_metadata({"my_key", "my_value"})
+    |> Riak.Object.put_metadata({"my_key2", "my_value2"})
 
-      mdtest = Riak.put(pid, mdtest)
-        |> Riak.Object.get_metadata("my_key")
+    mdtest = Riak.put(pid, mdtest)
+    |> Riak.Object.get_metadata("my_key")
 
     assert mdtest == "my_value"
 
@@ -124,7 +124,7 @@ defmodule RiakTest do
 
     mdtest3 = u
       |> Riak.Object.get_all_metadata()
-      |> is_list
+      |> is_map
 
     assert mdtest3
 
@@ -136,7 +136,7 @@ defmodule RiakTest do
     u = Riak.Object.delete_all_metadata(u)
 
     assert nil == Riak.Object.get_metadata(u, "my_key2")
-    assert [] == Riak.Object.get_all_metadata(u)
+    assert %{} == Riak.Object.get_all_metadata(u)
   end
 
   test "secondary indexes", context do
@@ -168,12 +168,12 @@ defmodule RiakTest do
 
     assert Riak.Object.get_index(o, {:binary_index, "first_name"}) == nil
 
-    assert is_list(Riak.Object.get_all_indexes(o))
+    assert is_map(Riak.Object.get_all_indexes(o))
 
     indextest = o |> Riak.Object.delete_all_indexes
       |> Riak.Object.get_all_indexes
 
-    assert indextest == []
+    assert indextest == %{}
   end
 
   test "links", context do

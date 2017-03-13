@@ -196,7 +196,7 @@ riak-admin bucket-type activate maps
 
 #### Counters
 
-Create a counter (`alias Riak.CRDT.Counter`):
+Create a counter (`alias Riak.Datatype.Counter`):
 
 ```elixir
 Counter.new
@@ -220,7 +220,7 @@ For these reasons, counters are only suggested for use-cases that can handle som
 
 #### Sets
 
-Create a set (`alias Riak.CRDT.Set`):
+Create a set (`alias Riak.Datatype.Set`):
 
 ```elixir
 Set.new
@@ -242,7 +242,7 @@ Where `set` is an `orddict`.
 
 Maps handle binary keys with any other datatype (map, set, flag, register and counter).
 
-Create a map (`alias Riak.CRDT.Map`):
+Create a map (`alias Riak.Datatype.Map`):
 
 ```elixir
 register = Register.new("some string")

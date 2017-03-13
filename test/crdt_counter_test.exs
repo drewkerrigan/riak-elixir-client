@@ -1,6 +1,6 @@
-defmodule Riak.CRDT.CounterTest do
+defmodule Riak.Datatype.CounterTest do
   use Riak.Case
-  alias Riak.CRDT.Counter
+  alias Riak.Datatype.Counter
 
   @moduletag :riak2
 
@@ -10,9 +10,9 @@ defmodule Riak.CRDT.CounterTest do
     Counter.new
       |> Counter.increment
       |> Counter.increment(2)
-      |> Riak.update("counters", "bucketcounter", key)
+      |> Riak.Datatype.put({"counters", "bucketcounter"}, key)
 
-    counter = Riak.find("counters", "bucketcounter", key)
+    counter = Riak.Datatype.find({"counters", "bucketcounter"}, key)
       |> Counter.value
 
     assert counter == 3

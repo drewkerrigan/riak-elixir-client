@@ -248,7 +248,7 @@ defmodule Riak do
   Put the metadata/value in the object under bucket-type/bucket/key.
   """
   defpool put(pid, obj) when is_pid(pid) do
-    case :riakc_pb_socket.put(pid, Riak.Object.to_robj(obj)) do
+    case :riakc_pb_socket.put(pid, Riak.Object.to_record(obj)) do
       {:ok, new_key} when is_binary(new_key) -> %{obj | key: new_key}
       {:ok, new_object} -> %{obj | key: :riakc_obj.key(new_object)}
       :ok -> obj

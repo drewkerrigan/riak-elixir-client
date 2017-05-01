@@ -4,7 +4,7 @@ defmodule Riak.CRDT do
   """
   require Record
 
-  Enum.each [:set, :map, :counter, :register, :flag], fn t ->
+  Enum.each [:set, :map, :counter, :register, :flag, :hll], fn t ->
     def type(value) when Record.is_record(value, unquote(t)), do: unquote(t)
   end
 end

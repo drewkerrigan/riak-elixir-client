@@ -287,6 +287,8 @@ riak-admin bucket-type create sets '{"props":{"datatype":"set"}}'
 riak-admin bucket-type activate sets
 riak-admin bucket-type create counters '{"props":{"datatype":"counter"}}'
 riak-admin bucket-type activate counters
+riak-admin bucket-type create hll '{"props":{"datatype":"hll"}}'
+riak-admin bucket-type activate hll
 ```
 
 *Note*

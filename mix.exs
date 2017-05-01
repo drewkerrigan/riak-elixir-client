@@ -3,7 +3,7 @@ defmodule Riak.Mixfile do
 
   def project do
     [ app: :riak,
-      version: "1.1.1",
+      version: "1.1.2",
       build_per_environment: false,
       name: "Riak Elixir Client",
       source_url: "https://github.com/drewkerrigan/riak-elixir-client",

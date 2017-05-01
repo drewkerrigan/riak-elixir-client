@@ -273,6 +273,8 @@ defmodule Riak do
         :riakc_counter.to_op(datatype)
       datatype when Record.is_record(datatype, :map) ->
         :riakc_map.to_op(datatype)
+      datatype when Record.is_record(datatype, :hll) ->
+        :riakc_hll.to_op(datatype)
       _ -> :undefined
     end
   end

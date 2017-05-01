@@ -20,11 +20,11 @@ defmodule Riak.Mixfile do
   end
 
   defp deps do
-    [ {:earmark, only: :dev},
-      {:ex_doc, only: :dev},
-      {:linguist, "~> 0.1"},
+    [ {:earmark, ">= 0.0.0", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:linguist, "~> 0.1.5"},
       {:pooler, "~> 1.5"},
-      {:riakc, "~> 2.4"} ]
+      {:riakc, "~> 2.5"} ]
   end
 
   defp description do

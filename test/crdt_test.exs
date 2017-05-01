@@ -23,4 +23,8 @@ defmodule Riak.CRDTTest do
   test 'type of Counter' do
     assert type(Riak.CRDT.Counter.new) == :counter
   end
+
+  test 'type of HyperLogLog' do
+    assert type(Riak.CRDT.HyperLogLog.new) == :hll
+  end
 end

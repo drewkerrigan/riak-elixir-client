@@ -24,9 +24,13 @@ defmodule Riak.Pool do
       end
       def unquote(name)(unquote_splicing(other_args)) do
         pid = take_group_member(:riak, 500)
-        result = unquote(name)(pid, unquote_splicing(other_args))
-        :pooler.return_group_member(:riak, pid, :ok)
-        result
+        case pid do
+          :error_no_members -> :connection_pool_exhausted
+          _ ->
+            result = unquote(name)(pid, unquote_splicing(other_args))
+            :pooler.return_group_member(:riak, pid, :ok)
+            result
+        end
       end
     end
   end

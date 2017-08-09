@@ -252,6 +252,8 @@ defmodule Riak do
       {:ok, new_key} when is_binary(new_key) -> %{obj | key: new_key}
       {:ok, new_object} -> %{obj | key: :riakc_obj.key(new_object)}
       :ok -> obj
+      {:error, term} -> {:error, term}
+      {:error, :notfound} -> nil
       _ -> nil
     end
   end
@@ -290,6 +292,8 @@ defmodule Riak do
         else
           Riak.Object.from_robj(object)
         end
+      {:error, :notfound} -> nil
+      {:error, term} -> {:error, term}
       _ -> nil
     end
   end
@@ -304,6 +308,9 @@ defmodule Riak do
   defpool find(pid, type, bucket, key) when is_pid(pid) do
     case :riakc_pb_socket.fetch_type(pid, {type, bucket}, key) do
       {:ok, object} -> object
+      {:error, :notfound} -> nil
+      {:error, {:notfound, :map}} -> nil
+      {:error, term} -> {:error, term}
       _ -> nil
     end
   end
@@ -329,6 +336,7 @@ defmodule Riak do
       {:ok, object} ->
         new_object = :riakc_obj.select_sibling(index, object)
         :riakc_pb_socket.put(pid, new_object)
+      {:error, term} -> {:error, term}
       _ -> nil
     end
   end

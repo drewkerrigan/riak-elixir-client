@@ -5,7 +5,7 @@ defmodule Riak.PoolTest do
   @moduletag :riak1
 
   test "put" do
-    key = random_key
+    key = random_key()
 
     o =  Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
 

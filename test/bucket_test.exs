@@ -2,6 +2,7 @@ defmodule Riak.BucketTest do
   use Riak.Case
 
   @moduletag :riak1
+  @tag timeout: 10000
 
   test "list bucket", context do
     {:ok, buckets} = Riak.Bucket.list context[:pid]

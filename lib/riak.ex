@@ -252,9 +252,8 @@ defmodule Riak do
       {:ok, new_key} when is_binary(new_key) -> %{obj | key: new_key}
       {:ok, new_object} -> %{obj | key: :riakc_obj.key(new_object)}
       :ok -> obj
-      {:error, term} -> {:error, term}
       {:error, :notfound} -> nil
-      _ -> nil
+      {:error, term} -> {:error, term}
     end
   end
 
@@ -294,7 +293,6 @@ defmodule Riak do
         end
       {:error, :notfound} -> nil
       {:error, term} -> {:error, term}
-      _ -> nil
     end
   end
 
@@ -311,7 +309,6 @@ defmodule Riak do
       {:error, :notfound} -> nil
       {:error, {:notfound, :map}} -> nil
       {:error, term} -> {:error, term}
-      _ -> nil
     end
   end
 
@@ -337,7 +334,6 @@ defmodule Riak do
         new_object = :riakc_obj.select_sibling(index, object)
         :riakc_pb_socket.put(pid, new_object)
       {:error, term} -> {:error, term}
-      _ -> nil
     end
   end
 

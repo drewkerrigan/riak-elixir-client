@@ -7,12 +7,12 @@ defmodule Riak.CRDT.Register do
   @doc """
   Creates a new register
   """
-  def new, do: :riakc_register.new
+  def new(), do: :riakc_register.new()
 
   @doc """
   Creates a new register with the initial `value`
   """
-  def new(value) when is_binary(value), do: set(new, value)
+  def new(value) when is_binary(value), do: set(new(), value)
 
   @doc """
   Extracts current value of `register`
@@ -21,6 +21,7 @@ defmodule Riak.CRDT.Register do
     :riakc_register.value(register)
   end
   def value(nil), do: {:error, :nil_object}
+  def value({:error, term}), do: {:error, term}
 
   @doc """
   Set the `value` on the `register`
@@ -30,4 +31,5 @@ defmodule Riak.CRDT.Register do
     :riakc_register.set(value, register)
   end
   def set(nil, _), do: {:error, :nil_object}
+  def set({:error, term}, _), do: {:error, term}
 end

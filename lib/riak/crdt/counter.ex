@@ -7,7 +7,7 @@ defmodule Riak.CRDT.Counter do
   @doc """
   Create a new counter
   """
-  def new, do: :riakc_counter.new
+  def new(), do: :riakc_counter.new()
 
   @doc """
   Increment a `counter` on the `amount` defaulting in 1
@@ -17,6 +17,7 @@ defmodule Riak.CRDT.Counter do
     :riakc_counter.increment(amount, counter)
   end
   def increment(nil, _), do: {:error, :nil_object}
+  def increment({:error, term}, _), do: {:error, term}
 
   @doc """
   Decrement a `counter` on the `amount` defaulting in 1
@@ -26,6 +27,7 @@ defmodule Riak.CRDT.Counter do
     :riakc_counter.increment(-amount, counter)
   end
   def decrement(nil, _), do: {:error, :nil_object}
+  def decrement({:error, term}, _), do: {:error, term}
 
   @doc """
   Get the original value as a number
@@ -34,4 +36,5 @@ defmodule Riak.CRDT.Counter do
     :riakc_counter.value(counter)
   end
   def value(nil), do: {:error, :nil_object}
+  def value({:error, term}), do: {:error, term}
 end

@@ -5,7 +5,7 @@ defmodule Riak.Case do
   use ExUnit.CaseTemplate
 
   setup do
-    {:ok, pid } = Riak.Connection.start('127.0.0.1', 8087)
+    {:ok, pid} = Riak.Connection.start('127.0.0.1', 8087)
     on_exit fn ->
       #Riak.Helper.clean! pid
       Process.exit(pid, :kill)

@@ -7,7 +7,7 @@ defmodule Riak.CRDT.Flag do
   @doc """
   Creates a new flag container
   """
-  def new, do: :riakc_flag.new
+  def new(), do: :riakc_flag.new()
   def new(context), do: :riakc_flag.new(context)
   def new(value, context) when is_boolean(value), do: :riakc_flag.new(value, context) 
 
@@ -18,6 +18,7 @@ defmodule Riak.CRDT.Flag do
     :riakc_flag.value(flag)
   end
   def value(nil), do: {:error, :nil_object}
+  def value({:error, term}), do: {:error, term}
 
   @doc """
   Turns the value to true
@@ -26,6 +27,7 @@ defmodule Riak.CRDT.Flag do
     :riakc_flag.enable(flag)
   end
   def enable(nil), do: {:error, :nil_object}
+  def enable({:error, term}), do: {:error, term}
 
   @doc """
   Turns the value to false
@@ -39,4 +41,5 @@ defmodule Riak.CRDT.Flag do
     end
   end
   def disable(nil), do: {:error, :nil_object}
+  def disable({:error, term}), do: {:error, term}
 end

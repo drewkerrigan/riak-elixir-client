@@ -19,6 +19,7 @@ defmodule Riak.CRDT.Set do
     :riakc_set.value(set)
   end
   def value(nil), do: {:error, :nil_object}
+  def value({:error, term}), do: {:error, term}
 
   @doc """
   Checks if `set` contains `value`.
@@ -27,6 +28,7 @@ defmodule Riak.CRDT.Set do
     :riakc_set.is_element(value, set)
   end
   def member?(nil, _), do: {:error, :nil_object}
+  def member?({:error, term}, _), do: {:error, term}
 
   @doc """
   Insert `value` on `set`
@@ -35,6 +37,7 @@ defmodule Riak.CRDT.Set do
     :riakc_set.add_element(value, set)
   end
   def put(nil, _), do: {:error, :nil_object}
+  def put({:error, term}, _), do: {:error, term}
 
   @doc """
   Delete `value` on `set`
@@ -43,6 +46,7 @@ defmodule Riak.CRDT.Set do
     :riakc_set.del_element(value, set)
   end
   def delete(nil, _), do: {:error, :nil_object}
+  def delete({:error, term}, _), do: {:error, term}
 
   @doc """
   Returns the number of elements in `set`
@@ -51,4 +55,5 @@ defmodule Riak.CRDT.Set do
     :riakc_set.size(set)
   end
   def size(nil), do: {:error, :nil_object}
+  def size({:error, term}), do: {:error, term}
 end

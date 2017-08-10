@@ -307,7 +307,7 @@ defmodule Riak do
     case :riakc_pb_socket.fetch_type(pid, {type, bucket}, key) do
       {:ok, object} -> object
       {:error, :notfound} -> nil
-      {:error, {:notfound, :map}} -> nil
+      {:error, {:notfound, _crdt}} -> nil
       {:error, term} -> {:error, term}
     end
   end

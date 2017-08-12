@@ -22,7 +22,7 @@ defmodule Riak.Mixfile do
     [ {:ex_doc, ">= 0.0.0", only: :dev},
       {:earmark, ">= 0.0.0", only: :dev},
       {:linguist, "~> 0.1.5"},
-      {:pooler, "~> 1.5"},
+      {:pooler, github: "seth/pooler"},
       {:riakc, "~> 2.5.3"} ]
   end
 

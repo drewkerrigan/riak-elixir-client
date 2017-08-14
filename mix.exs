@@ -3,7 +3,7 @@ defmodule Riak.Mixfile do
 
   def project do
     [ app: :riak,
-      version: "1.1.4",
+      version: "1.1.5",
       build_per_environment: false,
       name: "Riak Elixir Client",
       source_url: "https://github.com/drewkerrigan/riak-elixir-client",
@@ -22,7 +22,7 @@ defmodule Riak.Mixfile do
     [ {:ex_doc, ">= 0.0.0", only: :dev},
       {:earmark, ">= 0.0.0", only: :dev},
       {:linguist, "~> 0.1.5"},
-      {:pooler, github: "seth/pooler"},
+      {:pooler, "~> 1.5.3"},
       {:riakc, "~> 2.5.3"} ]
   end
 

@@ -151,8 +151,7 @@ defmodule RiakTest do
     assert Riak.Object.get_index(o, {:binary_index, "first_name"}) == ["Drew"]
 
     case Riak.Index.query(pid, "user", {:binary_index, "first_name"}, "Drew", []) do
-      {:error, code: "error.index.unsupported", message: _} ->
-        :ok
+      {:error, "{error,{indexes_not_supported,riak_kv_bitcask_backend}}"} -> :ok
       {keys, terms, continuation} ->
         assert is_list(keys)
         assert terms == :undefined

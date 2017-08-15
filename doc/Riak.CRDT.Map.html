@@ -1,42 +1,41 @@
     <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riak.CRDT.Map – Riak Elixir Client v1.1.4</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.10.0">
-    <link rel="stylesheet" href="dist/app.css" />
-    <script src="dist/sidebar_items.js"></script>
+    <meta name="generator" content="ExDoc v0.16.2">
+    <title>Riak.CRDT.Map – Riak Elixir Client v1.1.5</title>
+    <link rel="stylesheet" href="dist/app-268c9dc719.css" />
+    
+    <script src="dist/sidebar_items-8bfd31e79d.js"></script>
   </head>
   <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
     <div class="main">
 <button class="sidebar-toggle">
-  <i class="icon-menu"></i>
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
 </button>
 <section class="sidebar">
-  <button class="sidebar-toggle">
-    <i class="icon-menu"></i>
-  </button>
 
   
-  <a href="extra-api-reference.html" class="sidebar-projectLink">
+  <a href="api-reference.html" class="sidebar-projectLink">
     <div class="sidebar-projectDetails">
       <h1 class="sidebar-projectName">
         Riak Elixir Client
       </h1>
       <h2 class="sidebar-projectVersion">
-        v1.1.4
+        v1.1.5
       </h2>
     </div>
     
   </a>
 
   <div class="sidebar-search">
-    <i class="icon-search"></i>
-    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+    <span class="icon-search" aria-hidden="true"></span>
+    <input type="text" class="sidebar-searchInput" placeholder="search" aria-label="Search" autocomplete="off" />
   </div>
 
   <ul class="sidebar-listNav">
@@ -49,28 +48,31 @@
     
 
     
-  </ul>
 
+    
+  </ul>
+  <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
-  <div class="sidebar-noResults"></div>
 </section>
 
 <section class="content">
-  <div id="content" class="content-inner">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
 
 
       <h1>
+        <small class="visible-xs">Riak Elixir Client v1.1.5</small>
         Riak.CRDT.Map
         
-        
           <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L1" title="View Source" class="view-source" rel="help">
-            <i class="icon-code"></i>
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
           </a>
         
       </h1>
 
       
-        <section id="moduledoc" class="docstring">
+        <section id="moduledoc">
           <p>Encapsulates Riak maps</p>
 
         </section>
@@ -80,7 +82,8 @@
         <section id="summary" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#summary">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Summary
           </h1>
@@ -181,8 +184,6 @@ The key_type must be :register, :map, :set, :flag or :counter</p>
 
           
 
-          
-
         </section>
       
 
@@ -192,113 +193,138 @@ The key_type must be :register, :map, :set, :flag or :counter</p>
         <section id="functions" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#functions">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Functions
           </h1>
           <div class="detail" id="delete/2">
+  
   <div class="detail-header">
     <a href="#delete/2" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">delete(map, key)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L59" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L63" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Delete a <code class="inline">key</code> from the <code class="inline">map</code></p>
 
   </section>
 </div>
 <div class="detail" id="get/3">
+  
   <div class="detail-header">
     <a href="#get/3" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">get(map, key_type, key)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L22" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L26" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Fetch the value associated to <code class="inline">key</code> with the <code class="inline">key_type</code> on <code class="inline">map</code></p>
 
   </section>
 </div>
 <div class="detail" id="has_key?/2">
+  
   <div class="detail-header">
     <a href="#has_key?/2" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">has_key?(map, key)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L82" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L86" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Test if the <code class="inline">key</code> is contained in the <code class="inline">map</code></p>
 
   </section>
 </div>
 <div class="detail" id="keys/1">
+  
   <div class="detail-header">
     <a href="#keys/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">keys(map)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L75" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L77" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>List all keys of the <code class="inline">map</code></p>
 
   </section>
 </div>
 <div class="detail" id="new/0">
+  
   <div class="detail-header">
     <a href="#new/0" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">new()</span>
-      
+    
       <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L10" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Creates a new <code class="inline">map</code></p>
 
   </section>
 </div>
 <div class="detail" id="put/3">
+  
   <div class="detail-header">
     <a href="#put/3" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">put(map, key, value)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L47" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L54" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Update the <code class="inline">key</code> on the <code class="inline">map</code> by passing the <code class="inline">value</code>
 The value can be any other CRDT</p>
@@ -306,36 +332,44 @@ The value can be any other CRDT</p>
   </section>
 </div>
 <div class="detail" id="size/1">
+  
   <div class="detail-header">
     <a href="#size/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">size(map)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L15" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L17" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Get the <code class="inline">map</code> size</p>
 
   </section>
 </div>
 <div class="detail" id="update/4">
+  
   <div class="detail-header">
     <a href="#update/4" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">update(map, key_type, key, fun)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L33" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L41" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Update the <code class="inline">key</code> on the <code class="inline">map</code> by passing the function <code class="inline">fun</code>
 to update the value based on the current value (if exists) as argument
@@ -344,18 +378,22 @@ The key_type must be :register, :map, :set, :flag or :counter</p>
   </section>
 </div>
 <div class="detail" id="value/1">
+  
   <div class="detail-header">
     <a href="#value/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">value(map)</span>
-      
-      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L68" class="view-source" rel="help" title="View Source">
-       <i class="icon-code"></i>
+    
+      <a href="https://github.com/drewkerrigan/riak-elixir-client/blob/master/lib/riak/crdt/map.ex#L70" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
      </a>
     
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Get the original value of the <code class="inline">map</code></p>
 
@@ -366,24 +404,24 @@ The key_type must be :register, :map, :set, :flag or :counter</p>
       
 
       
-
-      
-        <footer class="footer">
-      <p>
-        <span class="line">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.10.0),
-        </span>
-        <span class="line">
-          designed by
-          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.2),
           </span>
-      </p>
-    </footer>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
+      </footer>
+    </div>
   </div>
 </section>
 </div>
-    <script src="dist/app.js"></script>
+  <script src="dist/app-4988ddd06b.js"></script>
   </body>
 </html>
 

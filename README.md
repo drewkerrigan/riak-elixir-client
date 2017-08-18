@@ -24,7 +24,7 @@ def application do
 end
 ...
 defp deps do
-  [ {:riak, "~> 1.0"} ]
+  [ {:riak, "~> 1.1.6"} ]
 end
 ...
 ```
@@ -169,9 +169,9 @@ Riak Datatypes (a.k.a. CRDTs) are avaiable in [Riak versions 2.0](http://basho.c
 
 #### Setup
 
-Datatypes require the use of bucket-types.  Maps, sets, and counters can be used as top-level bucket-type datatypes; Registers and flags may only be used within maps.
+Datatypes require the use of bucket-types.  Maps, sets, counters, and hyper-log-logs can be used as top-level bucket-type datatypes; Registers and flags may only be used within maps.
 
-The following examples assume the presence of 3 datatype enabled bucket-types.  You can create these bucket-types by running the following commands on a single Riak node in your cluster:
+The following examples assume the presence of 4 datatype enabled bucket-types.  You can create these bucket-types by running the following commands on a single Riak node in your cluster:
 
 Bucket-Type: `counters`
 
@@ -192,6 +192,13 @@ Bucket-Type: `maps`
 ```
 riak-admin bucket-type create maps '{"props":{"datatype":"map"}}'
 riak-admin bucket-type activate maps
+```
+
+Bucket-Type: `hll`
+
+```
+riak-admin bucket-type create hll '{"props":{"datatype":"hll"}}'
+riak-admin bucket-type activate hll
 ```
 
 #### Counters
@@ -261,6 +268,29 @@ map = Riak.find("maps", "my_map_bucket", key) |> Map.value
 
 Where `map` is an `orddict`.
 
+#### Hyper Log Logs
+
+The use case for this type is counting distinct elements in a monotonic way.
+I think of it as like a counter for customers visited but once a customer visits
+the counter will never go up again.  It also isn't possible to remove a element
+once it has been added to the log.
+
+Create a HLL (`alias Riak.CRDT.HyperLogLog`):
+
+```elixir
+HyperLogLog.new
+  |> HyperLogLog.add_element("foo")
+  |> Riak.update("hll", "my_hll_bucket", "hll_key")
+```
+
+And fetch the distinct count:
+
+```elixir
+hll = Riak.find("hll", "my_hll_bucket", "hll_key") |> HLL.value
+```
+
+Where `hll` is an `integer`.
+
 ## Examples
 
 Check the `examples/` directory for a few example elixir applications using the riak client.  
@@ -303,7 +333,7 @@ riak-admin bucket-type activate GeoCheckin
 
 ## License
 
-    Copyright 2015 Drew Kerrigan.
+    Copyright 2017 Drew Kerrigan.
     Copyright 2014 Eduardo Gurgel.
 
     Licensed under the Apache License, Version 2.0 (the "License");

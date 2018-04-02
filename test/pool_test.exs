@@ -10,5 +10,6 @@ defmodule Riak.PoolTest do
     o =  Riak.Object.create(bucket: "user", key: key, data: "Drew Kerrigan")
 
     assert Riak.put(o) == o
+    assert Riak.put(:riak, o) == o
   end
 end

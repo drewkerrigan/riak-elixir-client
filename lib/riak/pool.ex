@@ -5,14 +5,31 @@ defmodule Riak.Pool do
   lower arity for each function so:
 
   Riak.put(pid, bucket, key, data) ->
-  Riak.put(bucket, key, data) that calls the previous function
+
+   - Riak.put(bucket, key, data) that calls the previous function
   with a pid from the pool
+
+   - Riak.put(pool_group, bucket, key, data) when is_atom(pool_group)
+  that calls the previous function
+  with a pid from the given pool name from the pool, instead of the default :riak group
+
+
   """
   defmacro defpool(args, do: block) do
     {{name, _, args}, guards} = extract_guards(args)
     [_pid_arg | other_args] = args
     has_guards = (guards != [])
     quote do
+      def unquote(name)(group_name,unquote_splicing(other_args)) when is_atom(group_name) do
+        pid = take_group_member(group_name, 500)
+        case pid do
+          :error_no_members -> :connection_pool_exhausted
+          _ ->
+            result = unquote(name)(pid, unquote_splicing(other_args))
+            :pooler.return_group_member(:riak, pid, :ok)
+            result
+        end
+      end
       if unquote(has_guards) do
         def unquote(name)(unquote_splicing(args)) when unquote(hd(guards)) do
           unquote(block)

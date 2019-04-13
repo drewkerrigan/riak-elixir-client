@@ -12,6 +12,7 @@ defmodule Riak.Search do
     defpool put(pid, index, schema) when is_pid(pid), do: create_search_index(pid, index, schema, [])
     defpool put(pid, index, schema, props) when is_pid(pid), do: create_search_index(pid, index, schema, props)
     defpool get(pid, index) when is_pid(pid), do: get_search_index(pid, index)
+    defpool set(pid, bucket, index) when is_pid(pid), do: set_search_index(pid, bucket, index)
     defpool delete(pid, index) when is_pid(pid), do: delete_search_index(pid, index)
   end
 

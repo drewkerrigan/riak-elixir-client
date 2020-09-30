@@ -14,8 +14,7 @@ defmodule Riak.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    [ applications: [ :pooler ],
-      included_applications: [ :riakc ] ]
+    [ extra_applications: [] ]
   end
 
   defp deps do
